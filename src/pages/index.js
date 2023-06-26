@@ -1,124 +1,135 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import { useState } from "react";
+import axios from "axios";
+import calendar from "@/pages/api/calendar";
+import useCalendarQuery from "@/Query/useCalendarQuery";
+import useUserQuery from "@/Query/useUserQuery";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+// 달력 만들기
+const Home = () => {
+  // 달력 상세페이지 상태
+  const [detail, setDetail] = useState(false);
+const {data, isLoaidng} = useUserQuery.useGetUser('phgst@naver.com')
+  console.log('data',data)
+/*  const { data, isLoading } = useCalendarQuery.useGetCalender();
+  console.log(data);*/
+
+  // 달력 상세페이지 핸들러
+  const handleDetail = () => {
+    setDetail(true);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    // 달력 컨테이너 박스
+    <div className="flex items-center justify-center space-x-5">
+      {/*달력 컨테이너*/}
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        {/*달력 헤더*/}
+        <div className="flex items-center justify-between mb-4 space-x-3">
+          <div className="flex items-center">
+            <button className="p-1 mr-2 rounded-full hover:bg-gray-100">
+              <svg className="w-6 h-6 text-gray-500" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                ></path>
+              </svg>
+            </button>
+            <div className="text-lg font-bold text-gray-400">
+              <span>2023년 6월</span>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <button className="p-1 rounded-full hover:bg-gray-100">
+              <svg className="w-6 h-6 text-gray-500" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L12.17 12z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        {/*달력 바디*/}
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className="grid grid-cols-7 gap-2 border-b-2 border-b-neutral-500">
+            <div className="flex items-center justify-center w-8 h-8 text-xs font-medium text-gray-500 rounded-full cursor-pointer hover:bg-gray-100">
+              <span>일</span>
+            </div>
+            <div className="flex items-center justify-center w-8 h-8 text-xs font-medium text-gray-500 rounded-full cursor-pointer hover:bg-gray-100">
+              <span>월</span>
+            </div>
+            <div className="flex items-center justify-center w-8 h-8 text-xs font-medium text-gray-500 rounded-full cursor-pointer hover:bg-gray-100">
+              <span>화</span>
+            </div>
+            <div className="flex items-center justify-center w-8 h-8 text-xs font-medium text-gray-500 rounded-full cursor-pointer hover:bg-gray-100">
+              <span>수</span>
+            </div>
+            <div className="flex items-center justify-center w-8 h-8 text-xs font-medium text-gray-500 rounded-full cursor-pointer hover:bg-gray-100">
+              <span>목</span>
+            </div>
+            <div className="flex items-center justify-center w-8 h-8 text-xs font-medium text-gray-500 rounded-full cursor-pointer hover:bg-gray-100">
+              <span>금</span>
+            </div>
+            <div className="flex items-center justify-center w-8 h-8 text-xs font-medium text-gray-500 rounded-full cursor-pointer hover:bg-gray-100">
+              <span>토</span>
+            </div>
+          </div>
+          <div className="grid grid-cols-7 gap-2 mt-2">
+            {[
+              28, 29, 30, 31, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+              16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 1,
+              2, 3, 4, 5, 6, 7,
+            ].map((day, index) => (
+              <div
+                onClick={handleDetail}
+                key={index}
+                className="flex items-center justify-center w-8 h-8 text-xs font-medium text-gray-500 rounded-full cursor-pointer hover:bg-gray-100"
+              >
+                <span>{day}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
+      {/*달력 상세 페이지*/}
+      {/*화면에 표시되는 달력의 날짜를 클릭하면 상세 페이지가 나타납니다.*/}
+      {detail && (
+        <div className="flex flex-col items-center justify-center min-h-screen py-2 space-y-5">
+          <div>
+            <h3 className="text-gray-300">Today was the Best day ever!!!</h3>
+          </div>
+          <Image src="/smile.png" alt="emoji" width={50} height={50} />
+          <div className="felx flex-col w-80">
+            <div className="flex flex-col items-start space-y-2">
+              <div className="flex text-sm space-x-2 items-center">
+                <p className="rounded-2xl bg-gray-600 px-2 py-1 w-20 text-center">
+                  Title
+                </p>
+                <p>1st anniversary</p>
+              </div>
+              <div className="flex text-sm space-x-2 items-center ">
+                <p className="rounded-2xl bg-gray-600 px-2 py-1 w-24 text-center">
+                  Content
+                </p>
+                <p>Just awesome day! Me and Biju went to Jeju</p>
+              </div>
+            </div>
+          </div>
+          {/*달력 상세 페이지 종료 버튼*/}
+          <button
+            onClick={() => setDetail(false)}
+            className="px-2 py-1 rounded-full bg-gray-800 text-gray-100 hover:bg-gray-700 mt-5"
           >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+            Close
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Home;
