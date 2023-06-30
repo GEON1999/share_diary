@@ -1,7 +1,8 @@
-import nextConnect from 'next-connect'
+import nextConnect from "next-connect";
 import passport from "passport";
-import {Strategy as KakaoStrategy} from "passport-kakao";
-import client from "./client";
+import { Strategy as KakaoStrategy } from "passport-kakao";
+
+/*
 
 passport.use(
     new KakaoStrategy({
@@ -23,7 +24,8 @@ passport.use(
             }
             return done(null, profile)
         }))
+*/
 
-const router = nextConnect({ attachParams: true })
+const router = nextConnect({ attachParams: true });
 
-export default router
+export default router;

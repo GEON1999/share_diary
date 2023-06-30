@@ -1,16 +1,25 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-const getCalender = async () => {
-  return await axios.get(
-    "https://calendarific.com/api/v2/countries?api_key=1bc38079b033b1795c171707d12f2adb2d465551"
-  );
+// Get
+const getCalender = async (date) => {
+  return await axios.get(`/api/calendar?date=${date}`);
 };
 
-const useGetCalender = () => {
-  return useQuery(["CALENDAR"], getCalender);
+const useGetCalender = (date) => {
+  return useQuery(["CALENDAR", date], () => getCalender(date));
+};
+
+// Post
+const postCalender = async (data) => {
+  console.log("postData", data);
+  const { diary } = await axios.post("/api/calendar", data);
+  if (diary) {
+    return { diary };
+  }
 };
 
 export default {
   useGetCalender,
+  postCalender,
 };
