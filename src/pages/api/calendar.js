@@ -20,4 +20,23 @@ router.post(async (req, res, next) => {
   console.log(diary);
 });
 
+router.get(async (req, res, next) => {
+  const client = new PrismaClient();
+
+  const { date } = req.query;
+  console.log(date);
+
+  const diary = await client.diary.findMany({
+    where: {
+      date: String(date),
+    },
+    include: {
+      user: true,
+    },
+  });
+  console.log(diary);
+
+  return res.status(200).json({ diary, message: "success" });
+});
+
 export default router;

@@ -2,12 +2,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useCalendarQuery from "@/Query/useCalendarQuery";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 const Calendar = () => {
+  const router = useRouter();
   const [modal, setModal] = useState(false);
-  const [clikedDate, setClikedDate] = useState(null);
   const [diary, setDiary] = useState(false);
   const [todo, setTodo] = useState(false);
+
+  const { date } = router.query;
+
+  const { data, isLoading } = useCalendarQuery.useGetCalender(date);
+  const diaryData = data?.data?.diary;
+  console.log("diaryData", diaryData);
 
   const { mutate } = useMutation(useCalendarQuery.postCalender);
 
@@ -16,7 +23,7 @@ const Calendar = () => {
     setModal(true);
     const dateObj = new Date(date);
     const msDate = dateObj.getTime();
-    await setClikedDate(msDate); // ms로 변환된 값 반환
+    router.push(`/?date=${msDate}`);
   };
 
   const handleDiaryOpen = () => setDiary(true);
@@ -24,7 +31,8 @@ const Calendar = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    mutate({ ...data, date: clikedDate });
+    mutate({ ...data, date });
+    router.reload();
   };
 
   // 현재 날짜 가져오기
@@ -119,6 +127,18 @@ const Calendar = () => {
               일정
             </button>
           </div>
+          {isLoading
+            ? null
+            : diaryData?.map((data) => {
+                return (
+                  <div key={data.id} className={"text-black"}>
+                    <p>제목 : {data?.title}</p>
+                    <p>내용 : {data?.content}</p>
+                    <p>작성자 : {data?.user?.name}</p>
+                    <p>작성일 : {data?.createdAt}</p>
+                  </div>
+                );
+              })}
           {todo ? (
             <div className={"w-20"}>
               <input className={"w-full"} />
