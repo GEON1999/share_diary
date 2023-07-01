@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import helper from "@/helper";
 
 // Get
 const getCalender = async (date) => {
-  return await axios.get(`/api/calendar?date=${date}`);
+  return await axios.get(helper.CURRENT_URL() + `/api/calendar?date=${date}`);
 };
 
 const useGetCalender = (date) => {
@@ -20,6 +21,7 @@ const postCalender = async (data) => {
 };
 
 export default {
+  getCalender,
   useGetCalender,
   postCalender,
 };

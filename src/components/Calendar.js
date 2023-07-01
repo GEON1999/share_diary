@@ -1,21 +1,19 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useCalendarQuery from "@/Query/useCalendarQuery";
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import DiaryTable from "@/components/table/DiaryTable";
 
 const Calendar = () => {
   const router = useRouter();
   const [modal, setModal] = useState(false);
-  const [diary, setDiary] = useState(false);
-  const [todo, setTodo] = useState(false);
 
   const { date } = router.query;
 
   const { data, isLoading } = useCalendarQuery.useGetCalender(date);
   const diaryData = data?.data?.diary;
-  console.log("diaryData", diaryData);
+  console.log("diaryData", diaryData, isLoading);
 
   const { mutate } = useMutation(useCalendarQuery.postCalender);
 
@@ -181,6 +179,22 @@ const Calendar = () => {
       </modal>
     </div>
   );
+};
+
+export const getServerSideProps = async (ctx) => {
+  const { query } = ctx;
+  const { date } = query;
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(["CALENDAR", date ?? null], () => {
+    return useCalendarQuery.getCalender(date ?? null);
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 };
 
 export default Calendar;
