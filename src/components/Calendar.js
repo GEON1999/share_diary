@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import useCalendarQuery from "@/Query/useCalendarQuery";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import DiaryTable from "@/components/table/DiaryTable";
 
 const Calendar = () => {
   const router = useRouter();
@@ -19,14 +20,17 @@ const Calendar = () => {
   const { mutate } = useMutation(useCalendarQuery.postCalender);
 
   const { register, handleSubmit, errors } = useForm();
+
+  const { register: todoRegister, handleSubmit: handleTodoSubmit } = useForm();
+
   const handleModalOpen = async (date) => {
     setModal(true);
     const dateObj = new Date(date);
     const msDate = dateObj.getTime();
-    router.push(`/?date=${msDate}`);
+    router.push(`/calendar?date=${msDate}`);
   };
 
-  const handleDiaryOpen = () => setDiary(true);
+  const handleDiaryOpen = () => router.push(`/calendar/${date}/newDiary`);
   const handletoDoOpen = () => setTodo(true);
 
   const onSubmit = (data) => {
@@ -127,24 +131,28 @@ const Calendar = () => {
               일정
             </button>
           </div>
-          {isLoading
-            ? null
-            : diaryData?.map((data) => {
-                return (
-                  <div key={data.id} className={"text-black"}>
-                    <p>제목 : {data?.title}</p>
-                    <p>내용 : {data?.content}</p>
-                    <p>작성자 : {data?.user?.name}</p>
-                    <p>작성일 : {data?.createdAt}</p>
-                  </div>
-                );
-              })}
-          {todo ? (
-            <div className={"w-20"}>
-              <input className={"w-full"} />
-            </div>
-          ) : null}
-          {diary ? (
+          {isLoading ? null : <DiaryTable diaryData={diaryData} />}
+          {/*{todo ? (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div
+                className={
+                  "text-black flex flex-col w-3/4 justify-center items-center space-y-3"
+                }
+              >
+                <input
+                  {...register("todoContent")}
+                  className={"w-full border-2 border-black"}
+                />
+                <button
+                  className={"bg-blue-500 p-5 rounded-2xl"}
+                  type={"submit"}
+                >
+                  저장
+                </button>
+              </div>
+            </form>
+          ) : null}*/}
+          {/* {diary ? (
             <form onSubmit={handleSubmit(onSubmit)}>
               <div
                 className={
@@ -168,7 +176,7 @@ const Calendar = () => {
                 </button>
               </div>
             </form>
-          ) : null}
+          ) : null}*/}
         </div>
       </modal>
     </div>
