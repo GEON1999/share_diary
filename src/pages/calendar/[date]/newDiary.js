@@ -10,9 +10,7 @@ const NewDiary = () => {
   const { mutate } = useMutation(useCalendarQuery.postCalender);
 
   const onSubmit = (data) => {
-    console.log(data);
-    mutate({ ...data, date });
-    router.reload();
+    mutate({ data, date: date });
   };
 
   return (
@@ -24,11 +22,11 @@ const NewDiary = () => {
       >
         {" "}
         <input
-          {...register("diaryTitle")}
+          {...register("title")}
           className={"w-full border-2 border-black"}
         />
         <input
-          {...register("diaryContent")}
+          {...register("content")}
           className={"w-full border-2 border-black"}
         />
         <button className={"bg-blue-500 p-5 rounded-2xl"} type={"submit"}>

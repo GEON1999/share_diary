@@ -5,21 +5,24 @@ import helper from "@/helper";
 // Get
 
 // get calendar
-const getCalender = async (date) => {
-  return await axios.get(
+const getDiary = async (date) => {
+  const { data } = await axios.get(
     helper.CURRENT_URL() + `/api/calendar/diary?date=${date}`
   );
+  return data;
 };
 
-const useGetCalender = (date) => {
-  return useQuery(["CALENDAR", date], () => getCalender(date));
+const useGetDiary = (date) => {
+  return useQuery(["DIARY", date], () => getDiary(date));
 };
 
 // get todo
 const getTodo = async (date) => {
-  return await axios.get(
+  const { data } = await axios.get(
     helper.CURRENT_URL() + `/api/calendar/todo?date=${date}`
   );
+
+  return data;
 };
 
 const useGetTodo = (date) => {
@@ -28,7 +31,6 @@ const useGetTodo = (date) => {
 
 // Post
 const postCalender = async ({ data, date }) => {
-  console.log(data, date);
   await axios.post(`/api/calendar/${date}/diary`, data);
 };
 
@@ -36,8 +38,8 @@ const postTodo = async ({ data, date }) =>
   await axios.post(`/api/calendar/${date}/todo`, data);
 
 export default {
-  getCalender,
-  useGetCalender,
+  getDiary,
+  useGetDiary,
   postCalender,
   postTodo,
   getTodo,
