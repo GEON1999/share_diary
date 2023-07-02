@@ -1,25 +1,24 @@
+/*
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useCalendarQuery from "@/Query/useCalendarQuery";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import DiaryTable from "@/components/table/DiaryTable";
 
 const Calendar = () => {
   const router = useRouter();
   const [modal, setModal] = useState(false);
-
   const { date } = router.query;
 
-  const { data, isLoading } = useCalendarQuery.useGetCalender(date);
+  const { data, isLoading } = useCalendarQuery.useGetDiary(date);
   const diaryData = data?.data?.diary;
-  console.log("diaryData", diaryData, isLoading);
+  const { data: todoData, isLoading: isTodoLoading } =
+    useCalendarQuery.useGetTodo(date);
+
+  console.log(todoData, isTodoLoading, isLoading);
 
   const { mutate } = useMutation(useCalendarQuery.postCalender);
-
-  const { register, handleSubmit, errors } = useForm();
-
-  const { register: todoRegister, handleSubmit: handleTodoSubmit } = useForm();
 
   const handleModalOpen = async (date) => {
     setModal(true);
@@ -29,13 +28,7 @@ const Calendar = () => {
   };
 
   const handleDiaryOpen = () => router.push(`/calendar/${date}/newDiary`);
-  const handletoDoOpen = () => setTodo(true);
-
-  const onSubmit = (data) => {
-    console.log(data);
-    mutate({ ...data, date });
-    router.reload();
-  };
+  const handletoDoOpen = () => router.push(`/calendar/${date}/newTodo`);
 
   // 현재 날짜 가져오기
   const currentDate = new Date();
@@ -98,9 +91,7 @@ const Calendar = () => {
           {calendarDates.map((date, index) => (
             <tr key={index}>
               <td
-                onClick={() => {
-                  handleModalOpen(date);
-                }}
+                onClick={() => handleModalOpen(date)}
                 className={" p-4 hover:bg-white"}
               >
                 {date.getDate()}
@@ -109,7 +100,7 @@ const Calendar = () => {
           ))}
         </tbody>
       </table>
-      <modal open={modal} close={modal}>
+      <modal open={modal ? true : undefined} close={modal ? true : undefined}>
         <div
           className={
             "space-y-5 items-center flex flex-col absolute top-[50%] bottom-[50%] left-[30%] right-[50%] w-[500px] h-[600px] bg-white"
@@ -130,51 +121,6 @@ const Calendar = () => {
             </button>
           </div>
           {isLoading ? null : <DiaryTable diaryData={diaryData} />}
-          {/*{todo ? (
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div
-                className={
-                  "text-black flex flex-col w-3/4 justify-center items-center space-y-3"
-                }
-              >
-                <input
-                  {...register("todoContent")}
-                  className={"w-full border-2 border-black"}
-                />
-                <button
-                  className={"bg-blue-500 p-5 rounded-2xl"}
-                  type={"submit"}
-                >
-                  저장
-                </button>
-              </div>
-            </form>
-          ) : null}*/}
-          {/* {diary ? (
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div
-                className={
-                  "text-black flex flex-col w-3/4 justify-center items-center space-y-3"
-                }
-              >
-                {" "}
-                <input
-                  {...register("diaryTitle")}
-                  className={"w-full border-2 border-black"}
-                />
-                <input
-                  {...register("diaryContent")}
-                  className={"w-full border-2 border-black"}
-                />
-                <button
-                  className={"bg-blue-500 p-5 rounded-2xl"}
-                  type={"submit"}
-                >
-                  저장
-                </button>
-              </div>
-            </form>
-          ) : null}*/}
         </div>
       </modal>
     </div>
@@ -182,12 +128,17 @@ const Calendar = () => {
 };
 
 export const getServerSideProps = async (ctx) => {
+  console.log("query", ctx);
   const { query } = ctx;
   const { date } = query;
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(["CALENDAR", date ?? null], () => {
-    return useCalendarQuery.getCalender(date ?? null);
+  await queryClient.prefetchQuery(["DIARY", date ?? null], () => {
+    return useCalendarQuery.getDiary(date ?? null);
+  });
+
+  await queryClient.prefetchQuery(["TODO", date ?? null], () => {
+    return useCalendarQuery.getTodo(date ?? null);
   });
 
   return {
@@ -198,3 +149,4 @@ export const getServerSideProps = async (ctx) => {
 };
 
 export default Calendar;
+*/
