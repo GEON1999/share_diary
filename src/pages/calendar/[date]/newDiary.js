@@ -2,12 +2,13 @@ import useCalendarQuery from "@/Query/useCalendarQuery";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import useDiaryMutation from "@/Query/useDiaryMutation";
 
 const NewDiary = () => {
   const router = useRouter();
   const { date } = router.query;
   const { register, handleSubmit } = useForm();
-  const { mutate } = useMutation(useCalendarQuery.postDiary);
+  const { mutate } = useMutation(useDiaryMutation.postDiary);
 
   const onSubmit = (data) => {
     mutate({ data, date: date });

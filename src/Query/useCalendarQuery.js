@@ -4,7 +4,7 @@ import helper from "@/helper";
 
 // Diary Query
 
-// get diary
+/*// get diary
 const getDiary = async (date) => {
   const { data } = await axios.get(
     helper.CURRENT_URL() + `/api/calendar/diaries?date=${date}`
@@ -27,17 +27,17 @@ const getDiaryDetail = async (diaryId) => {
 
 const useGetDiaryDetail = (diaryId) => {
   return useQuery(["DIARY_DETAIL", diaryId], () => getDiaryDetail(diaryId));
-};
+};*/
 
 // Post Diary
 
-// post diary
+/*// post diary
 const postDiary = async ({ data, date }) =>
   await axios.post(`/api/calendar/diary?date=${date}`, data);
 
 // put diary
 const putDiary = async ({ data, id }) =>
-  await axios.put(`/api/calendar/diary/${id}`, data);
+  await axios.put(`/api/calendar/diary/${id}`, data);*/
 
 // Todo Query
 // get todo
@@ -58,13 +58,7 @@ const postTodo = async ({ data, date }) =>
   await axios.post(`/api/calendar/${date}/todo`, data);
 
 export default {
-  getDiary,
-  useGetDiary,
-  postDiary,
   postTodo,
   getTodo,
   useGetTodo,
-  getDiaryDetail,
-  useGetDiaryDetail,
-  putDiary,
 };
