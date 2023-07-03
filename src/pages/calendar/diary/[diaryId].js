@@ -5,8 +5,8 @@ import { useMutation } from "@tanstack/react-query";
 
 const DiaryDetail = () => {
   const router = useRouter();
-  const { date, diaryId } = router.query;
-  const { data, isLoading } = useCalendarQuery.useGetDiaryDetail(date, diaryId);
+  const { diaryId } = router.query;
+  const { data, isLoading } = useCalendarQuery.useGetDiaryDetail(diaryId);
   const diary = data?.diary;
   console.log(data, isLoading);
   const { mutate } = useMutation(useCalendarQuery.putDiary);
@@ -14,7 +14,7 @@ const DiaryDetail = () => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    mutate({ data, id: diaryId, date });
+    mutate({ data, id: diaryId });
   };
 
   return (

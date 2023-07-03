@@ -2,12 +2,12 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import helper from "@/helper";
 
-// Get
+// Diary Query
 
-// get calendar
+// get diary
 const getDiary = async (date) => {
   const { data } = await axios.get(
-    helper.CURRENT_URL() + `/api/calendar/diary?date=${date}`
+    helper.CURRENT_URL() + `/api/calendar/diaries?date=${date}`
   );
   return data;
 };
@@ -16,6 +16,30 @@ const useGetDiary = (date) => {
   return useQuery(["DIARY", date], () => getDiary(date));
 };
 
+// get diary detail
+const getDiaryDetail = async (diaryId) => {
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + `/api/calendar/diary/${diaryId}`
+  );
+
+  return data;
+};
+
+const useGetDiaryDetail = (diaryId) => {
+  return useQuery(["DIARY_DETAIL", diaryId], () => getDiaryDetail(diaryId));
+};
+
+// Post Diary
+
+// post diary
+const postDiary = async ({ data, date }) =>
+  await axios.post(`/api/calendar/diary?date=${date}`, data);
+
+// put diary
+const putDiary = async ({ data, id }) =>
+  await axios.put(`/api/calendar/diary/${id}`, data);
+
+// Todo Query
 // get todo
 const getTodo = async (date) => {
   const { data } = await axios.get(
@@ -29,34 +53,9 @@ const useGetTodo = (date) => {
   return useQuery(["TODO", date], () => getTodo(date));
 };
 
-// get diary detail
-const getDiaryDetail = async (date, diaryId) => {
-  const { data } = await axios.get(
-    helper.CURRENT_URL() + `/api/calendar/${date}/diary/${diaryId}`
-  );
-
-  return data;
-};
-
-const useGetDiaryDetail = (date, diaryId) => {
-  return useQuery(["DIARY_DETAIL", date, diaryId], () =>
-    getDiaryDetail(date, diaryId)
-  );
-};
-
-// Post
-
-// post diary
-const postDiary = async ({ data, date }) =>
-  await axios.post(`/api/calendar/${date}/diary`, data);
-
 // post todo
 const postTodo = async ({ data, date }) =>
   await axios.post(`/api/calendar/${date}/todo`, data);
-
-// put diary
-const putDiary = async ({ data, date, id }) =>
-  await axios.put(`/api/calendar/${date}/diary/${id}`, data);
 
 export default {
   getDiary,

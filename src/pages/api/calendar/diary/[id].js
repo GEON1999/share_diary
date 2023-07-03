@@ -1,11 +1,11 @@
-import router from "../../../../../../libs/server/router";
+import router from "../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 
-router.get("/api/calendar/:date/diary/:id", async (req, res, next) => {
+router.get("/api/calendar/diary/:id", async (req, res, next) => {
   const client = new PrismaClient();
-  const { date, id } = req.query;
+  const { id } = req.query;
 
-  console.log(date, id);
+  console.log(id);
 
   try {
     const diary = await client.diary.findUnique({
@@ -24,7 +24,7 @@ router.get("/api/calendar/:date/diary/:id", async (req, res, next) => {
   }
 });
 
-router.put("/api/calendar/:date/diary/:id", async (req, res, next) => {
+router.put("/api/calendar/diary/:id", async (req, res, next) => {
   const client = new PrismaClient();
   const {
     body: { title, content },

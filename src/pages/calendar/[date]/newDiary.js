@@ -7,7 +7,7 @@ const NewDiary = () => {
   const router = useRouter();
   const { date } = router.query;
   const { register, handleSubmit } = useForm();
-  const { mutate } = useMutation(useCalendarQuery.postCalender);
+  const { mutate } = useMutation(useCalendarQuery.postDiary);
 
   const onSubmit = (data) => {
     mutate({ data, date: date });
