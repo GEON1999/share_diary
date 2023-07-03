@@ -24,4 +24,29 @@ router.get("/api/calendar/:date/diary/:id", async (req, res, next) => {
   }
 });
 
+router.put("/api/calendar/:date/diary/:id", async (req, res, next) => {
+  const client = new PrismaClient();
+  const {
+    body: { title, content },
+    query: { id },
+  } = req;
+
+  console.log(title, content, id);
+
+  try {
+    const diary = await client.diary.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        title,
+        content,
+      },
+    });
+    console.log("diary", diary);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 export default router;

@@ -45,12 +45,18 @@ const useGetDiaryDetail = (date, diaryId) => {
 };
 
 // Post
-const postDiary = async ({ data, date }) => {
-  await axios.post(`/api/calendar/${date}/diary`, data);
-};
 
+// post diary
+const postDiary = async ({ data, date }) =>
+  await axios.post(`/api/calendar/${date}/diary`, data);
+
+// post todo
 const postTodo = async ({ data, date }) =>
   await axios.post(`/api/calendar/${date}/todo`, data);
+
+// put diary
+const putDiary = async ({ data, date, id }) =>
+  await axios.put(`/api/calendar/${date}/diary/${id}`, data);
 
 export default {
   getDiary,
@@ -61,4 +67,5 @@ export default {
   useGetTodo,
   getDiaryDetail,
   useGetDiaryDetail,
+  putDiary,
 };
