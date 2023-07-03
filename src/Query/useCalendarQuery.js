@@ -29,8 +29,23 @@ const useGetTodo = (date) => {
   return useQuery(["TODO", date], () => getTodo(date));
 };
 
+// get diary detail
+const getDiaryDetail = async (date, diaryId) => {
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + `/api/calendar/${date}/diary/${diaryId}`
+  );
+
+  return data;
+};
+
+const useGetDiaryDetail = (date, diaryId) => {
+  return useQuery(["DIARY_DETAIL", date, diaryId], () =>
+    getDiaryDetail(date, diaryId)
+  );
+};
+
 // Post
-const postCalender = async ({ data, date }) => {
+const postDiary = async ({ data, date }) => {
   await axios.post(`/api/calendar/${date}/diary`, data);
 };
 
@@ -40,8 +55,10 @@ const postTodo = async ({ data, date }) =>
 export default {
   getDiary,
   useGetDiary,
-  postCalender,
+  postDiary,
   postTodo,
   getTodo,
   useGetTodo,
+  getDiaryDetail,
+  useGetDiaryDetail,
 };

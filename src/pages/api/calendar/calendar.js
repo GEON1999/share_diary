@@ -7,7 +7,7 @@ router.get(async (req, res, next) => {
 
   const diary = await client.diary.findMany({
     where: {
-      date: String(date),
+      date,
     },
     include: {
       user: true,
