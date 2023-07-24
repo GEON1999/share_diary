@@ -2,9 +2,10 @@
 import passport from "passport";
 var KakaoStrategy = require('passport-kakao').Strategy
 import config from "next.config"*/
-import client from "../../../../libs/server/client";
 import router from "../../../../libs/server/router";
+import { PrismaClient } from "@prisma/client";
 
+const client = new PrismaClient();
 // router.post(async (req, res, next) => {
 //     console.log('hi')
 //     passport.use(
@@ -29,34 +30,31 @@ import router from "../../../../libs/server/router";
 //     console.log('data',req.body)
 // })
 
-router.post(async (req, res, next) => {
-    const {id, pw} = req?.body
-    console.log('id:', id,"pw:", pw, )
+router.post("/api/users/enter", async (req, res, next) => {
+  const { id, pw } = req?.body;
+  console.log("id:", id, "pw:", pw);
 
-   const user =  await client.user.findFirst({
+  const user = await client.user.findFirst({
+    where: {
+      email: id,
+    },
+  });
 
-            where: {
-                email:id,
-            }
+  if (user) {
+    console.log("user:", user);
+    return res.status(200).json({ message: "success", user });
+  } else {
+    console.log("error");
+    /* const newUser = await client.user.create({
+      data: {
+        email: id,
+        password: pw,
+      },
+    });
+    console.log("newUser:", newUser);
+    return res.status(200).json({ message: "success", newUser });*/
+    return res.status(500).json({ message: "wrong user" });
+  }
+});
 
-    })
-
-    if(user){
-        console.log('user:', user)
-        return res.status(200).json({message:'success', user})
-    } else {
-        console.log('error')
-        const newUser = await client.user.create({
-            data:{
-                email:id,
-                password:pw,
-            }
-        })
-        console.log('newUser:', newUser)
-        return  res.status(200).json({message:'success', newUser})
-    }
-    return res.status(500).json({message:'fail'})
-
-})
-
-export default  router
+export default router;
