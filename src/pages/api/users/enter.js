@@ -37,6 +37,7 @@ router.post("/api/users/enter", async (req, res, next) => {
   const user = await client.user.findFirst({
     where: {
       email: id,
+      password: pw,
     },
   });
 

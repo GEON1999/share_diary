@@ -2,9 +2,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
 // 로그인 유저
-const loginUser = async (data) => {
-  return await axios.post("/api/users/enter", data);
-};
+const loginUser = async (data) => await axios.post("/api/users/enter", data);
 
 // 유저 회원가입
 const joinUser = async (data) => {
