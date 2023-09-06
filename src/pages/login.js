@@ -1,10 +1,71 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import useUserQuery from "@/Query/useUserQuery";
-import config from "tailwindcss/defaultConfig";
 import { useRouter } from "next/router";
+import styled from "styled-components";
+
+/*<input
+  className={"w-80 rounded text-black"}
+  {...register("id", { required: true })}
+  type="text"
+  placeholder="아이디"
+/>;*/
+
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+  height: 620px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  background-color: rgba(59, 59, 59, 0.5);
+  border-radius: 30px;
+`;
+
+const Input = styled.input`
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border-bottom: 1px solid #000000;
+  outline: none;
+  padding-left: 10px;
+  color: #000000;
+  margin: 10px 0px;
+`;
+
+const LoginBtn = styled.button`
+  background-color: rgba(25, 25, 112, 0.5);
+  color: #ffffff;
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: rgb(25, 25, 112);
+    transition: 0.5s;
+  }
+`;
+
+const JoinBtn = styled.button`
+  background-color: rgba(93, 111, 176, 0.5);
+  color: #ffffff;
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  margin: 10px;
+
+  &:hover {
+    background-color: rgb(93, 111, 176);
+    transition: 0.5s;
+  }
+`;
 
 const Login = () => {
   const router = useRouter();
@@ -16,7 +77,7 @@ const Login = () => {
   } = useMutation(useUserQuery.loginUser);
   console.log("postData", postData);
   useEffect(() => {
-    postData?.data?.message === "success"
+    postData?.message === "success"
       ? router.push("/calendar")
       : postData?.data?.message === "fail"
       ? alert("로그인 실패")
@@ -39,34 +100,17 @@ const Login = () => {
   return (
     <div className={"w-full p-20"}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div
-          className={
-            'flex flex-col space-y-5 "w-full" justify-center content-center items-center mt-40'
-          }
-        >
+        <LoginContainer>
           {" "}
-          <input
-            className={"w-80 rounded text-black"}
+          <Input
+            inputColor="red"
+            type={"text"}
             {...register("id", { required: true })}
-            type="text"
-            placeholder="아이디"
           />
-          <input
-            className={"w-80 rounded text-black"}
-            {...register("pw", { required: true })}
-            type="password"
-            placeholder="비밀번호"
-          />
-          <button className={"bg-blue-50 px-3 py-1 rounded-2xl text-black"}>
-            login
-          </button>
-          <button
-            onClick={handleJoin}
-            className={"bg-blue-50 px-3 py-1 rounded-2xl text-black"}
-          >
-            Join
-          </button>
-        </div>
+          <Input type={"password"} {...register("pw", { required: true })} />
+          <LoginBtn type={"submit"}>로그인</LoginBtn>
+          <JoinBtn onClick={handleJoin}>회원가입</JoinBtn>
+        </LoginContainer>
       </form>
     </div>
   );
