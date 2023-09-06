@@ -1,25 +1,83 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import useCalendarQuery from "@/Query/useCalendarQuery";
-import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import DiaryTable from "@/components/table/DiaryTable";
 import TodoTable from "@/components/table/TodoTable";
+import styled from "styled-components";
+
+const DiaryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+  height: 620px;
+  justify-content: start;
+  align-items: center;
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  background-color: rgba(59, 59, 59, 0.5);
+  border-radius: 30px;
+`;
+
+const PluseBtn = styled.button`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #ffffff;
+  margin-top: 20px;
+  background-color: #ffffff;
+  &:hover {
+    img {
+      transition: all 0.5s;
+      transform: rotate(45deg);
+    }
+  }
+  &:not(:hover) {
+    img {
+      transition: all 0.5s;
+      transform: rotate(0deg); /* hover 해제 시 초기 각도로 돌아가도록 설정 */
+    }
+  }
+`;
+
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+`;
+
+const DiaryBtn = styled.button`
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  color: #ffff;
+  margin-top: 20px;
+  background-color: #045cb6;
+`;
+
+const TodoBtn = styled.button`
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  color: #ffff;
+  margin-top: 20px;
+  background-color: #378c15;
+`;
 
 const Calendar = () => {
   const router = useRouter();
   const [modal, setModal] = useState(false);
+  const [isPlusToggle, setIsPlusToggle] = useState(false);
   const { date } = router.query;
 
   // get diary
-  const { data, isLoading } = useCalendarQuery.useGetDiary(date);
+  // const { data, isLoading } = useCalendarQuery.useGetDiary(date);
   // get todo
   const { data: todoData, isLoading: isTodoLoading } =
     useCalendarQuery.useGetTodo(date);
 
-  console.log(todoData, isTodoLoading, data, isLoading);
-
-  const { mutate } = useMutation(useCalendarQuery.postCalender);
+  //  const { mutate } = useMutation(useCalendarQuery.postCalender);
 
   const handleModalOpen = async (date) => {
     setModal(true);
@@ -74,20 +132,13 @@ const Calendar = () => {
     currentDate.getMonth()
   );
 
+  const togglePuls = () => {
+    setIsPlusToggle(!isPlusToggle);
+  };
+
   return (
     <div>
       <table>
-        <thead>
-          <tr>
-            <th>Sun</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-          </tr>
-        </thead>
         <tbody>
           {calendarDates.map((date, index) => (
             <tr key={index}>
@@ -102,35 +153,32 @@ const Calendar = () => {
         </tbody>
       </table>
       <modal open={modal ? true : undefined} close={modal ? true : undefined}>
-        <div
-          className={
-            "space-y-5 items-center flex flex-col absolute top-[50%] bottom-[50%] left-[30%] right-[50%] w-[500px] h-[600px] bg-white"
-          }
-        >
-          <div className={"flex justify-space text-black mt-3"}>
-            <button
-              className={"bg-blue-500 p-5 rounded-2xl"}
-              onClick={handleDiaryOpen}
-            >
-              일기
-            </button>
-            <button
-              className={"bg-red-400 p-5 rounded-2xl"}
-              onClick={handletoDoOpen}
-            >
-              일정
-            </button>
-          </div>
-          {isLoading ? null : <DiaryTable diaryData={data?.diary} />}
+        <DiaryContainer>
+          <PluseBtn onClick={() => togglePuls()}>
+            <img
+              src={
+                "https://dhgilmy0l2xzq.cloudfront.net/e65578bb-c4e1-4579-af11-0de7e201082a-20230906202159.png"
+              }
+            />
+          </PluseBtn>
+          <BtnContainer>
+            {isPlusToggle ? (
+              <>
+                <DiaryBtn onClick={handleDiaryOpen}>일기</DiaryBtn>
+                <TodoBtn onClick={handletoDoOpen}>할일</TodoBtn>
+              </>
+            ) : null}
+          </BtnContainer>
+          {/*{isLoading ? null : <DiaryTable diaryData={data?.diary} />}*/}
           {isTodoLoading ? null : <TodoTable todoData={todoData?.todo} />}
-        </div>
+        </DiaryContainer>
       </modal>
     </div>
   );
 };
 
 export const getServerSideProps = async (ctx) => {
-  const { date } = ctx.query;
+  /* const { date } = ctx.query;
   console.log("query", date);
   const queryClient = new QueryClient();
 
@@ -143,11 +191,11 @@ export const getServerSideProps = async (ctx) => {
 
   await queryClient.prefetchQuery(["TODO", date ?? null], () => {
     return useCalendarQuery.getTodo(date ?? null);
-  });
+  });*/
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      //dehydratedState: dehydrate(queryClient),
     },
   };
 };
