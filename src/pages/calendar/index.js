@@ -2,7 +2,9 @@ import { useState } from "react";
 import useCalendarQuery from "@/Query/useCalendarQuery";
 import { useRouter } from "next/router";
 import TodoTable from "@/components/table/TodoTable";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import DiaryTable from "@/components/table/DiaryTable";
+import useDiaryQuery from "@/Query/useDiaryQuery";
 
 const DiaryContainer = styled.div`
   display: flex;
@@ -41,6 +43,15 @@ const PluseBtn = styled.button`
   }
 `;
 
+const fadeInAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const BtnContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -48,6 +59,7 @@ const BtnContainer = styled.div`
 `;
 
 const DiaryBtn = styled.button`
+  ${fadeInAnimation} 0.5s ease;
   width: 100px;
   height: 50px;
   border-radius: 10px;
@@ -57,12 +69,17 @@ const DiaryBtn = styled.button`
 `;
 
 const TodoBtn = styled.button`
+  ${fadeInAnimation} 0.5s ease;
   width: 100px;
   height: 50px;
   border-radius: 10px;
   color: #ffff;
   margin-top: 20px;
-  background-color: #378c15;
+  background-color: #205b08;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
 `;
 
 const Calendar = () => {
@@ -72,7 +89,8 @@ const Calendar = () => {
   const { date } = router.query;
 
   // get diary
-  // const { data, isLoading } = useCalendarQuery.useGetDiary(date);
+  const { data, isLoading } = useDiaryQuery.useGetDiary(date);
+  console.log(data, isLoading);
   // get todo
   const { data: todoData, isLoading: isTodoLoading } =
     useCalendarQuery.useGetTodo(date);
@@ -169,8 +187,14 @@ const Calendar = () => {
               </>
             ) : null}
           </BtnContainer>
-          {/*{isLoading ? null : <DiaryTable diaryData={data?.diary} />}*/}
-          {isTodoLoading ? null : <TodoTable todoData={todoData?.todo} />}
+          <ListContainer>
+            <div>
+              {isLoading ? null : <DiaryTable diaryData={data?.diaries} />}
+            </div>
+            <div>
+              {isTodoLoading ? null : <TodoTable todoData={todoData?.todo} />}
+            </div>
+          </ListContainer>
         </DiaryContainer>
       </modal>
     </div>
