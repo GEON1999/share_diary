@@ -1,7 +1,7 @@
 import router from "../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 
-router.post(`/api/calendar/diary`, async (req, res, next) => {
+router.post(`/api/calendar/:date/diary`, async (req, res, next) => {
   const client = new PrismaClient();
   const {
     body: { title, content },
@@ -23,9 +23,10 @@ router.post(`/api/calendar/diary`, async (req, res, next) => {
         title,
       },
     });
-    console.log("diary", diary);
+    res.status(200).json({ diary, message: "success" });
   } catch (e) {
     console.log(e);
+    res.status(500).json({ message: "fail" });
   }
 });
 
