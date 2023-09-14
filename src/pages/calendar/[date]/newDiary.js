@@ -63,7 +63,7 @@ const Title = styled.h1`
 const notify = (status) => {
   status === "success"
     ? toast.success("일기가 저장되었습니다.")
-    : status === "fail"
+    : status === "error"
     ? toast.error("일기 저장에 실패했습니다.")
     : status === "loading"
     ? toast.loading("일기를 저장하는 중입니다.")
@@ -78,23 +78,11 @@ const NewDiary = () => {
   const {
     mutate,
     status,
-    isSuccess,
     data: postData,
   } = useMutation(useDiaryMutation.postDiary);
 
-  console.log("postData", postData?.data?.message, isSuccess, status);
-
-  useEffect(() => {
-    if (status === "loading") {
-      notify("loading");
-    } else {
-      postData?.data?.message === "success"
-        ? notify("success")
-        : notify("fail");
-    }
-  }, [postData]);
-
   const onSubmit = (data) => {
+    console.log(data);
     mutate({ data, date: date });
   };
 
