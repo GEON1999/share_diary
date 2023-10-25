@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useUserQuery from "@/Query/useUserQuery";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { useAuthContext } from "@/Providers/AuthProvider";
 
 /*<input
   className={"w-80 rounded text-black"}
@@ -69,24 +70,35 @@ const JoinBtn = styled.button`
 
 const Login = () => {
   const router = useRouter();
+  const useAuth = useAuthContext();
   const { data, error, isLoading } = useUserQuery.useGetUser("test");
   const {
     mutate,
     data: postData,
     isSuccess,
   } = useMutation(useUserQuery.loginUser);
+
   console.log("postData", postData);
-  useEffect(() => {
+  /*useEffect(() => {
     postData?.message === "success"
       ? router.push("/calendar")
       : postData?.data?.message === "fail"
       ? alert("로그인 실패")
       : null;
-  }, [postData]);
+  }, [postData]);*/
   const { handleSubmit, register, errors } = useForm();
 
   const onSubmit = async (data) => {
-    mutate(data);
+    if (data.name === "" || data.password === "") {
+      alert("아이디와 비밀번호를 입력해주세요.");
+      return;
+    }
+    await useAuth.login(data.username, data.password);
+    /*if (resultData.success) {
+      router.push("/");
+    } else {
+      alert(resultData?.msg);
+    }*/
   };
 
   /*const handleKaKaoLogin = ()  => {
@@ -105,9 +117,12 @@ const Login = () => {
           <Input
             inputColor="red"
             type={"text"}
-            {...register("id", { required: true })}
+            {...register("username", { required: true })}
           />
-          <Input type={"password"} {...register("pw", { required: true })} />
+          <Input
+            type={"password"}
+            {...register("password", { required: true })}
+          />
           <LoginBtn type={"submit"}>로그인</LoginBtn>
           <JoinBtn onClick={handleJoin}>회원가입</JoinBtn>
         </LoginContainer>
@@ -115,5 +130,8 @@ const Login = () => {
     </div>
   );
 };
+
+Login.layout = "login";
+Login.notAuthPage = true;
 
 export default Login;

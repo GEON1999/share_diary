@@ -1,5 +1,4 @@
 import React from "react";
-
 import Document, { DocumentContext } from "next/document";
 import { ServerStyleSheet } from "styled-components"; // styled-components SSR 적용하기 위함. 공식 문서 참고.
 

@@ -1,16 +1,16 @@
 import router from "../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 
-router.get("/api/calendar/diary/:id", async (req, res, next) => {
+router.get(async (req, res, next) => {
   const client = new PrismaClient();
-  const { id } = req.query;
+  const { date } = req.query;
 
-  console.log(id);
+  console.log(date);
 
   try {
     const diary = await client.diary.findUnique({
       where: {
-        id: Number(id),
+        id: Number(date),
       },
       include: {
         user: true,
@@ -24,19 +24,19 @@ router.get("/api/calendar/diary/:id", async (req, res, next) => {
   }
 });
 
-router.put("/api/calendar/diary/:id", async (req, res, next) => {
+router.put("/api/calendar/:date/diary", async (req, res, next) => {
   const client = new PrismaClient();
   const {
     body: { title, content },
-    query: { id },
+    query: { date },
   } = req;
 
-  console.log(title, content, id);
+  console.log(title, content, date);
 
   try {
     const diary = await client.diary.update({
       where: {
-        id: Number(id),
+        id: Number(date),
       },
       data: {
         title,

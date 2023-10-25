@@ -9,14 +9,16 @@ const CalendarContainer = styled.div`
   height: 620px;
   justify-content: start;
   align-items: center;
-  margin: 0 auto;
-  position: absolute;
+  position: relative;
   z-index: 100;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
+  margin-right: 100px;
+`;
+
+const SelectContainer = styled.div`
+  display: flex;
+  margin: 20px 0px 20px 0px;
 `;
 
 const WeekContainer = styled.div`
@@ -82,7 +84,7 @@ const Calendar = () => {
   const date = router.query.date;
   const clickedDate = date ? new Date(parseInt(date)) : null;
   const clickedDay = clickedDate ? clickedDate.getDate() : null;
-  console.log(clickedDate, clickedDay, clickedDate, date);
+
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
@@ -99,23 +101,25 @@ const Calendar = () => {
 
   return (
     <CalendarContainer>
-      {/* <select
-        value={month}
-        onChange={(e) => setMonth(parseInt(e.target.value))}
-      >
-        {Array.from({ length: 12 }, (_, i) => (
-          <option key={i} value={i}>
-            {i + 1}월
-          </option>
-        ))}
-      </select>*/}
-      <input
-        type="number"
-        value={year}
-        onChange={(e) => setYear(parseInt(e.target.value))}
-        min="1900"
-        max="2100"
-      />
+      <SelectContainer>
+        <input
+          type="number"
+          value={year}
+          onChange={(e) => setYear(parseInt(e.target.value))}
+          min="1900"
+          max="2100"
+        />
+        <select
+          value={month}
+          onChange={(e) => setMonth(parseInt(e.target.value))}
+        >
+          {Array.from({ length: 12 }, (_, i) => (
+            <option key={i} value={i}>
+              {i + 1}월
+            </option>
+          ))}
+        </select>
+      </SelectContainer>
       <div>
         <table>
           <thead>
@@ -133,12 +137,6 @@ const Calendar = () => {
             {calendar.map((week, index) => (
               <tr key={index}>
                 {week.map((day, dayIndex) => {
-                  console.log(
-                    "clickedDay&day :",
-                    clickedDay === day,
-                    day,
-                    clickedDay
-                  );
                   return (
                     <Day
                       isHighlighted={clickedDay === day ? true : false}
