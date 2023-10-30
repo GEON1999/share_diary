@@ -24,15 +24,18 @@ const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   const handleLogin = async (username, password) => {
-    console.log("username :", username);
     const { data } = await axios.post("/api/users/enter", {
       username,
       password,
     });
 
+    console.log("data :", data);
+
     if (data.success) {
       setUser({ ...data.user });
       setLoading(false);
+
+      router.push("/");
     }
     return data;
   };

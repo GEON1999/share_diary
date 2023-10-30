@@ -8,17 +8,20 @@ router.post("/api/users/enter", async (req, res, next) => {
       return res.status(400).send({ error: err });
     }
     if (!user) {
-      return res.json({ status: "no", msg: "정보가 옳바르지 않습니다." });
+      return res.json({ status: false, msg: "정보가 옳바르지 않습니다." });
     }
     req.login(user, function (err) {
-      console.log("123");
       if (err) {
-        console.log("11", err);
-        return next("11", err);
+        console.log("err", err);
+        return next("err", err);
       }
       return (
-        console.log("11", user),
-        res.json({ message: "success", user: { email: user?.username } })
+        console.log("user :", user),
+        res.json({
+          success: true,
+          msg: "로그인에 성공 했습니다",
+          user: { email: user?.username },
+        })
       );
     });
   })(req, res, next);

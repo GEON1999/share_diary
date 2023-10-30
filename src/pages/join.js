@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import Login from "@/pages/login";
 
 const JoinContainer = styled.div`
   display: flex;
@@ -111,5 +112,7 @@ const Join = () => {
     </JoinContainer>
   );
 };
+
+Join.notAuthPage = true;
 
 export default Join;

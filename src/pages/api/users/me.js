@@ -5,8 +5,8 @@ router.get("/api/users/me", async (req, res) => {
   const user = req?.user;
   console.log("user :", user);
 
-  if (user.username) {
-    return res.status(200).json({ success: true, user: user.username });
+  if (user) {
+    return res.status(200).json({ success: true, user: user });
   } else {
     return await res.json({
       success: false,
