@@ -27,9 +27,11 @@ passport.use(
           password: password,
         },
       });
+
       console.log("data", data);
       if (data?.email === username) {
         await done(null, {
+          id: data.id,
           username,
         });
       } else {

@@ -57,8 +57,20 @@ const useGetTodo = (date) => {
 const postTodo = async ({ data, date }) =>
   await axios.post(`/api/calendar/${date}/todo`, data);
 
+// get calendar list
+const getCalendarList = async () => {
+  const { data } = await axios.get(helper.CURRENT_URL() + `/api/calendar`);
+
+  return data;
+};
+
+const useGetCalendarList = () => {
+  return useQuery(["CALENDAR_LIST"], () => getCalendarList());
+};
+
 export default {
   postTodo,
   getTodo,
   useGetTodo,
+  useGetCalendarList,
 };

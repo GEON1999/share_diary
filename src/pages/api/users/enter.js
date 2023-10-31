@@ -20,7 +20,7 @@ router.post("/api/users/enter", async (req, res, next) => {
         res.json({
           success: true,
           msg: "로그인에 성공 했습니다",
-          user: { email: user?.username },
+          user: { email: user?.username, id: user?.id },
         })
       );
     });
