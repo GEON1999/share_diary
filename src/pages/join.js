@@ -60,7 +60,15 @@ const Join = () => {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    mutate(data);
+    mutate(data, {
+      onSuccess: (data) => {
+        if (data?.data?.isSuccess === true) {
+          router.push("/login");
+        } else {
+          alert("회원가입에 실패하였습니다.");
+        }
+      },
+    });
   };
 
   useEffect(() => {

@@ -29,7 +29,7 @@ passport.use(
 
 const router = nextConnect({ attachParams: true });
 
-const whitelist = ["/api/users/enter", "/login"];
+const whitelist = ["/api/users/enter", "/login", "/join", "/api/users/join"];
 
 router.isAuthenticated = (req, res, next) => {
   console.log("isAuthenticated", req.user);
@@ -45,7 +45,7 @@ router.isAuthenticated = (req, res, next) => {
 router.use(
   session({
     keys: ["ee"],
-    maxAge: 1000 * 60 * 60 * 24 * 1
+    maxAge: 1000 * 60 * 60 * 24 * 1,
   })
 );
 
