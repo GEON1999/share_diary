@@ -1,5 +1,5 @@
 import nextConnect from "next-connect";
-import passport from "passport";
+import passport from "./passport";
 import { Strategy as KakaoStrategy } from "passport-kakao";
 import session from "cookie-session";
 

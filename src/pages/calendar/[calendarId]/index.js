@@ -115,14 +115,23 @@ const Index = () => {
   const [isPlusToggle, setIsPlusToggle] = useState(false);
   const { date } = router.query;
 
-  // get diary
+  const { calendarId } = router.query;
+
+  console.log("calendarId cli : ", calendarId);
+
+  const { data: calendarData, isLoading: isCalendarLoading } =
+    useCalendarQuery.useGetCalendarDetail(calendarId ?? null);
+
+  console.log("calendarData", calendarData, isCalendarLoading);
+
+  /*// get diary
   const { data, isLoading } = useDiaryQuery.useGetDiary(date);
 
   // get todo
   const { data: todoData, isLoading: isTodoLoading } =
     useCalendarQuery.useGetTodo(date);
 
-  console.log("todoData", todoData, data);
+  console.log("todoData", todoData, data);*/
 
   //  const { mutate } = useMutation(useCalendarQuery.postCalender);
 
@@ -178,14 +187,14 @@ const Index = () => {
                 </>
               ) : null}
             </BtnContainer>
-            <ListContainer>
+            {/* <ListContainer>
               <div>
                 {isLoading ? null : <DiaryTable diaryData={data?.diaries} />}
               </div>
               <div>
                 {isTodoLoading ? null : <TodoTable todoData={todoData?.todo} />}
               </div>
-            </ListContainer>
+            </ListContainer>*/}
           </DiaryContainer>
         </modal>
       </HomeWrapper>
@@ -200,9 +209,9 @@ const Index = () => {
   );
 };
 
-export const getServerSideProps = async (ctx) => {
+/*export const getServerSideProps = async (ctx) => {
   const { date } = ctx.query;
-  /*console.log("query", date);
+  console.log("query", date);
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(["DIARY", date ?? null], () => {
@@ -214,13 +223,13 @@ export const getServerSideProps = async (ctx) => {
 
   await queryClient.prefetchQuery(["TODO", date ?? null], () => {
     return useCalendarQuery.getTodo(date ?? null);
-  });*/
+  });
 
   return {
     props: {
       //dehydratedState: dehydrate(queryClient),
     },
   };
-};
+};*/
 
 export default Index;

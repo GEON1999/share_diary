@@ -68,9 +68,26 @@ const useGetCalendarList = () => {
   return useQuery(["CALENDAR_LIST"], () => getCalendarList());
 };
 
+// get calendar detail
+const getCalendarDetail = async (calendarId) => {
+  console.log("calendarId", `/api/calendar/${calendarId}`);
+  const { data } = await axios.get(`/api/calendar/${calendarId}`);
+
+  return data;
+};
+
+const useGetCalendarDetail = (calendarId) => {
+  return useQuery(["CALENDAR_DETAIL", calendarId], () =>
+    getCalendarDetail(calendarId)
+  );
+};
+
 export default {
   postTodo,
   getTodo,
   useGetTodo,
+  getCalendarList,
   useGetCalendarList,
+  getCalendarDetail,
+  useGetCalendarDetail,
 };

@@ -1,4 +1,4 @@
-import router from "../../../../../libs/server/router";
+import router from "../../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 
 router.post(`/api/calendar/:date/diary`, async (req, res, next) => {

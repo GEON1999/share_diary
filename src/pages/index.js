@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import useCalendarQuery from "@/Query/useCalendarQuery";
+import { useRouter } from "next/router";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -31,7 +32,6 @@ const Calendar = styled.div`
   font-size: 20px;
   font-weight: 400;
   cursor: pointer;
-
   &:hover {
     background-color: #5d6fb0;
     color: #fff;
@@ -46,7 +46,12 @@ const Title = styled.h1`
 `;
 
 const Home = () => {
+  const router = useRouter();
   const { data, isLoading } = useCalendarQuery.useGetCalendarList();
+
+  const handleEnterCalendar = (id) => {
+    router.push(`/calendar/${id}`);
+  };
 
   console.log("data :", data, isLoading);
 
@@ -58,7 +63,9 @@ const Home = () => {
           ? data?.calendars?.map((calendar) => {
               return (
                 <div key={calendar.id}>
-                  <Calendar>{calendar.name}</Calendar>
+                  <Calendar onClick={() => handleEnterCalendar(calendar.id)}>
+                    {calendar.name}
+                  </Calendar>
                 </div>
               );
             })

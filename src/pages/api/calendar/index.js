@@ -4,6 +4,7 @@ import client from "../../../../libs/server/client";
 
 router.get(`/api/calendar`, async (req, res, next) => {
   const user = req.user;
+  console.log("시발2");
 
   console.log("user :", user);
   try {
@@ -12,8 +13,6 @@ router.get(`/api/calendar`, async (req, res, next) => {
         userId: Number(user.id),
       },
     });
-
-    console.log("calendars :", calendars);
 
     return res
       .status(200)
