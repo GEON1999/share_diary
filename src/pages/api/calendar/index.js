@@ -4,7 +4,6 @@ import client from "../../../../libs/server/client";
 
 router.get(`/api/calendar`, async (req, res, next) => {
   const user = req.user;
-  console.log("시발2");
 
   console.log("user :", user);
   try {

@@ -69,16 +69,17 @@ const useGetCalendarList = () => {
 };
 
 // get calendar detail
-const getCalendarDetail = async (calendarId) => {
-  console.log("calendarId", `/api/calendar/${calendarId}`);
-  const { data } = await axios.get(`/api/calendar/${calendarId}`);
+const getCalendarDetail = async (calendarId, query) => {
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + `/api/calendar/${calendarId}?${query}`
+  );
 
   return data;
 };
 
-const useGetCalendarDetail = (calendarId) => {
-  return useQuery(["CALENDAR_DETAIL", calendarId], () =>
-    getCalendarDetail(calendarId)
+const useGetCalendarDetail = (calendarId, query) => {
+  return useQuery(["CALENDAR_DETAIL", query], () =>
+    getCalendarDetail(calendarId, query)
   );
 };
 

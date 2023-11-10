@@ -3,14 +3,14 @@ import router from "../../../../../libs/server/router";
 
 router.get(`/api/calendar/:id`, async (req, res, next) => {
   const user = req.user;
-  const { id } = req?.query;
-  console.log("id 시발", id, user);
+  const { id, userId, date } = req?.query;
+  console.log("query :", req.query);
 
   try {
     const calendar = await client.calendar.findFirst({
       where: {
         id: Number(id),
-        userId: Number(user.id),
+        userId: Number(userId),
       },
       include: {
         todos: true,

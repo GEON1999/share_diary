@@ -72,7 +72,7 @@ const notify = (status) => {
 
 const NewDiary = () => {
   const router = useRouter();
-  const { date } = router.query;
+  const { date, calendarId } = router.query;
   const { register, handleSubmit } = useForm();
 
   const {
@@ -83,7 +83,15 @@ const NewDiary = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    mutate({ data, date: date });
+    mutate(
+      { data, date: date, calendarId },
+      {
+        onSuccess: () => {
+          notify("success");
+          router.push(`/calendar/${calendarId}?${date}`);
+        },
+      }
+    );
   };
 
   return (

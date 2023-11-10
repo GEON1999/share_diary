@@ -1,9 +1,9 @@
 // post diary
 import axios from "axios";
 
-const postDiary = async ({ data, date }) => {
+const postDiary = async ({ data, date, calendarId }) => {
   console.log(`/api/calendar/${date}/diary`, data);
-  await axios.post(`/api/calendar/${date}/diary`, data);
+  await axios.post(`/api/calendar/${calendarId}/${date}/diary`, data);
 };
 
 // put diary

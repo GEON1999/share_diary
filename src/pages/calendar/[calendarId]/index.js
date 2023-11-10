@@ -7,6 +7,9 @@ import DiaryTable from "@/components/table/DiaryTable";
 import useDiaryQuery from "@/Query/useDiaryQuery";
 import Calendar from "@/components/calendar";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
+import router from "../../../../libs/server/router";
+import helper from "@/helper";
+import { useAuthContext } from "@/Providers/AuthProvider";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -111,16 +114,19 @@ const MypageBtn = styled.button`
 
 const Index = () => {
   const router = useRouter();
+  const { query } = router;
+  const useAuth = useAuthContext();
   const [modal, setModal] = useState(false);
   const [isPlusToggle, setIsPlusToggle] = useState(false);
-  const { date } = router.query;
+  const { calendarId, date } = query;
 
-  const { calendarId } = router.query;
-
-  console.log("calendarId cli : ", calendarId);
+  console.log("calendarId : ", calendarId, date);
 
   const { data: calendarData, isLoading: isCalendarLoading } =
-    useCalendarQuery.useGetCalendarDetail(calendarId ?? null);
+    useCalendarQuery.useGetCalendarDetail(
+      calendarId ?? null,
+      helper.queryToString({ userId: useAuth?.user?.id, date: date })
+    );
 
   console.log("calendarData", calendarData, isCalendarLoading);
 
@@ -142,8 +148,10 @@ const Index = () => {
     router.push(`/calendar?date=${msDate}`);
   };
 
-  const handleDiaryOpen = () => router.push(`/calendar/${date}/newDiary`);
-  const handletoDoOpen = () => router.push(`/calendar/${date}/newTodo`);
+  const handleDiaryOpen = () =>
+    router.push(`/calendar/${calendarId}/${date}/newDiary`);
+  const handletoDoOpen = () =>
+    router.push(`/calendar/${calendarId}/${date}/newTodo`);
 
   const togglePuls = () => {
     setIsPlusToggle(!isPlusToggle);
@@ -153,12 +161,6 @@ const Index = () => {
     router.push("/mypage");
   };
 
-  const handleDayClick = (day) => {
-    const date = new Date(currentYear, currentMonth, day);
-    const msDate = date.getTime();
-    router.push(`/calendar?date=${msDate}`);
-  };
-
   // 현재 로그인 되어 있는 유저 id 를 가져오고, 그 id 를 통해 diary 및 calendar 의 id 를 가져온다. 해당 id 를 통해 diary 및 calendar 를 가져온다.
   // 가져온 diary 및 calendar 를 통해 해당 날짜에 diary 및 calendar 가 있는지 확인한다.(map 을 통해 확인)
   // diary 및 calendar 가 있다면, diary 및 calendar 를 보여준다.
@@ -166,7 +168,7 @@ const Index = () => {
   return (
     <div>
       <HomeWrapper>
-        <Calendar />
+        <Calendar calendarId={calendarId} calendarData={calendarData} />
         <modal
           open={modal === true ? true : false}
           close={modal ? true : undefined}
@@ -209,27 +211,38 @@ const Index = () => {
   );
 };
 
-/*export const getServerSideProps = async (ctx) => {
-  const { date } = ctx.query;
-  console.log("query", date);
+export const getServerSideProps = async (ctx) => {
+  const { req, res, query } = ctx;
+
+  await router.run(req, res);
+  const userId = req.user?.id ?? null;
+  const { date, calendarId } = query;
+  console.log("userId :", userId);
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery(["DIARY", date ?? null], () => {
-    return useCalendarQuery.getDiary(date ?? null);
-  });
+  const calendarQuery = helper.queryToString({ userId: userId, date: date });
 
-  /!*  const diaryQuery = queryClient.getQueryData(["DIARY", date]);
-  console.log(diaryQuery?.diary[0].user);*!/
+  await queryClient.prefetchQuery(
+    ["CALENDAR_DETAIL", calendarId ?? null, calendarQuery],
+    () => {
+      return useCalendarQuery.getCalendarDetail(
+        calendarId ?? null,
+        calendarQuery
+      );
+    }
+  );
 
-  await queryClient.prefetchQuery(["TODO", date ?? null], () => {
-    return useCalendarQuery.getTodo(date ?? null);
-  });
+  const calendarData = queryClient.getQueryData([
+    "CALENDAR_DETAIL",
+    calendarId,
+  ]);
+  console.log("calendarData :", calendarData);
 
   return {
     props: {
-      //dehydratedState: dehydrate(queryClient),
+      dehydratedState: dehydrate(queryClient),
     },
   };
-};*/
+};
 
 export default Index;

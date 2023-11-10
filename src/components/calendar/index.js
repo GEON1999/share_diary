@@ -41,8 +41,12 @@ const Day = styled.td`
   text-align: center;
   transition: all 0.3s ease-in-out;
   border-radius: 40%;
-  background-color: ${({ isHighlighted }) =>
-    isHighlighted === true ? "#5BB0D3FF" : "transparent"};
+  background-color: ${({ isHighlighted, isDiary }) =>
+    isHighlighted === true
+      ? "#5BB0D3FF"
+      : isDiary === true
+      ? "#3940be"
+      : "transparent"};
   &:hover {
     background-color: #ffffff;
     color: #000000;
@@ -79,7 +83,7 @@ const generateCalendar = (year, month) => {
   return calendar;
 };
 
-const Calendar = () => {
+const Calendar = ({ calendarId, calendarData }) => {
   const router = useRouter();
   const date = router.query.date;
   const clickedDate = date ? new Date(parseInt(date)) : null;
@@ -96,8 +100,14 @@ const Calendar = () => {
 
   const handleClickDate = (day) => {
     const ms = new Date(year, month, day).getTime();
-    router.push(`/calendar?date=${ms}`);
+    router.push(`/calendar/${calendarId}/?date=${ms}`);
   };
+
+  const calendarDateArr = calendarData?.calendar?.diaries?.map((diary) => {
+    return diary.date;
+  });
+
+  console.log("calendarDateArr :", calendarDateArr);
 
   return (
     <CalendarContainer>
@@ -137,6 +147,38 @@ const Calendar = () => {
             {calendar.map((week, index) => (
               <tr key={index}>
                 {week.map((day, dayIndex) => {
+                  const ms = new Date(year, month, day).getTime();
+                  console.log("ms :", ms);
+                  if (calendarDateArr?.includes(String(ms))) {
+                    return (
+                      <Day
+                        isHighlighted={clickedDay === day ? true : false}
+                        onClick={() => handleClickDate(day)}
+                        key={dayIndex}
+                        isDiary={true}
+                      >
+                        {day ? day : ""}
+                      </Day>
+                    );
+                  } else {
+                    return (
+                      <Day
+                        isHighlighted={clickedDay === day ? true : false}
+                        onClick={() => handleClickDate(day)}
+                        key={dayIndex}
+                      >
+                        {day ? day : ""}
+                      </Day>
+                    );
+                  }
+                })}
+              </tr>
+            ))}
+          </tbody>
+          {/* {calendar.map((week, index) => (
+              <tr key={index}>
+                {week.map((day, dayIndex) => {
+                  const ms = new Date(year, month, day).getTime();
                   return (
                     <Day
                       isHighlighted={clickedDay === day ? true : false}
@@ -148,8 +190,7 @@ const Calendar = () => {
                   );
                 })}
               </tr>
-            ))}
-          </tbody>
+            ))}*/}
         </table>
       </div>
     </CalendarContainer>

@@ -1,13 +1,15 @@
 import router from "../../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
+import client from "../../../../../../libs/server/client";
 
-router.post(`/api/calendar/:date/diary`, async (req, res, next) => {
+router.post(`/api/calendar/:id/:date/diary`, async (req, res, next) => {
   console.log("hi");
 
-  const client = new PrismaClient();
+  const user = req.user;
+
   const {
     body: { title, content },
-    query: { date },
+    query: { date, id },
   } = req;
 
   console.log(title, content, date);
@@ -17,9 +19,15 @@ router.post(`/api/calendar/:date/diary`, async (req, res, next) => {
       data: {
         user: {
           connect: {
-            id: Number(1), //추후 passport 를 통해 로그이 유저 아이디 가져오기
+            id: user.id, //추후 passport 를 통해 로그이 유저 아이디 가져오기
           },
         },
+        calendar: {
+          connect: {
+            id: Number(id),
+          },
+        },
+
         content,
         date,
         title,
