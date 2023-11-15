@@ -148,7 +148,7 @@ const Calendar = ({ calendarId, calendarData }) => {
               <tr key={index}>
                 {week.map((day, dayIndex) => {
                   const ms = new Date(year, month, day).getTime();
-                  console.log("ms :", ms);
+
                   if (calendarDateArr?.includes(String(ms))) {
                     return (
                       <Day

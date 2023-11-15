@@ -130,14 +130,18 @@ const Index = () => {
 
   console.log("calendarData", calendarData, isCalendarLoading);
 
-  /*// get diary
-  const { data, isLoading } = useDiaryQuery.useGetDiary(date);
+  // get diary
+  const { data: diaryData, isLoading } = useDiaryQuery.useGetDiary(
+    calendarId,
+    date
+  );
+  console.log("diaryData :", diaryData);
+  /*
+    // get todo
+    const { data: todoData, isLoading: isTodoLoading } =
+      useCalendarQuery.useGetTodo(date);
 
-  // get todo
-  const { data: todoData, isLoading: isTodoLoading } =
-    useCalendarQuery.useGetTodo(date);
-
-  console.log("todoData", todoData, data);*/
+    console.log("todoData", todoData, data);*/
 
   //  const { mutate } = useMutation(useCalendarQuery.postCalender);
 
@@ -189,14 +193,14 @@ const Index = () => {
                 </>
               ) : null}
             </BtnContainer>
-            {/* <ListContainer>
+            <ListContainer>
               <div>
-                {isLoading ? null : <DiaryTable diaryData={data?.diaries} />}
+                {isLoading ? null : <DiaryTable diaryData={diaryData?.diary} />}
               </div>
-              <div>
+              {/*<div>
                 {isTodoLoading ? null : <TodoTable todoData={todoData?.todo} />}
-              </div>
-            </ListContainer>*/}
+              </div>*/}
+            </ListContainer>
           </DiaryContainer>
         </modal>
       </HomeWrapper>

@@ -26,7 +26,7 @@ const getDiaryDetail = async (diaryId) => {
 };
 
 const useGetDiaryDetail = (diaryId) => {
-  return useQuery(["DIARY_DETAIL", diaryId], () => getDiaryDetail(diaryId));
+  return useQuery(["DIARY", diaryId], () => getDiaryDetail(diaryId));
 };*/
 
 // Post Diary

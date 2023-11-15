@@ -8,19 +8,29 @@ const Diary = styled.div`
   width: 300px;
   height: 50px;
   text-align: left;
-  border-bottom: 2px solid #273838;
   outline: none;
   padding-left: 10px;
   color: #ffffff;
-  margin: 15px 0px;
+  margin: 25px 0px;
 `;
 
 const DiaryTable = ({ diaryData }) => {
+  const router = useRouter();
+  const { calendarId, date } = router.query;
+
+  const handleDiaryDetail = (diaryId) => {
+    router.push(`/calendar/${calendarId}/${date}/diary/${diaryId}`);
+  };
+
   return (
     <>
       {diaryData?.map((data) => {
         return (
-          <Diary key={data.id} className={"text-black"}>
+          <Diary
+            onClick={() => handleDiaryDetail(data?.id)}
+            key={data.id}
+            className={"text-black"}
+          >
             <p>제목 : {data?.title}</p>
             <p>내용 : {data?.content}</p>
           </Diary>

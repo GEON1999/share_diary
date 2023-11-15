@@ -88,7 +88,7 @@ const NewDiary = () => {
       {
         onSuccess: () => {
           notify("success");
-          router.push(`/calendar/${calendarId}?${date}`);
+          router.push(`/calendar/${calendarId}?date=${date}`);
         },
       }
     );

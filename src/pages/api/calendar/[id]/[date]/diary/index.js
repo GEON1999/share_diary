@@ -1,6 +1,26 @@
-import router from "../../../../../../libs/server/router";
+import router from "../../../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
-import client from "../../../../../../libs/server/client";
+import client from "../../../../../../../libs/server/client";
+
+router.get(`/api/calendar/:id/:date/diary`, async (req, res, next) => {
+  const user = req.user;
+  const { id, date } = req?.query;
+  console.log("query :", req.query);
+
+  try {
+    const diary = await client.diary.findMany({
+      where: {
+        calendarId: Number(id),
+        date: date,
+      },
+    });
+
+    return res.status(200).json({ isSuccess: true, diary, message: "success" });
+  } catch (e) {
+    console.log("e :", e);
+    return res.status(500).json({ isSuccess: false, message: e.message });
+  }
+});
 
 router.post(`/api/calendar/:id/:date/diary`, async (req, res, next) => {
   console.log("hi");
