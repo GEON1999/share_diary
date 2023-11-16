@@ -10,7 +10,6 @@ router.get(`/api/calendar/:id`, async (req, res, next) => {
     const calendar = await client.calendar.findFirst({
       where: {
         id: Number(id),
-        userId: Number(userId),
       },
       include: {
         todos: true,
