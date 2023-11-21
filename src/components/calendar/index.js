@@ -88,6 +88,7 @@ const Calendar = ({ calendarId, calendarData }) => {
   const date = router.query.date;
   const clickedDate = date ? new Date(parseInt(date)) : null;
   const clickedDay = clickedDate ? clickedDate.getDate() : null;
+  console.log("clickedDay :", clickedDay, date);
 
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
@@ -163,7 +164,13 @@ const Calendar = ({ calendarId, calendarData }) => {
                   } else {
                     return (
                       <Day
-                        isHighlighted={clickedDay === day ? true : false}
+                        isHighlighted={
+                          clickedDay === null
+                            ? false
+                            : clickedDay === day
+                            ? true
+                            : false
+                        }
                         onClick={() => handleClickDate(day)}
                         key={dayIndex}
                       >
