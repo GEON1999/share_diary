@@ -29,7 +29,7 @@ model Calendar {
   diaries   Diary[]
   todos     Todo[]
   calendarPermissions CalendarPermission[]
-
+  inviteCode InviteCode[]
 }
 
 model Diary {
@@ -74,6 +74,15 @@ model CalendarPermission {
   @@unique([calendarId, userId])
 }
 
+model InviteCode {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  calendar  Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  calendarId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 //Advertisement
 
