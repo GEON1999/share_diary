@@ -162,7 +162,7 @@ const Index = () => {
   };
 
   const handleMypageBtn = () => {
-    router.push("/mypage");
+    router.push(`/calendar/${calendarId}/mypage`);
   };
 
   // 현재 로그인 되어 있는 유저 id 를 가져오고, 그 id 를 통해 diary 및 calendar 의 id 를 가져온다. 해당 id 를 통해 diary 및 calendar 를 가져온다.
