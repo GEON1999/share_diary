@@ -64,9 +64,10 @@ const CreateCalendar = () => {
     console.log(data);
     createCalendar(data.name, {
       onSuccess: (data) => {
+        console.log("calendar post data :", data);
         if (data?.data?.isSuccess === true) {
           alert("달력이 생성되었습니다.");
-          /*router.push("/login");*/
+          router.push("/");
         } else {
           alert("달력 생성에 실패하였습니다.");
         }

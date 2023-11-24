@@ -66,6 +66,13 @@ router.post(`/api/calendar`, async (req, res, next) => {
       },
     });
 
+    await client.inviteCode.create({
+      data: {
+        calendarId: calendar.id,
+        code: Math.random().toString(36).substr(2, 11), // 추후 hash 를 통해 더 안전하게
+      },
+    });
+
     res.status(200).json({ calendar, message: "success", isSuccess: true });
   } catch (e) {
     console.log(e);

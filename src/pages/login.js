@@ -12,6 +12,10 @@ import { useAuthContext } from "@/Providers/AuthProvider";
   type="text"
   placeholder="아이디"
 />;*/
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 const LoginContainer = styled.div`
   display: flex;
@@ -110,7 +114,7 @@ const Login = () => {
   const handleJoin = () => router.push("/join");
 
   return (
-    <div className={"w-full p-20"}>
+    <Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         <LoginContainer>
           {" "}
@@ -127,7 +131,7 @@ const Login = () => {
           <JoinBtn onClick={handleJoin}>회원가입</JoinBtn>
         </LoginContainer>
       </form>
-    </div>
+    </Wrapper>
   );
 };
 

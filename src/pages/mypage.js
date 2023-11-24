@@ -3,8 +3,8 @@ import styled from "styled-components";
 const MypageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 640px;
-  height: 620px;
+  width: 1200px;
+  height: 1000px;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
@@ -13,6 +13,17 @@ const MypageContainer = styled.div`
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   background-color: rgba(59, 59, 59, 0.5);
+  border-radius: 30px;
+`;
+
+const EditWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: 500px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(59, 59, 59, 0.3);
   border-radius: 30px;
 `;
 
@@ -75,28 +86,32 @@ const SubmitBtn = styled.button`
   align-content: flex-start;
 `;
 
+const InviteBtn = styled.button``;
+
 const Mypage = () => {
   return (
     <MypageContainer>
-      <Form>
-        <ImageContainer>
-          <ImageInput />
-          <ImageEditBtn>사진 수정</ImageEditBtn>
-        </ImageContainer>
-        <ItemContainer>
-          <InputContainer>
-            <Input type="text" placeholder="아이디" />
-            <Input type="password" placeholder="비밀번호" />
-            <Input type="password" placeholder="비밀번호 확인" />
-            <Input type="text" placeholder="이름" />
-            <Input type="text" placeholder="이메일" />
-            <Input type="text" placeholder="전화번호" />
-            <Input type="text" placeholder="생년월일" />
-            <Input type="text" placeholder="성별" />
-          </InputContainer>
-          <SubmitBtn>회원정보 수정</SubmitBtn>
-        </ItemContainer>
-      </Form>
+      <EditWrapper>
+        <Form>
+          <ImageContainer>
+            <ImageInput />
+            <ImageEditBtn>사진 수정</ImageEditBtn>
+          </ImageContainer>
+          <ItemContainer>
+            <InputContainer>
+              <Input type="text" placeholder="아이디" />
+              <Input type="password" placeholder="비밀번호" />
+              <Input type="password" placeholder="비밀번호 확인" />
+              <Input type="text" placeholder="이름" />
+              <Input type="text" placeholder="이메일" />
+              <Input type="text" placeholder="전화번호" />
+              <Input type="text" placeholder="생년월일" />
+              <Input type="text" placeholder="성별" />
+            </InputContainer>
+            <SubmitBtn>회원정보 수정</SubmitBtn>
+          </ItemContainer>
+        </Form>
+      </EditWrapper>
     </MypageContainer>
   );
 };

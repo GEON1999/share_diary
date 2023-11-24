@@ -1,5 +1,10 @@
 import React from "react";
-import Document, { DocumentContext } from "next/document";
+import Document, {
+  DocumentContext,
+  Head,
+  Main,
+  NextScript,
+} from "next/document";
 import { ServerStyleSheet } from "styled-components"; // styled-components SSR 적용하기 위함. 공식 문서 참고.
 
 class MyDocument extends Document {
@@ -34,6 +39,22 @@ class MyDocument extends Document {
     } finally {
       sheet.seal();
     }
+  }
+
+  render() {
+    return (
+      <html>
+        <Head>
+          {/* Add your favicon link here */}
+          <link rel="shortcut icon" href="/favicon5.png" type="image/x-icon" />
+          {/* Other head elements */}
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </html>
+    );
   }
 }
 

@@ -1,5 +1,9 @@
 import "@/styles/globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import Layout from "@/components/common/Layout";
 import { AuthProvider } from "@/Providers/AuthProvider";
 
@@ -20,13 +24,15 @@ export default function App({ Component, pageProps }) {
     ));
   return (
     <QueryClientProvider client={queryClient}>
-      {/*<Script
+      <Hydrate state={pageProps.dehydratedState}>
+        {/*<Script
             src='https://developers.kakao.com/sdk/js/kakao.js'
             onLoad={kakaoInit}
         ></Script>*/}
-      <AuthProvider>
-        <div>{getLayout(<Component {...pageProps} />)}</div>
-      </AuthProvider>
+        <AuthProvider>
+          <div>{getLayout(<Component {...pageProps} />)}</div>
+        </AuthProvider>
+      </Hydrate>
     </QueryClientProvider>
   );
 }
