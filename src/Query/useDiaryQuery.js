@@ -19,19 +19,17 @@ const useGetDiary = (calendarId, diaryId) => {
 };
 
 // get diary detail
-const getDiaryDetail = async ({ calendarId, date, diaryId }) => {
+const getDiaryDetail = async ({ calendarId, diaryId }) => {
   const { data } = await axios.get(
-    helper.CURRENT_URL() +
-      `/api/calendar/${calendarId}/${date}/diary/${diaryId}`
+    helper.CURRENT_URL() + `/api/calendar/${calendarId}/diary/${diaryId}`
   );
 
-  console.log("data :", data);
   return data;
 };
 
-const useGetDiaryDetail = ({ calendarId, date, diaryId }) => {
-  return useQuery(["DIARY_DETAIL", date], () =>
-    getDiaryDetail({ calendarId, date, diaryId })
+const useGetDiaryDetail = ({ calendarId, diaryId }) => {
+  return useQuery(["DIARY_DETAIL", calendarId, diaryId], () =>
+    getDiaryDetail({ calendarId, diaryId })
   );
 };
 

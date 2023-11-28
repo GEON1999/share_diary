@@ -14,9 +14,13 @@ const deleteCalendarInvite = async ({ calendarId, userId }) =>
 const getInvtedCalendar = async ({ code, userId }) =>
   await axios.post(`/api/calendar/invite`, { code: code, userId: userId });
 
+const putDiary = async ({ calendarId, diaryId, data }) =>
+  await axios.post(`/api/calendar/${calendarId}/diary/${diaryId}`, data);
+
 export default {
   createCalendar,
   createCalendarInvite,
   deleteCalendarInvite,
   getInvtedCalendar,
+  putDiary,
 };

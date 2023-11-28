@@ -12,6 +12,7 @@ const Diary = styled.div`
   padding-left: 10px;
   color: #ffffff;
   margin: 25px 0px;
+  cursor: pointer;
 `;
 
 const DiaryTable = ({ diaryData }) => {
@@ -19,7 +20,7 @@ const DiaryTable = ({ diaryData }) => {
   const { calendarId, date } = router.query;
 
   const handleDiaryDetail = (diaryId) => {
-    router.push(`/calendar/${calendarId}/${date}/diary/${diaryId}`);
+    router.push(`/calendar/${calendarId}/diary/${diaryId}`);
   };
 
   return (
