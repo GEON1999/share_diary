@@ -13,6 +13,9 @@ router.get(`/api/calendar/:id/:date/diary`, async (req, res, next) => {
         calendarId: Number(id),
         date: date,
       },
+      include: {
+        user: true,
+      },
     });
 
     return res.status(200).json({ isSuccess: true, diary, message: "success" });

@@ -10,6 +10,9 @@ router.get("/api/calendar/:id/diary/:diaryId", async (req, res, next) => {
       where: {
         id: Number(diaryId),
       },
+      include: {
+        user: true,
+      },
     });
 
     return res.json({ isSuccess: true, diary, message: "success" });
