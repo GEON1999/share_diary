@@ -3,6 +3,8 @@ import useCalendarQuery from "@/Query/useCalendarQuery";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import AddCalendarModal from "@/components/modal/AddCalendar";
+import CalendarNav from "@/components/common/CalendarNav";
+import LogoutBtn from "@/components/common/LogoutBtn";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -79,6 +81,7 @@ const Home = () => {
 
   return (
     <>
+      <LogoutBtn />
       <HomeWrapper>
         <Title>다이어리 목록</Title>
         {!isLoading

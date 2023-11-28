@@ -42,7 +42,7 @@ const AuthProvider = ({ children }) => {
 
   const handleLogout = useCallback(async () => {
     setUser(null);
-    const result = await axios.get("/api/users/logout");
+    await axios.post("/api/users/logout");
     router.push("/login");
   }, []);
 

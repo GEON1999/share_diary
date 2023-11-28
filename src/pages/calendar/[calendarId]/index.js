@@ -10,6 +10,7 @@ import { dehydrate, QueryClient } from "@tanstack/react-query";
 import router from "../../../../libs/server/router";
 import helper from "@/helper";
 import { useAuthContext } from "@/Providers/AuthProvider";
+import CalendarNav from "@/components/common/CalendarNav";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -161,16 +162,13 @@ const Index = () => {
     setIsPlusToggle(!isPlusToggle);
   };
 
-  const handleMypageBtn = () => {
-    router.push(`/calendar/${calendarId}/mypage`);
-  };
-
   // 현재 로그인 되어 있는 유저 id 를 가져오고, 그 id 를 통해 diary 및 calendar 의 id 를 가져온다. 해당 id 를 통해 diary 및 calendar 를 가져온다.
   // 가져온 diary 및 calendar 를 통해 해당 날짜에 diary 및 calendar 가 있는지 확인한다.(map 을 통해 확인)
   // diary 및 calendar 가 있다면, diary 및 calendar 를 보여준다.
 
   return (
     <div>
+      <CalendarNav />
       <HomeWrapper>
         <Calendar calendarId={calendarId} calendarData={calendarData} />
         <modal
@@ -204,13 +202,6 @@ const Index = () => {
           </DiaryContainer>
         </modal>
       </HomeWrapper>
-      <MypageBtn onClick={handleMypageBtn}>
-        <img
-          src={
-            "https://dhgilmy0l2xzq.cloudfront.net/8c32563a-6301-4bbe-850e-f67384175e6c-20230914204400.png"
-          }
-        />
-      </MypageBtn>
     </div>
   );
 };
