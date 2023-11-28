@@ -44,7 +44,7 @@ router.isAuthenticated = (req, res, next) => {
 
 router.use(
   session({
-    keys: ["ee"],
+    keys: ["CALENDAR_SESSION"],
     maxAge: 1000 * 60 * 60 * 24 * 1,
   })
 );

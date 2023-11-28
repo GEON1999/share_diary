@@ -62,26 +62,25 @@ model Todo {
 }
 
 model CalendarPermission {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  calendar  Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
-  calendarId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      String  @default("VIEWER")  //OWNER | EDITOR | VIEWER
-
-  @@unique([calendarId, userId])
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  calendar    Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  calendarId  Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  role        String   @default("VIEWER")  //OWNER | EDITOR | VIEWER
 }
 
 model InviteCode {
-  id        Int      @id @default(autoincrement())
   code      String   @unique
   calendar  Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
   calendarId Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([calendarId])
 }
 
 //Advertisement

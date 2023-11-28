@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import useCalendarQuery from "@/Query/useCalendarQuery";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import AddCalendarModal from "@/components/modal/AddCalendar";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -57,36 +59,47 @@ const Button = styled.button`
   text-align: center;
   align-items: center;
   font-size: 20px;
-  margin-bottom: 20px;
+  margin: 5px;
+`;
+
+const BtnWrapper = styled.div`
+  display: flex;
 `;
 
 const Home = () => {
   const router = useRouter();
+  const [addCalendarModal, setAddCalendarModal] = useState(false);
   const { data, isLoading } = useCalendarQuery.useGetCalendarList();
 
   const handleEnterCalendar = (id) => router.push(`/calendar/${id}`);
 
-  const handleCreateCalendar = () => router.push(`/create-calendar`);
+  const handleCreateCalendar = () => setAddCalendarModal(true);
 
   console.log("data :", data, isLoading);
 
   return (
-    <HomeWrapper>
-      <Button onClick={handleCreateCalendar}>다이어리 생성</Button>
-      <Title>다이어리 목록</Title>
-
-      {!isLoading
-        ? data?.calendars?.map((calendar) => {
-            return (
-              <div key={calendar.id}>
-                <Calendar onClick={() => handleEnterCalendar(calendar.id)}>
-                  {calendar.name}
-                </Calendar>
-              </div>
-            );
-          })
-        : null}
-    </HomeWrapper>
+    <>
+      <HomeWrapper>
+        <Title>다이어리 목록</Title>
+        {!isLoading
+          ? data?.calendars?.map((calendar) => {
+              return (
+                <div key={calendar.id}>
+                  <Calendar onClick={() => handleEnterCalendar(calendar.id)}>
+                    {calendar.name}
+                  </Calendar>
+                </div>
+              );
+            })
+          : null}
+        <BtnWrapper>
+          <Button onClick={handleCreateCalendar}>다이어리 추가</Button>
+        </BtnWrapper>
+      </HomeWrapper>
+      {addCalendarModal ? (
+        <AddCalendarModal onClose={() => setAddCalendarModal(false)} />
+      ) : null}
+    </>
   );
 };
 
