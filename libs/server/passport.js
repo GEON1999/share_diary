@@ -1,32 +1,44 @@
-import nextConnect from 'next-connect'
-import passport from "passport";
-var KakaoStrategy = require('passport-kakao').Strategy
-import config from "next.config"
 import client from "./client";
 
+const passport = require("passport");
+import axios from "axios";
+import LocalStrategy from "passport-local";
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
 
-    passport.use(
-        new KakaoStrategy({
-                clientID: '66470a9e06c694f1623b4aaa5363487e',
-                callbackURL: 'http://localhost:3000/oauth'
-            },
-            (accessToken, refreshToken, profile, done) => {
-                console.log(profile)
-                const user = client.user.findUnique({where:{id:profile.id}})
-                console.log('user', user)
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
-                if(!user){
-                    const user =  client.user.create({
-                        data:{
-                            id:profile.id,
-                        }
-                    })
-                    console.log(user)
-                }
-                return done(null, profile)
-            }))
+passport.use(
+  "local",
+  new LocalStrategy(
+    {
+      usernameField: "username",
+      passwordField: "password",
+    },
+    async (username, password, done) => {
+      console.log("username", username);
+      const data = await client.user.findFirst({
+        where: {
+          email: username,
+          password: password,
+        },
+      });
 
+      console.log("data", data);
+      if (data?.email === username) {
+        await done(null, {
+          id: data.id,
+          username,
+        });
+      } else {
+        await done(null, false);
+      }
+    }
+  )
+);
 
-
-export default passport
+export default passport;

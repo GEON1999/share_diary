@@ -1,6 +1,7 @@
 import nextConnect from "next-connect";
-import passport from "passport";
+import passport from "./passport";
 import { Strategy as KakaoStrategy } from "passport-kakao";
+import session from "cookie-session";
 
 /*
 
@@ -27,5 +28,29 @@ passport.use(
 */
 
 const router = nextConnect({ attachParams: true });
+
+const whitelist = ["/api/users/enter", "/login", "/join", "/api/users/join"];
+
+router.isAuthenticated = (req, res, next) => {
+  console.log("isAuthenticated", req.user);
+  if (whitelist.includes(req.url)) return next();
+  if (!req?.user) {
+    if (req.method === "POST") return res.json({ auth: false });
+    else if (req.method === "GET") return next();
+  } else {
+    next();
+  }
+};
+
+router.use(
+  session({
+    keys: ["CALENDAR_SESSION"],
+    maxAge: 1000 * 60 * 60 * 24 * 1,
+  })
+);
+
+router.use(passport.initialize());
+router.use(passport.session());
+router.use(router.isAuthenticated);
 
 export default router;

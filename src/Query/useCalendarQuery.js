@@ -26,7 +26,7 @@ const getDiaryDetail = async (diaryId) => {
 };
 
 const useGetDiaryDetail = (diaryId) => {
-  return useQuery(["DIARY_DETAIL", diaryId], () => getDiaryDetail(diaryId));
+  return useQuery(["DIARY", diaryId], () => getDiaryDetail(diaryId));
 };*/
 
 // Post Diary
@@ -57,8 +57,54 @@ const useGetTodo = (date) => {
 const postTodo = async ({ data, date }) =>
   await axios.post(`/api/calendar/${date}/todo`, data);
 
+// get calendar list
+const getCalendarList = async () => {
+  const { data } = await axios.get(helper.CURRENT_URL() + `/api/calendar`);
+
+  return data;
+};
+
+const useGetCalendarList = () => {
+  return useQuery(["CALENDAR_LIST"], () => getCalendarList());
+};
+
+// get calendar detail
+const getCalendarDetail = async (calendarId, query) => {
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + `/api/calendar/${calendarId}?${query}`
+  );
+
+  return data;
+};
+
+const useGetCalendarDetail = (calendarId, query) => {
+  return useQuery(["CALENDAR_DETAIL", query], () =>
+    getCalendarDetail(calendarId, query)
+  );
+};
+
+const getCalendarInviteCode = async (calendarId, userId) => {
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + `/api/calendar/${calendarId}/invite?userId=${userId}`
+  );
+
+  return data;
+};
+
+const useGetCalendarInviteCode = (calendarId, userId) => {
+  return useQuery(["CALENDAR_INVITE_CODE", calendarId, userId], () =>
+    getCalendarInviteCode(calendarId, userId)
+  );
+};
+
 export default {
   postTodo,
   getTodo,
   useGetTodo,
+  getCalendarList,
+  useGetCalendarList,
+  getCalendarDetail,
+  useGetCalendarDetail,
+  getCalendarInviteCode,
+  useGetCalendarInviteCode,
 };

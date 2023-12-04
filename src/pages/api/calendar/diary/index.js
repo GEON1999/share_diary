@@ -1,7 +1,30 @@
 import router from "../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 
-router.post(`/api/calendar/diary`, async (req, res, next) => {
+router.get(async (req, res, next) => {
+  const client = new PrismaClient();
+  const { date } = req.query;
+
+  console.log(date);
+
+  try {
+    const diary = await client.diary.findUnique({
+      where: {
+        id: Number(date),
+      },
+      include: {
+        user: true,
+      },
+    });
+    console.log(diary);
+
+    return res.status(200).json({ diary, message: "success" });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.post("/api/calendar/:date/diary", async (req, res, next) => {
   const client = new PrismaClient();
   const {
     body: { title, content },
@@ -11,16 +34,13 @@ router.post(`/api/calendar/diary`, async (req, res, next) => {
   console.log(title, content, date);
 
   try {
-    const diary = await client.diary.create({
+    const diary = await client.diary.update({
+      where: {
+        id: Number(date),
+      },
       data: {
-        user: {
-          connect: {
-            id: Number(1), //추후 passport 를 통해 로그이 유저 아이디 가져오기
-          },
-        },
-        content,
-        date,
         title,
+        content,
       },
     });
     console.log("diary", diary);
@@ -28,9 +48,5 @@ router.post(`/api/calendar/diary`, async (req, res, next) => {
     console.log(e);
   }
 });
-
-/*router.get(`/api/calendar/:date/diary`, async (req, res, next) => {
-  console.log(req.query, req.body);
-});*/
 
 export default router;
