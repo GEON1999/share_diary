@@ -18,6 +18,7 @@ model User {
   diaries   Diary[]
   todos     Todo[]
   calendarPermissions CalendarPermission[]
+  calendarUserProfiles CalendarUserProfile[]
 }
 
 model Calendar {
@@ -30,6 +31,7 @@ model Calendar {
   todos     Todo[]
   calendarPermissions CalendarPermission[]
   inviteCode InviteCode[]
+  calendarUserProfiles CalendarUserProfile[]
 }
 
 model Diary {
@@ -76,11 +78,23 @@ model InviteCode {
   code      String   @unique
   calendar  Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
   calendarId Int
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([calendarId])
+}
+
+model CalendarUserProfile {
+  name      String?
+  color     String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  calendar  Calendar @relation(fields: [calendarId], references: [id], onDelete: Cascade)
+  calendarId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, calendarId])
 }
 
 //Advertisement

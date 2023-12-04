@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import useCalendarMutation from "@/Query/useCalendarMutation";
 import { useMutation } from "@tanstack/react-query";
 import CalendarNav from "@/components/common/CalendarNav";
+import { useForm } from "react-hook-form";
 
 const MypageContainer = styled.div`
   display: flex;
@@ -140,6 +141,13 @@ const EtcWrapper = styled.div`
   border-radius: 30px;
 `;
 
+const Title = styled.h1`
+  color: #ffffff;
+  font-size: 23px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
 const Mypage = () => {
   const router = useRouter();
   const { calendarId } = router.query;
@@ -150,6 +158,12 @@ const Mypage = () => {
     useCalendarQuery.useGetCalendarInviteCode(calendarId, userId);
   const code = inviteCode?.inviteCode?.code;
 
+  const { data: userInfo } = useCalendarQuery.useGetCalendarUserInfo(
+    calendarId,
+    userId
+  );
+  console.log("userInfo :", userInfo);
+
   const { mutate: createInviteCode } = useMutation(
     useCalendarMutation.createCalendarInvite
   );
@@ -157,10 +171,12 @@ const Mypage = () => {
   const { mutate: deleteInviteCode } = useMutation(
     useCalendarMutation.deleteCalendarInvite
   );
-  // get invite code
-  // create invite code
-  // delete invite code
-  // edit user info
+
+  const { mutate: editUserInfo } = useMutation(
+    useCalendarMutation.editCalendarUserInfo
+  );
+
+  const { register, handleSubmit } = useForm();
 
   const handleCreateInviteCode = async () => {
     console.log("userId :", userId);
@@ -214,35 +230,45 @@ const Mypage = () => {
     alert("초대코드가 복사되었습니다.");
   };
 
+  const onSubmit = (formData) => {
+    if (!formData.name) {
+      alert("이름을 입력해주세요.");
+      return;
+    }
+    console.log("formData :", formData);
+    editUserInfo(
+      { calendarId, formData },
+      {
+        onSuccess: (data) => {
+          if (data?.data?.isSuccess === true) {
+            alert("회원정보가 수정되었습니다.");
+            //router.reload();
+          } else {
+            alert(data?.data?.message ?? "회원정보 수정에 실패하였습니다.");
+          }
+        },
+      }
+    );
+  };
+
   return (
     <>
       <CalendarNav />
       <MypageContainer>
         <EditWrapper>
-          <Form>
+          <Title>`{userInfo?.calendar?.name ?? ""}` 달력 프로필</Title>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <ImageContainer>
               <ImageInput />
-              <ImageEditBtn>사진 수정</ImageEditBtn>
+              <ImageEditBtn type="button">사진 수정</ImageEditBtn>
             </ImageContainer>
             <ItemContainer>
-              <InputContainer>
-                <InputBox>
-                  <Input type="text" placeholder="아이디" />
-                  <Input type="password" placeholder="비밀번호" />
-                  <Input type="password" placeholder="비밀번호 확인" />
-                </InputBox>
-                <InputBox>
-                  <Input type="text" placeholder="이름" />
-                  <Input type="text" placeholder="이메일" />
-                  <Input type="text" placeholder="전화번호" />
-                </InputBox>
-                <InputBox>
-                  {" "}
-                  <Input type="text" placeholder="생년월일" />
-                  <Input type="text" placeholder="성별" />
-                </InputBox>
-              </InputContainer>
-              <SubmitBtn>회원정보 수정</SubmitBtn>
+              <Input
+                placeholder="이름"
+                defaultValue={userInfo?.userProfile?.name ?? ""}
+                {...register("name")}
+              />
+              <SubmitBtn type="submit">회원정보 수정</SubmitBtn>
             </ItemContainer>
           </Form>
         </EditWrapper>
@@ -258,10 +284,10 @@ const Mypage = () => {
                 value={code}
               />
             )}
-            <InviteBtn onClick={handleCreateInviteCode}>
+            <InviteBtn type="button" onClick={handleCreateInviteCode}>
               초대코드 생성
             </InviteBtn>
-            <InviteBtn onClick={handleDeleteInviteCode}>
+            <InviteBtn type="button" onClick={handleDeleteInviteCode}>
               초대코드 삭제
             </InviteBtn>
           </InputBox>

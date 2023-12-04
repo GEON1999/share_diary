@@ -9,8 +9,6 @@ router.post(`/api/calendar/:date/todo`, async (req, res, next) => {
     query: { date },
   } = req;
 
-  console.log(title, date);
-
   const todo = await client.todo.create({
     data: {
       user: {
@@ -22,7 +20,6 @@ router.post(`/api/calendar/:date/todo`, async (req, res, next) => {
       date: String(date),
     },
   });
-  console.log("todo", todo);
 });
 
 export default router;

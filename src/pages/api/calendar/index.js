@@ -5,7 +5,6 @@ import client from "../../../../libs/server/client";
 router.get(`/api/calendar`, async (req, res, next) => {
   const user = req.user;
 
-  console.log("user :", user);
   try {
     const permission = await client.calendarPermission.findMany({
       where: {
@@ -15,7 +14,6 @@ router.get(`/api/calendar`, async (req, res, next) => {
         calendar: true,
       },
     });
-    console.log("permission :", permission);
     const calendars = await client.calendar.findMany({
       where: {
         calendarPermissions: {
@@ -25,13 +23,11 @@ router.get(`/api/calendar`, async (req, res, next) => {
         },
       },
     });
-    console.log("calendars :", calendars);
 
     return res
       .status(200)
       .json({ isSuccess: true, calendars, message: "success" });
   } catch (e) {
-    console.log("e :", e);
     return res.status(500).json({ isSuccess: false, message: e.message });
   }
 });
@@ -43,8 +39,6 @@ router.post(`/api/calendar`, async (req, res, next) => {
     body: { name },
   } = req;
 
-  console.log("name :", name);
-
   try {
     const calendar = await client.calendar.create({
       data: {
@@ -52,13 +46,11 @@ router.post(`/api/calendar`, async (req, res, next) => {
       },
     });
 
-    console.log("calendar :", calendar);
-
     if (!calendar) {
-      return res.json({ message: "fail" });
+      return res.json({ message: "캘린더를 생성하지 못했습니다." });
     }
 
-    await client.calendarPermission.create({
+    const calendarPermission = await client.calendarPermission.create({
       data: {
         calendarId: calendar.id,
         userId: user.id,
@@ -66,17 +58,33 @@ router.post(`/api/calendar`, async (req, res, next) => {
       },
     });
 
-    await client.inviteCode.create({
+    if (!calendarPermission) {
+      return res.json({ message: "캘린더 권한을 생성하지 못했습니다." });
+    }
+
+    /*await client.inviteCode.create({
       data: {
         calendarId: calendar.id,
         code: Math.random().toString(36).substr(2, 11), // 추후 hash 를 통해 더 안전하게
       },
+    });*/
+
+    const calendarUserProfile = await client.calendarUserProfile.create({
+      data: {
+        calendarId: calendar.id,
+        userId: user.id,
+        name: user.name,
+      },
     });
+
+    if (!calendarUserProfile) {
+      return res.json({ message: "캘린더 프로필을 생성하지 못했습니다." });
+    }
 
     res.status(200).json({ calendar, message: "success", isSuccess: true });
   } catch (e) {
     console.log(e);
-    res.json({ message: "fail" });
+    res.json({ message: "실패했습니다." });
   }
 });
 

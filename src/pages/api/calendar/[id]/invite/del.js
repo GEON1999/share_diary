@@ -6,8 +6,6 @@ router.post("/api/calendar/:id/invite/del", async (req, res) => {
     query: { id },
   } = req;
   const { userId } = req.body;
-  console.log("id :", id, "userId :", userId);
-
   const calendar = await client.calendar.findUnique({
     where: {
       id: Number(id),
@@ -31,7 +29,6 @@ router.post("/api/calendar/:id/invite/del", async (req, res) => {
         calendarId: Number(id),
       },
     });
-    console.log("inviteCode :", inviteCode);
     return res.json({ isSuccess: true, inviteCode });
   } catch (e) {
     return res.json({

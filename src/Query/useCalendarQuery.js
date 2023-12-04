@@ -97,6 +97,20 @@ const useGetCalendarInviteCode = (calendarId, userId) => {
   );
 };
 
+const getCalendarUserInfo = async (calendarId, userId) => {
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + `/api/calendar/${calendarId}/user?userId=${userId}`
+  );
+
+  return data;
+};
+
+const useGetCalendarUserInfo = (calendarId, userId) => {
+  return useQuery(["CALENDAR_USER_INFO", calendarId, userId], () =>
+    getCalendarUserInfo(calendarId, userId)
+  );
+};
+
 export default {
   postTodo,
   getTodo,
@@ -107,4 +121,6 @@ export default {
   useGetCalendarDetail,
   getCalendarInviteCode,
   useGetCalendarInviteCode,
+  getCalendarUserInfo,
+  useGetCalendarUserInfo,
 };

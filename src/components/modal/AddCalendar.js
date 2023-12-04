@@ -101,7 +101,6 @@ const AddCalendarModal = ({ onClose }) => {
     useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
     createCalendar(data.name, {
       onSuccess: (data) => {
         console.log("calendar post data :", data);
@@ -109,7 +108,7 @@ const AddCalendarModal = ({ onClose }) => {
           alert("달력이 생성되었습니다.");
           router.reload();
         } else {
-          alert("달력 생성에 실패하였습니다.");
+          alert(data?.data?.message ?? "달력 생성에 실패하였습니다.");
         }
       },
     });

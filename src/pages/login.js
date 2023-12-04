@@ -65,7 +65,6 @@ const JoinBtn = styled.button`
   height: 50px;
   border-radius: 10px;
   margin: 10px;
-
   &:hover {
     background-color: rgb(93, 111, 176);
     transition: 0.5s;
@@ -128,7 +127,9 @@ const Login = () => {
             {...register("password", { required: true })}
           />
           <LoginBtn type={"submit"}>로그인</LoginBtn>
-          <JoinBtn onClick={handleJoin}>회원가입</JoinBtn>
+          <JoinBtn type={"button"} onClick={handleJoin}>
+            회원가입
+          </JoinBtn>
         </LoginContainer>
       </form>
     </Wrapper>

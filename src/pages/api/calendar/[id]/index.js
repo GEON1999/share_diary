@@ -4,7 +4,6 @@ import router from "../../../../../libs/server/router";
 router.get(`/api/calendar/:id`, async (req, res, next) => {
   const user = req.user;
   const { id, userId, date } = req?.query;
-  console.log("query :", req.query);
 
   try {
     const calendar = await client.calendar.findFirst({

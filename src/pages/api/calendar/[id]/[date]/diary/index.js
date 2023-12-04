@@ -5,7 +5,6 @@ import client from "../../../../../../../libs/server/client";
 router.get(`/api/calendar/:id/:date/diary`, async (req, res, next) => {
   const user = req.user;
   const { id, date } = req?.query;
-  console.log("query :", req.query);
 
   try {
     const diary = await client.diary.findMany({
@@ -26,16 +25,12 @@ router.get(`/api/calendar/:id/:date/diary`, async (req, res, next) => {
 });
 
 router.post(`/api/calendar/:id/:date/diary`, async (req, res, next) => {
-  console.log("hi");
-
   const user = req.user;
 
   const {
     body: { title, content },
     query: { date, id },
   } = req;
-
-  console.log(title, content, date);
 
   try {
     const diary = await client.diary.create({

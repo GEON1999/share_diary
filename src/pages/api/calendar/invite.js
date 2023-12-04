@@ -6,8 +6,6 @@ router.post("/api/calendar/invite", async (req, res) => {
     body: { code, userId },
   } = req;
 
-  console.log(req.body);
-
   const inviteCode = await client.inviteCode.findFirst({
     where: {
       code,
@@ -16,8 +14,6 @@ router.post("/api/calendar/invite", async (req, res) => {
       calendar: true,
     },
   });
-
-  console.log("inviteCode :", inviteCode);
 
   if (!inviteCode) {
     return res.json({
@@ -46,8 +42,6 @@ router.post("/api/calendar/invite", async (req, res) => {
           userId: Number(userId),
         },
       });
-
-      console.log("newPermission :", newPermission);
 
       res.json({
         isSuccess: true,

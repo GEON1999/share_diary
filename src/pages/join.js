@@ -11,7 +11,6 @@ const JoinContainer = styled.div`
   flex-direction: column;
   width: 640px;
   height: 620px;
-
   margin: 0 auto;
   position: absolute;
   top: 50%;
@@ -47,7 +46,7 @@ const SubmitBtn = styled.button`
   width: 100px;
   height: 50px;
   border-radius: 10px;
-  margin-top: 20px;
+  margin-top: 40px;
 `;
 
 const Join = () => {
@@ -112,9 +111,7 @@ const Join = () => {
             type="password"
             placeholder="비밀번호 재확인"
           />
-          <SubmitBtn className={"bg-blue-50 px-3 py-1 rounded-2xl text-black"}>
-            join
-          </SubmitBtn>
+          <SubmitBtn type="submit">join</SubmitBtn>
         </FormContainer>
       </form>
     </JoinContainer>

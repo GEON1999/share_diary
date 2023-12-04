@@ -5,8 +5,6 @@ router.get(async (req, res, next) => {
   const client = new PrismaClient();
   const { date } = req.query;
 
-  console.log(date);
-
   try {
     const diary = await client.diary.findUnique({
       where: {
@@ -16,7 +14,6 @@ router.get(async (req, res, next) => {
         user: true,
       },
     });
-    console.log(diary);
 
     return res.status(200).json({ diary, message: "success" });
   } catch (e) {
@@ -31,8 +28,6 @@ router.post("/api/calendar/:date/diary", async (req, res, next) => {
     query: { date },
   } = req;
 
-  console.log(title, content, date);
-
   try {
     const diary = await client.diary.update({
       where: {
@@ -43,7 +38,6 @@ router.post("/api/calendar/:date/diary", async (req, res, next) => {
         content,
       },
     });
-    console.log("diary", diary);
   } catch (e) {
     console.log(e);
   }

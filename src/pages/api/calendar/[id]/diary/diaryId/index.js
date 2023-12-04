@@ -3,7 +3,6 @@ import client from "../../../../../../../libs/server/client";
 
 router.get("/api/calendar/:id/diary/:diaryId", async (req, res, next) => {
   const { id, diaryId } = req?.query;
-  console.log("qwe :", req.query);
 
   try {
     const diary = await client.diary.findUnique({
@@ -17,7 +16,6 @@ router.get("/api/calendar/:id/diary/:diaryId", async (req, res, next) => {
 
     return res.json({ isSuccess: true, diary, message: "success" });
   } catch (e) {
-    console.log("e :", e);
     return res.json({
       isSuccess: false,
       message: "달력을 불러오는데 실패했습니다.",
@@ -41,7 +39,6 @@ router.post("/api/calendar/:id/diary/:diaryId", async (req, res) => {
         content,
       },
     });
-    console.log("diary", diary);
 
     res.json({ isSuccess: true, message: "일기가 수정되었습니다." });
   } catch (e) {
