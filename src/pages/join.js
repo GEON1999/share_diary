@@ -4,13 +4,13 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import Login from "@/pages/login";
 
 const JoinContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 640px;
   height: 620px;
-
   margin: 0 auto;
   position: absolute;
   top: 50%;
@@ -46,7 +46,7 @@ const SubmitBtn = styled.button`
   width: 100px;
   height: 50px;
   border-radius: 10px;
-  margin-top: 20px;
+  margin-top: 40px;
 `;
 
 const Join = () => {
@@ -59,7 +59,15 @@ const Join = () => {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    mutate(data);
+    mutate(data, {
+      onSuccess: (data) => {
+        if (data?.data?.isSuccess === true) {
+          router.push("/login");
+        } else {
+          alert("회원가입에 실패하였습니다.");
+        }
+      },
+    });
   };
 
   useEffect(() => {
@@ -103,13 +111,13 @@ const Join = () => {
             type="password"
             placeholder="비밀번호 재확인"
           />
-          <SubmitBtn className={"bg-blue-50 px-3 py-1 rounded-2xl text-black"}>
-            join
-          </SubmitBtn>
+          <SubmitBtn type="submit">join</SubmitBtn>
         </FormContainer>
       </form>
     </JoinContainer>
   );
 };
+
+Join.notAuthPage = true;
 
 export default Join;

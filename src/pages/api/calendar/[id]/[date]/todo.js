@@ -1,4 +1,4 @@
-import router from "../../../../../libs/server/router";
+import router from "../../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 
 router.post(`/api/calendar/:date/todo`, async (req, res, next) => {
@@ -8,8 +8,6 @@ router.post(`/api/calendar/:date/todo`, async (req, res, next) => {
     body: { title, content },
     query: { date },
   } = req;
-
-  console.log(title, date);
 
   const todo = await client.todo.create({
     data: {
@@ -22,7 +20,6 @@ router.post(`/api/calendar/:date/todo`, async (req, res, next) => {
       date: String(date),
     },
   });
-  console.log("todo", todo);
 });
 
 export default router;

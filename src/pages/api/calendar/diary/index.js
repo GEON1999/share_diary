@@ -1,22 +1,19 @@
 import router from "../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 
-router.get("/api/calendar/diary/:id", async (req, res, next) => {
+router.get(async (req, res, next) => {
   const client = new PrismaClient();
-  const { id } = req.query;
-
-  console.log(id);
+  const { date } = req.query;
 
   try {
     const diary = await client.diary.findUnique({
       where: {
-        id: Number(id),
+        id: Number(date),
       },
       include: {
         user: true,
       },
     });
-    console.log(diary);
 
     return res.status(200).json({ diary, message: "success" });
   } catch (e) {
@@ -24,26 +21,23 @@ router.get("/api/calendar/diary/:id", async (req, res, next) => {
   }
 });
 
-router.put("/api/calendar/diary/:id", async (req, res, next) => {
+router.post("/api/calendar/:date/diary", async (req, res, next) => {
   const client = new PrismaClient();
   const {
     body: { title, content },
-    query: { id },
+    query: { date },
   } = req;
-
-  console.log(title, content, id);
 
   try {
     const diary = await client.diary.update({
       where: {
-        id: Number(id),
+        id: Number(date),
       },
       data: {
         title,
         content,
       },
     });
-    console.log("diary", diary);
   } catch (e) {
     console.log(e);
   }
