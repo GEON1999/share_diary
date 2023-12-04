@@ -111,6 +111,7 @@ const DiaryDetail = () => {
                 {...register("content")}
                 defaultValue={diaryDetail?.diary?.content}
               />
+              <span>작성자 : {diaryDetail?.diary?.user?.name}</span>
               <Button type={"submit"}>수정</Button>
             </DiaryWrapper>
           </form>

@@ -23,6 +23,8 @@ const Ul = styled.ul`
   width: 40%;
   height: 50px;
   border-radius: 15px;
+  margin-top: 40px;
+  margin-right: 20px;
 `;
 
 const CalendarNav = () => {
@@ -46,6 +48,7 @@ const CalendarNav = () => {
           </>
         )}
         <li>
+          {" "}
           <LogoutBtn />
         </li>
       </Ul>
