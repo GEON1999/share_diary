@@ -11,6 +11,7 @@ import router from "../../../../libs/server/router";
 import helper from "@/helper";
 import { useAuthContext } from "@/Providers/AuthProvider";
 import CalendarNav from "@/components/common/CalendarNav";
+import useTodoQuery from "@/Query/useTodoQuery";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -113,6 +114,18 @@ const MypageBtn = styled.button`
   }
 `;
 
+const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Title = styled.h1`
+  color: #ffffff;
+  font-size: 23px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
 const Index = () => {
   const router = useRouter();
   const { query } = router;
@@ -121,28 +134,25 @@ const Index = () => {
   const [isPlusToggle, setIsPlusToggle] = useState(false);
   const { calendarId, date } = query;
 
-  console.log("calendarId : ", calendarId, date);
-
   const { data: calendarData, isLoading: isCalendarLoading } =
     useCalendarQuery.useGetCalendarDetail(
       calendarId ?? null,
       helper.queryToString({ userId: useAuth?.user?.id, date: date })
     );
 
-  console.log("calendarData", calendarData, isCalendarLoading);
-
   // get diary
   const { data: diaryData, isLoading } = useDiaryQuery.useGetDiary(
     calendarId,
     date
   );
-  console.log("diaryData :", diaryData);
-  /*
-    // get todo
-    const { data: todoData, isLoading: isTodoLoading } =
-      useCalendarQuery.useGetTodo(date);
 
-    console.log("todoData", todoData, data);*/
+  // get todo
+  const { data: todoData, isLoading: isTodoLoading } = useTodoQuery.useGetTodo(
+    calendarId,
+    date
+  );
+
+  console.log("todoData :", todoData);
 
   //  const { mutate } = useMutation(useCalendarQuery.postCalender);
 
@@ -193,11 +203,13 @@ const Index = () => {
             </BtnContainer>
             <ListContainer>
               <div>
+                <Title>일기</Title>
                 {isLoading ? null : <DiaryTable diaryData={diaryData?.diary} />}
               </div>
-              {/*<div>
+              <div>
+                <Title>할일</Title>
                 {isTodoLoading ? null : <TodoTable todoData={todoData?.todo} />}
-              </div>*/}
+              </div>
             </ListContainer>
           </DiaryContainer>
         </modal>

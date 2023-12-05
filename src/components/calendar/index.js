@@ -84,6 +84,7 @@ const generateCalendar = (year, month) => {
 };
 
 const Calendar = ({ calendarId, calendarData }) => {
+  console.log("calendarData :", calendarData);
   const router = useRouter();
   const date = router.query.date;
   const clickedDate = date ? new Date(parseInt(date)) : null;
@@ -104,8 +105,14 @@ const Calendar = ({ calendarId, calendarData }) => {
     router.push(`/calendar/${calendarId}/?date=${ms}`);
   };
 
-  const calendarDateArr = calendarData?.calendar?.diaries?.map((diary) => {
-    return diary.date;
+  const calendarDateArr = [];
+
+  calendarData?.calendar.diaries?.map((diary) => {
+    calendarDateArr.push(diary.date);
+  });
+
+  calendarData?.calendar.todos?.map((todo) => {
+    calendarDateArr.push(todo.date);
   });
 
   console.log("calendarDateArr :", calendarDateArr);

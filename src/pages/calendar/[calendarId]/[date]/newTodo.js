@@ -3,14 +3,13 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import styled from "styled-components";
+import { toast, Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import useTodoMutation from "@/Query/useTodoMutation";
 
-const DiaryContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+const TodoContainer = styled.div`
   width: 640px;
   height: 620px;
-  justify-content: center;
-  align-items: center;
   margin: 0 auto;
   position: absolute;
   top: 50%;
@@ -18,6 +17,15 @@ const DiaryContainer = styled.div`
   transform: translateY(-50%) translateX(-50%);
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
+  padding: 130px 0;
+`;
+
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
 `;
 
 const Input = styled.input`
@@ -45,25 +53,59 @@ const SubmitBtn = styled.button`
   }
 `;
 
+const Title = styled.h1`
+  color: #ffffff;
+  font-size: 23px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const notify = (status) => {
+  status === "success"
+    ? toast.success("일기가 저장되었습니다.")
+    : status === "error"
+    ? toast.error("일기 저장에 실패했습니다.")
+    : status === "loading"
+    ? toast.loading("일기를 저장하는 중입니다.")
+    : null;
+};
+
 const NewTodo = () => {
   const router = useRouter();
-  const { date } = router.query;
-
+  const { date, calendarId } = router.query;
   const { register, handleSubmit } = useForm();
-  const { mutate } = useMutation(useCalendarQuery.postTodo);
+
+  const {
+    mutate,
+    status,
+    data: postData,
+  } = useMutation(useTodoMutation.postTodo);
 
   const onSubmit = (data) => {
     console.log(data);
-    mutate({ data, date: date });
+    mutate(
+      { data, date: date, calendarId },
+      {
+        onSuccess: () => {
+          notify("success");
+          router.push(`/calendar/${calendarId}?date=${date}`);
+        },
+      }
+    );
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <DiaryContainer>
-        <Input {...register("content")} />
-        <SubmitBtn type={"submit"}>저장</SubmitBtn>
-      </DiaryContainer>
-    </form>
+    <>
+      <TodoContainer>
+        <Title>새로운 일기</Title>
+        <FormContainer onSubmit={handleSubmit(onSubmit)}>
+          <Input {...register("title")} />
+          <Input {...register("content")} />
+          <SubmitBtn type={"submit"}>저장</SubmitBtn>
+        </FormContainer>
+      </TodoContainer>
+      <Toaster position="top-center" reverseOrder={false} />
+    </>
   );
 };
 

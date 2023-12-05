@@ -51,6 +51,7 @@ model Diary {
 
 model Todo {
   id        Int      @id @default(autoincrement())
+  title     String
   content   String
   date      String
   createdAt DateTime @default(now())
