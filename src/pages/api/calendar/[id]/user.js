@@ -44,13 +44,19 @@ router.post(`/api/calendar/:id/user`, async (req, res, next) => {
   }
 
   try {
-    await client.calendarUserProfile.update({
+    const userProfile = await client.calendarUserProfile.findFirst({
       where: {
         userId: Number(userId),
         calendarId: Number(id),
       },
+    });
+
+    await client.calendarUserProfile.update({
+      where: {
+        id: userProfile.id,
+      },
       data: {
-        name,
+        name: String(name),
       },
     });
 

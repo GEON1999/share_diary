@@ -2,6 +2,7 @@ import React from "react";
 import Document, {
   DocumentContext,
   Head,
+  Html,
   Main,
   NextScript,
 } from "next/document";
@@ -43,7 +44,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <html>
+      <Html>
         <Head>
           {/* Add your favicon link here */}
           <link rel="shortcut icon" href="/favicon5.png" type="image/x-icon" />
@@ -53,7 +54,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

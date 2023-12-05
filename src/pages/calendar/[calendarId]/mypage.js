@@ -40,7 +40,7 @@ const Form = styled.form`
   flex-direction: column;
 `;
 
-const ItemContainer = styled.form`
+const ItemContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -158,7 +158,7 @@ const Mypage = () => {
     useCalendarQuery.useGetCalendarInviteCode(calendarId, userId);
   const code = inviteCode?.inviteCode?.code;
 
-  const { data: userInfo } = useCalendarQuery.useGetCalendarUserInfo(
+  const { data: userInfo, refetch } = useCalendarQuery.useGetCalendarUserInfo(
     calendarId,
     userId
   );
@@ -230,19 +230,18 @@ const Mypage = () => {
     alert("초대코드가 복사되었습니다.");
   };
 
-  const onSubmit = (formData) => {
+  const editUserProfile = (formData) => {
     if (!formData.name) {
       alert("이름을 입력해주세요.");
       return;
     }
-    console.log("formData :", formData);
     editUserInfo(
       { calendarId, formData },
       {
         onSuccess: (data) => {
           if (data?.data?.isSuccess === true) {
             alert("회원정보가 수정되었습니다.");
-            //router.reload();
+            refetch();
           } else {
             alert(data?.data?.message ?? "회원정보 수정에 실패하였습니다.");
           }
@@ -257,7 +256,7 @@ const Mypage = () => {
       <MypageContainer>
         <EditWrapper>
           <Title>`{userInfo?.calendar?.name ?? ""}` 달력 프로필</Title>
-          <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form onSubmit={handleSubmit(editUserProfile)}>
             <ImageContainer>
               <ImageInput />
               <ImageEditBtn type="button">사진 수정</ImageEditBtn>

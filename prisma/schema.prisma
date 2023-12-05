@@ -85,6 +85,7 @@ model InviteCode {
 }
 
 model CalendarUserProfile {
+  id        Int      @id @default(autoincrement())
   name      String?
   color     String?
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -93,8 +94,6 @@ model CalendarUserProfile {
   calendarId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@unique([userId, calendarId])
 }
 
 //Advertisement
