@@ -1,5 +1,6 @@
 import router from "../../../../libs/server/router";
 import client from "../../../../libs/server/client";
+import { console } from "next/dist/compiled/@edge-runtime/primitives/console";
 
 router.post("/api/calendar/invite", async (req, res) => {
   const {
@@ -37,9 +38,10 @@ router.post("/api/calendar/invite", async (req, res) => {
       });
     }
     try {
-      const newPermission = await client.calendarPermission.create({
+      await client.calendarPermission.create({
         data: {
           userId: Number(userId),
+          calendarId: Number(inviteCode.calendarId),
         },
       });
 
@@ -48,10 +50,11 @@ router.post("/api/calendar/invite", async (req, res) => {
         message: "초대코드가 성공적으로 등록되었습니다.",
       });
     } catch (e) {
+      console.log("e :", e);
       res.json({ isSuccess: false, message: "초대코드 등록에 실패했습니다." });
     }
   } else {
-    res.json({ isSuccess: false, message: "초대코드 등록에 실패했습니다." });
+    res.json({ isSuccess: false, message: "초대코드가 유효하지 않습니다." });
   }
 });
 

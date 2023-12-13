@@ -186,7 +186,7 @@ const AddCalendarModal = ({ onClose }) => {
               <SubmitBtn
                 className={"bg-blue-50 px-3 py-1 rounded-2xl text-black"}
               >
-                생성
+                참가하기
               </SubmitBtn>
             </FormContainer>
           </form>
