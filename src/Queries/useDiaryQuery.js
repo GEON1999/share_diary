@@ -2,26 +2,27 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import helper from "@/helper";
+import API from "@/API";
 
 // get diary
-const getDiary = async (calendarId, diaryId) => {
+const getDiary = async (calendarId, date) => {
   const { data } = await axios.get(
-    helper.CURRENT_URL() + `/api/calendar/${calendarId}/${diaryId}/diary`
+    helper.CURRENT_URL() + API.GET_DIARY(calendarId, date)
   );
 
   return data;
 };
 
-const useGetDiary = (calendarId, diaryId) => {
-  return useQuery(["DIARY", calendarId, diaryId], () =>
-    getDiary(calendarId, diaryId)
+const useGetDiary = (calendarId, date) => {
+  return useQuery(["DIARY", calendarId, date], () =>
+    getDiary(calendarId, date)
   );
 };
 
 // get diary detail
 const getDiaryDetail = async ({ calendarId, diaryId }) => {
   const { data } = await axios.get(
-    helper.CURRENT_URL() + `/api/calendar/${calendarId}/diary/${diaryId}`
+    helper.CURRENT_URL() + API.GET_DIARY_DETAIL(calendarId, diaryId)
   );
 
   return data;

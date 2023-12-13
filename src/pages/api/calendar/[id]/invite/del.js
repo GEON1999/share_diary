@@ -1,7 +1,8 @@
 import router from "../../../../../../libs/server/router";
 import client from "../../../../../../libs/server/client";
+import API from "@/API";
 
-router.post("/api/calendar/:id/invite/del", async (req, res) => {
+router.post(API.DELETE_CALENDAR_INVITE(":id"), async (req, res) => {
   const {
     query: { id },
   } = req;

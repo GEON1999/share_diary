@@ -1,17 +1,17 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import useCalendarQuery from "@/Query/useCalendarQuery";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useRouter } from "next/router";
 import TodoTable from "@/components/table/TodoTable";
 import styled, { keyframes } from "styled-components";
 import DiaryTable from "@/components/table/DiaryTable";
-import useDiaryQuery from "@/Query/useDiaryQuery";
+import useDiaryQuery from "@/Queries/useDiaryQuery";
 import Calendar from "@/components/calendar";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import router from "../../../../libs/server/router";
 import helper from "@/helper";
 import { useAuthContext } from "@/Providers/AuthProvider";
 import CalendarNav from "@/components/common/CalendarNav";
-import useTodoQuery from "@/Query/useTodoQuery";
+import useTodoQuery from "@/Queries/useTodoQuery";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -145,6 +145,7 @@ const Index = () => {
     calendarId,
     date
   );
+  console.log("diaryData :", diaryData);
 
   // get todo
   const { data: todoData, isLoading: isTodoLoading } = useTodoQuery.useGetTodo(

@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
-import useCalendarQuery from "@/Query/useCalendarQuery";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
 import styled from "styled-components";
-import useCalendarMutation from "@/Query/useCalendarMutation";
+import useCalendarMutation from "@/Queries/useCalendarMutation";
 
 const Diary = styled.div`
   width: 300px;

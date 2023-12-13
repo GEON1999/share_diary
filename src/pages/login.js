@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import useUserQuery from "@/Query/useUserQuery";
+import useUserQuery from "@/Queries/useUserQuery";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { useAuthContext } from "@/Providers/AuthProvider";

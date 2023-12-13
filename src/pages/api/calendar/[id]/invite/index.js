@@ -1,9 +1,10 @@
 import router from "../../../../../../libs/server/router";
 import client from "../../../../../../libs/server/client";
+import API from "@/API";
 
-router.get("/api/calendar/:id/invite", async (req, res) => {
+router.get(API.GET_CALENDAR_INVITE_CODE(";id"), async (req, res) => {
   const {
-    query: { id, userId },
+    query: { id },
   } = req;
 
   try {
@@ -18,7 +19,7 @@ router.get("/api/calendar/:id/invite", async (req, res) => {
   }
 });
 
-router.post("/api/calendar/:id/invite", async (req, res) => {
+router.post(API.CREATE_CALENDAR_INVITE(":id"), async (req, res) => {
   const {
     query: { id },
   } = req;

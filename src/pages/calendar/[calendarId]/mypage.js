@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useAuthContext } from "@/Providers/AuthProvider";
-import useCalendarQuery from "@/Query/useCalendarQuery";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useRouter } from "next/router";
-import useCalendarMutation from "@/Query/useCalendarMutation";
+import useCalendarMutation from "@/Queries/useCalendarMutation";
 import { useMutation } from "@tanstack/react-query";
 import CalendarNav from "@/components/common/CalendarNav";
 import { useForm } from "react-hook-form";

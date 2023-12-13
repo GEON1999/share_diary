@@ -1,7 +1,8 @@
 import router from "../../../../../../../libs/server/router";
 import client from "../../../../../../../libs/server/client";
+import API from "@/API";
 
-router.get("/api/calendar/:id/todo/:todoId", async (req, res, next) => {
+router.get(API.GET_TODO_DETAIL(":id", ":todoId"), async (req, res, next) => {
   const { id, todoId } = req?.query;
 
   try {
@@ -23,7 +24,7 @@ router.get("/api/calendar/:id/todo/:todoId", async (req, res, next) => {
   }
 });
 
-router.post("/api/calendar/:id/todo/:todoId", async (req, res) => {
+router.post(API.PUT_TODO(":id", ":todoId"), async (req, res) => {
   const {
     body: { title, content },
     query: { id, todoId },

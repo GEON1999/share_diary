@@ -1,7 +1,8 @@
 import client from "../../../../../libs/server/client";
 import router from "../../../../../libs/server/router";
+import API from "@/API";
 
-router.get(`/api/calendar/:id`, async (req, res, next) => {
+router.get(API.GET_CALENDAR_DETAIL(":id"), async (req, res, next) => {
   const user = req.user;
   const { id, userId, date } = req?.query;
 

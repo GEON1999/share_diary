@@ -1,8 +1,9 @@
 import router from "../../../../libs/server/router";
 import client from "../../../../libs/server/client";
 import { console } from "next/dist/compiled/@edge-runtime/primitives/console";
+import API from "@/API";
 
-router.post("/api/calendar/invite", async (req, res) => {
+router.post(API.GET_INVITED_CALENDAR(), async (req, res) => {
   const {
     body: { code, userId },
   } = req;

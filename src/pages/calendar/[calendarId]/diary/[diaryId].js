@@ -1,10 +1,11 @@
-import useDiaryQuery from "@/Query/useDiaryQuery";
+import useDiaryQuery from "@/Queries/useDiaryQuery";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import CalendarNav from "@/components/common/CalendarNav";
 import { useForm } from "react-hook-form";
-import useCalendarMutation from "@/Query/useCalendarMutation";
+import useCalendarMutation from "@/Queries/useCalendarMutation";
 import { useMutation } from "@tanstack/react-query";
+import useDiaryMutation from "@/Queries/useDiaryMutation";
 
 const Container = styled.div`
   position: absolute;
@@ -70,7 +71,7 @@ const DiaryDetail = () => {
     diaryId,
   });
 
-  const { mutate: updateDiary } = useMutation(useCalendarMutation.putDiary);
+  const { mutate: updateDiary } = useMutation(useDiaryMutation.putDiary);
 
   const { register, handleSubmit } = useForm();
   console.log("diaryDetail :", diaryDetail, isLoading);

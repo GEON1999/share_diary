@@ -1,4 +1,4 @@
-import useUserQuery from "@/Query/useUserQuery";
+import useUserQuery from "@/Queries/useUserQuery";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";

@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useMutation } from "@tanstack/react-query";
-import useCalendarQuery from "@/Query/useCalendarQuery";
-import useCalendarMutation from "@/Query/useCalendarMutation";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
+import useCalendarMutation from "@/Queries/useCalendarMutation";
 import { useRouter } from "next/router";
 
 const CreateContainer = styled.div`

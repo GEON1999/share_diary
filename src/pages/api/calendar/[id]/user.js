@@ -1,7 +1,8 @@
 import router from "../../../../../libs/server/router";
 import client from "../../../../../libs/server/client";
+import API from "@/API";
 
-router.get("/api/calendar/:id/user", async (req, res) => {
+router.get(API.GET_CALENDAR_USER_INFO(":id"), async (req, res) => {
   const { userId, id } = req.query;
 
   const calendar = await client.calendar.findUnique({
@@ -32,7 +33,7 @@ router.get("/api/calendar/:id/user", async (req, res) => {
   }
 });
 
-router.post(`/api/calendar/:id/user`, async (req, res, next) => {
+router.post(API.EDIT_CALENDAR_USER_INFO(":id"), async (req, res, next) => {
   const {
     user: { id: userId },
     query: { id },

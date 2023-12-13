@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
-import useCalendarMutation from "@/Query/useCalendarMutation";
+import useCalendarMutation from "@/Queries/useCalendarMutation";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useAuthContext } from "@/Providers/AuthProvider";

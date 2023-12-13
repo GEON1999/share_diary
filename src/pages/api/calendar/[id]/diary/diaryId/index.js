@@ -1,7 +1,8 @@
 import router from "../../../../../../../libs/server/router";
 import client from "../../../../../../../libs/server/client";
+import API from "@/API";
 
-router.get("/api/calendar/:id/diary/:diaryId", async (req, res, next) => {
+router.get(API.GET_DIARY(":id", ":diaryId"), async (req, res, next) => {
   const { id, diaryId } = req?.query;
 
   try {
@@ -23,7 +24,7 @@ router.get("/api/calendar/:id/diary/:diaryId", async (req, res, next) => {
   }
 });
 
-router.post("/api/calendar/:id/diary/:diaryId", async (req, res) => {
+router.post(API.PUT_DIARY(":id", ":diaryId"), async (req, res) => {
   const {
     body: { title, content },
     query: { id, diaryId },

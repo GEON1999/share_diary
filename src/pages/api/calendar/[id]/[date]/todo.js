@@ -1,7 +1,8 @@
 import router from "../../../../../../libs/server/router";
 import client from "../../../../../../libs/server/client";
+import API from "@/API";
 
-router.get(`/api/calendar/:id/:date/todo`, async (req, res, next) => {
+router.get(API.GET_TODO(":id", ":date"), async (req, res, next) => {
   const user = req.user;
   const { id, date } = req?.query;
 
@@ -23,7 +24,7 @@ router.get(`/api/calendar/:id/:date/todo`, async (req, res, next) => {
   }
 });
 
-router.post(`/api/calendar/:id/:date/todo`, async (req, res, next) => {
+router.post(API.POST_TODO(":id", ":date"), async (req, res, next) => {
   const user = req.user;
 
   const {

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useCalendarQuery from "@/Query/useCalendarQuery";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import AddCalendarModal from "@/components/modal/AddCalendar";

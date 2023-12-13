@@ -1,8 +1,9 @@
 import router from "../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 import client from "../../../../libs/server/client";
+import API from "@/API";
 
-router.get(`/api/calendar`, async (req, res, next) => {
+router.get(API.GET_CALENDAR_LIST(), async (req, res, next) => {
   const user = req.user;
 
   try {
@@ -32,7 +33,7 @@ router.get(`/api/calendar`, async (req, res, next) => {
   }
 });
 
-router.post(`/api/calendar`, async (req, res, next) => {
+router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
   const user = req.user;
 
   const {

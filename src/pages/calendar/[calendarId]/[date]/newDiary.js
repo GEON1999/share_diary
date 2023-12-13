@@ -1,8 +1,8 @@
-import useCalendarQuery from "@/Query/useCalendarQuery";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import useDiaryMutation from "@/Query/useDiaryMutation";
+import useDiaryMutation from "@/Queries/useDiaryMutation";
 import styled from "styled-components";
 import { toast, Toaster } from "react-hot-toast";
 import { useEffect } from "react";

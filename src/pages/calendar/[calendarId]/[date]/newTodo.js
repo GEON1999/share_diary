@@ -1,11 +1,11 @@
-import useCalendarQuery from "@/Query/useCalendarQuery";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import styled from "styled-components";
 import { toast, Toaster } from "react-hot-toast";
 import { useEffect } from "react";
-import useTodoMutation from "@/Query/useTodoMutation";
+import useTodoMutation from "@/Queries/useTodoMutation";
 
 const TodoContainer = styled.div`
   width: 640px;
