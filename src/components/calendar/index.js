@@ -30,16 +30,44 @@ const Day = styled.td`
   transition: all 0.3s ease-in-out;
   border-radius: 40%;
   cursor: pointer;
+  color: #fff8ef;
   background-color: ${({ isHighlighted, isDiary }) =>
     isHighlighted === true
       ? "#5BB0D3FF"
       : isDiary === true
       ? "#3940be"
       : "transparent"};
+
   &:hover {
     background-color: #ffffff;
     color: #000000;
   }
+`;
+
+const YearInput = styled.input`
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgba(188, 188, 208, 0.8);
+  outline: none;
+  padding-left: 10px;
+  color: #ffffff;
+  margin: 10px 10px 10px 0px;
+`;
+
+const MonthSelect = styled.select`
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgba(188, 188, 208, 0.8);
+  outline: none;
+  padding-left: 10px;
+  color: #ffffff;
+  margin: 10px 0px 10px 10px;
+`;
+
+const WeekTr = styled.tr`
+  color: #5e5452;
 `;
 
 const generateCalendar = (year, month) => {
@@ -113,14 +141,14 @@ const Calendar = ({ calendarId, calendarData }) => {
     <>
       <CalendarContainer>
         <SelectContainer>
-          <input
+          <YearInput
             type="number"
             value={year}
             onChange={(e) => setYear(parseInt(e.target.value))}
             min="1900"
             max="2100"
           />
-          <select
+          <MonthSelect
             value={month}
             onChange={(e) => setMonth(parseInt(e.target.value))}
           >
@@ -129,12 +157,12 @@ const Calendar = ({ calendarId, calendarData }) => {
                 {i + 1}월
               </option>
             ))}
-          </select>
+          </MonthSelect>
         </SelectContainer>
         <div>
           <table>
             <thead>
-              <tr>
+              <WeekTr>
                 <th>일</th>
                 <th>월</th>
                 <th>화</th>
@@ -142,7 +170,7 @@ const Calendar = ({ calendarId, calendarData }) => {
                 <th>목</th>
                 <th>금</th>
                 <th>토</th>
-              </tr>
+              </WeekTr>
             </thead>
             <tbody>
               {calendar.map((week, index) => (

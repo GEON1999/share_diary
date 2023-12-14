@@ -44,6 +44,7 @@ const BtnContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 300px;
+  margin-bottom: 20px;
 `;
 
 const fadeInAnimation = keyframes`
@@ -83,7 +84,7 @@ const ListContainer = styled.div`
 
 const Title = styled.h1`
   color: #ffffff;
-  font-size: 23px;
+  font-size: 18px;
   margin: 0 auto;
   text-align: center;
 `;
@@ -139,18 +140,18 @@ const CalendarDateModal = ({ onClose }) => {
       <BtnContainer>
         {isPlusToggle ? (
           <>
-            <DiaryBtn onClick={handleDiaryOpen}>일기</DiaryBtn>
-            <TodoBtn onClick={handletoDoOpen}>할일</TodoBtn>
+            <DiaryBtn onClick={handleDiaryOpen}>기록 생성</DiaryBtn>
+            <TodoBtn onClick={handletoDoOpen}>일정 생성</TodoBtn>
           </>
         ) : null}
       </BtnContainer>
       <ListContainer>
         <div>
-          <Title>일기</Title>
+          <Title>기록</Title>
           {isLoading ? null : <DiaryTable diaryData={diaryData?.diary} />}
         </div>
         <div>
-          <Title>할일</Title>
+          <Title>일정</Title>
           {isTodoLoading ? null : <TodoTable todoData={todoData?.todo} />}
         </div>
       </ListContainer>
