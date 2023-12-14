@@ -1,8 +1,8 @@
-import router from "../../../../../../../libs/server/router";
-import client from "../../../../../../../libs/server/client";
+import router from "../../../../../../../../libs/server/router";
+import client from "../../../../../../../../libs/server/client";
 import API from "@/API";
 
-router.post(API.DELETE_TODO(":id", "todoId"), async (req, res) => {
+router.post(API.DELETE_TODO(":id", ":todoId"), async (req, res) => {
   const {
     query: { id, todoId },
   } = req;

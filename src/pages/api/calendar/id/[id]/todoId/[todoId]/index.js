@@ -1,5 +1,5 @@
-import router from "../../../../../../../libs/server/router";
-import client from "../../../../../../../libs/server/client";
+import router from "../../../../../../../../libs/server/router";
+import client from "../../../../../../../../libs/server/client";
 import API from "@/API";
 
 router.get(API.GET_TODO_DETAIL(":id", ":todoId"), async (req, res, next) => {
@@ -29,6 +29,8 @@ router.post(API.PUT_TODO(":id", ":todoId"), async (req, res) => {
     body: { title, content },
     query: { id, todoId },
   } = req;
+
+  console.log("req.body :", req.body, "req.query :", req.query);
 
   try {
     const todo = await client.todo.update({

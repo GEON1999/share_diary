@@ -6,11 +6,12 @@ const postTodo = async ({ data, date, calendarId }) =>
   await axios.post(API.POST_TODO(calendarId, date), data);
 
 // put todo 수정 필요
-const putTodo = async ({ data, id }) => await axios.put(API.PUT_TODO(id), data);
+const putTodo = async ({ data, calendarId, todoId }) =>
+  await axios.post(API.PUT_TODO(calendarId, todoId), data);
 
 // delete todo
 const deleteTodo = async ({ calendarId, todoId }) =>
-  await axios.post(API.DELETE_TODO, { calendarId, todoId });
+  await axios.post(API.DELETE_TODO(calendarId, todoId));
 
 export default {
   postTodo,
