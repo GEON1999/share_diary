@@ -39,8 +39,6 @@ router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
     user,
   } = req;
 
-  console.log("user :", user);
-
   try {
     const calendar = await client.calendar.create({
       data: {
@@ -63,13 +61,6 @@ router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
     if (!calendarPermission) {
       return res.json({ message: "캘린더 권한을 생성하지 못했습니다." });
     }
-
-    /*await client.inviteCode.create({
-      data: {
-        calendarId: calendar.id,
-        code: Math.random().toString(36).substr(2, 11), // 추후 hash 를 통해 더 안전하게
-      },
-    });*/
 
     const calendarUserProfile = await client.calendarUserProfile.create({
       data: {

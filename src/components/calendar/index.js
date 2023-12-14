@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import DiaryTable from "@/components/table/DiaryTable";
+import TodoTable from "@/components/table/TodoTable";
+import CalendarDateModal from "@/components/modal/CalendarDateModal";
 
 const CalendarContainer = styled.div`
   display: flex;
@@ -21,26 +24,12 @@ const SelectContainer = styled.div`
   margin: 20px 0px 20px 0px;
 `;
 
-const WeekContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const WeekDay = styled.div`
-  width: 80px;
-  height: 50px;
-`;
-
-const DayContainer = styled.div`
-  display: flex;
-`;
-
 const Day = styled.td`
   padding: 20px;
   text-align: center;
   transition: all 0.3s ease-in-out;
   border-radius: 40%;
+  cursor: pointer;
   background-color: ${({ isHighlighted, isDiary }) =>
     isHighlighted === true
       ? "#5BB0D3FF"
@@ -84,13 +73,11 @@ const generateCalendar = (year, month) => {
 };
 
 const Calendar = ({ calendarId, calendarData }) => {
-  console.log("calendarData :", calendarData);
+  const [modal, setModal] = useState(false);
   const router = useRouter();
   const date = router.query.date;
   const clickedDate = date ? new Date(parseInt(date)) : null;
   const clickedDay = clickedDate ? clickedDate.getDate() : null;
-  console.log("clickedDay :", clickedDay, date);
-
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
@@ -101,6 +88,7 @@ const Calendar = ({ calendarId, calendarData }) => {
   }, [year, month]);
 
   const handleClickDate = (day) => {
+    setModal(true);
     const ms = new Date(year, month, day).getTime();
     router.push(`/calendar/${calendarId}/?date=${ms}`);
   };
@@ -117,97 +105,88 @@ const Calendar = ({ calendarId, calendarData }) => {
 
   console.log("calendarDateArr :", calendarDateArr);
 
-  return (
-    <CalendarContainer>
-      <SelectContainer>
-        <input
-          type="number"
-          value={year}
-          onChange={(e) => setYear(parseInt(e.target.value))}
-          min="1900"
-          max="2100"
-        />
-        <select
-          value={month}
-          onChange={(e) => setMonth(parseInt(e.target.value))}
-        >
-          {Array.from({ length: 12 }, (_, i) => (
-            <option key={i} value={i}>
-              {i + 1}월
-            </option>
-          ))}
-        </select>
-      </SelectContainer>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>일</th>
-              <th>월</th>
-              <th>화</th>
-              <th>수</th>
-              <th>목</th>
-              <th>금</th>
-              <th>토</th>
-            </tr>
-          </thead>
-          <tbody>
-            {calendar.map((week, index) => (
-              <tr key={index}>
-                {week.map((day, dayIndex) => {
-                  const ms = new Date(year, month, day).getTime();
+  const handleCloseModal = () => {
+    setModal(false);
+  };
 
-                  if (calendarDateArr?.includes(String(ms))) {
-                    return (
-                      <Day
-                        isHighlighted={clickedDay === day ? true : false}
-                        onClick={() => handleClickDate(day)}
-                        key={dayIndex}
-                        isDiary={true}
-                      >
-                        {day ? day : ""}
-                      </Day>
-                    );
-                  } else {
-                    return (
-                      <Day
-                        isHighlighted={
-                          clickedDay === null
-                            ? false
-                            : clickedDay === day
-                            ? true
-                            : false
-                        }
-                        onClick={() => handleClickDate(day)}
-                        key={dayIndex}
-                      >
-                        {day ? day : ""}
-                      </Day>
-                    );
-                  }
-                })}
-              </tr>
+  return (
+    <>
+      <CalendarContainer>
+        <SelectContainer>
+          <input
+            type="number"
+            value={year}
+            onChange={(e) => setYear(parseInt(e.target.value))}
+            min="1900"
+            max="2100"
+          />
+          <select
+            value={month}
+            onChange={(e) => setMonth(parseInt(e.target.value))}
+          >
+            {Array.from({ length: 12 }, (_, i) => (
+              <option key={i} value={i}>
+                {i + 1}월
+              </option>
             ))}
-          </tbody>
-          {/* {calendar.map((week, index) => (
-              <tr key={index}>
-                {week.map((day, dayIndex) => {
-                  const ms = new Date(year, month, day).getTime();
-                  return (
-                    <Day
-                      isHighlighted={clickedDay === day ? true : false}
-                      onClick={() => handleClickDate(day)}
-                      key={dayIndex}
-                    >
-                      {day ? day : ""}
-                    </Day>
-                  );
-                })}
+          </select>
+        </SelectContainer>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>일</th>
+                <th>월</th>
+                <th>화</th>
+                <th>수</th>
+                <th>목</th>
+                <th>금</th>
+                <th>토</th>
               </tr>
-            ))}*/}
-        </table>
-      </div>
-    </CalendarContainer>
+            </thead>
+            <tbody>
+              {calendar.map((week, index) => (
+                <tr key={index}>
+                  {week.map((day, dayIndex) => {
+                    const ms = new Date(year, month, day).getTime();
+
+                    if (calendarDateArr?.includes(String(ms))) {
+                      return (
+                        <Day
+                          isHighlighted={clickedDay === day ? true : false}
+                          onClick={() => handleClickDate(day)}
+                          key={dayIndex}
+                          isDiary={true}
+                        >
+                          {day ? day : ""}
+                        </Day>
+                      );
+                    } else {
+                      return (
+                        <Day
+                          isHighlighted={
+                            clickedDay === null
+                              ? false
+                              : clickedDay === day
+                              ? true
+                              : false
+                          }
+                          onClick={() => handleClickDate(day)}
+                          key={dayIndex}
+                        >
+                          {day ? day : ""}
+                        </Day>
+                      );
+                    }
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CalendarContainer>
+      {modal && <CalendarDateModal onClose={handleCloseModal} />}
+    </>
   );
 };
 

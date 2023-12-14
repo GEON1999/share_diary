@@ -4,7 +4,6 @@ import API from "@/API";
 
 router.get(API.GET_CALENDAR_USER_INFO(":id"), async (req, res) => {
   const { userId, id } = req.query;
-  console.log("userId :", userId, "id :", id);
 
   const calendar = await client.calendar.findUnique({
     where: {
