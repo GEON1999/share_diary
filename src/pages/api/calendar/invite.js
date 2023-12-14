@@ -6,6 +6,7 @@ import API from "@/API";
 router.post(API.GET_INVITED_CALENDAR(), async (req, res) => {
   const {
     body: { code, userId },
+    user,
   } = req;
 
   const inviteCode = await client.inviteCode.findFirst({
@@ -43,6 +44,15 @@ router.post(API.GET_INVITED_CALENDAR(), async (req, res) => {
         data: {
           userId: Number(userId),
           calendarId: Number(inviteCode.calendarId),
+        },
+      });
+
+      await client.calendarUserProfile.create({
+        data: {
+          userId: Number(userId),
+          calendarId: Number(inviteCode.calendarId),
+          name: user.username ?? "",
+          color: "",
         },
       });
 
