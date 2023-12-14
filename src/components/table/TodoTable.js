@@ -59,7 +59,7 @@ const DiaryTable = ({ todoData }) => {
   const { mutate: deleteTodo } = useMutation(useTodoMutation.deleteTodo);
 
   const handleDiaryDetail = (todoId) => {
-    router.push(`/calendar/${calendarId}/diary/${todoId}`);
+    router.push(`/calendar/${calendarId}/todo/${todoId}`);
   };
 
   const handleDelBtn = (todoId) => {
@@ -67,6 +67,7 @@ const DiaryTable = ({ todoData }) => {
       { calendarId, todoId },
       {
         onSuccess: (data) => {
+          console.log("data 1:", data);
           if (data?.data?.isSuccess) {
             alert("삭제되었습니다.");
             router.reload();
@@ -81,6 +82,7 @@ const DiaryTable = ({ todoData }) => {
   return (
     <>
       {todoData?.map((data) => {
+        console.log("data :", data);
         return (
           <Diary key={data.id} className={"text-black"}>
             <Content onClick={() => handleDiaryDetail(data?.id)}>

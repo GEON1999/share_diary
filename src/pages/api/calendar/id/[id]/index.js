@@ -1,5 +1,5 @@
-import client from "../../../../../libs/server/client";
-import router from "../../../../../libs/server/router";
+import client from "../../../../../../libs/server/client";
+import router from "../../../../../../libs/server/router";
 import API from "@/API";
 
 router.get(API.GET_CALENDAR_DETAIL(":id"), async (req, res, next) => {

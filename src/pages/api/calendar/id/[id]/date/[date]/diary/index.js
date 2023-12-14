@@ -1,6 +1,6 @@
-import router from "../../../../../../../libs/server/router";
+import router from "../../../../../../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
-import client from "../../../../../../../libs/server/client";
+import client from "../../../../../../../../../libs/server/client";
 import API from "@/API";
 
 router.get(API.GET_DIARY(":id", ":date"), async (req, res, next) => {

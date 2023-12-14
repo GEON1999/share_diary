@@ -1,13 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 
-const client = new PrismaClient({
-  log: [
-    {
-      emit: "event",
-      level: "query",
-    },
-  ],
-});
+const client = new PrismaClient();
 
 client.$on("query", (e) => {
   //console.log(e.query);

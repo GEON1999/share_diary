@@ -1,8 +1,8 @@
-import router from "../../../../../../libs/server/router";
-import client from "../../../../../../libs/server/client";
+import router from "../../../../../../../libs/server/router";
+import client from "../../../../../../../libs/server/client";
 import API from "@/API";
 
-router.get(API.GET_CALENDAR_INVITE_CODE(";id"), async (req, res) => {
+router.get(API.GET_CALENDAR_INVITE_CODE(":id"), async (req, res) => {
   const {
     query: { id },
   } = req;

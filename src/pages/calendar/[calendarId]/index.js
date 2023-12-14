@@ -244,7 +244,6 @@ export const getServerSideProps = async (ctx) => {
     "CALENDAR_DETAIL",
     calendarId,
   ]);
-  console.log("calendarData :", calendarData);
 
   return {
     props: {

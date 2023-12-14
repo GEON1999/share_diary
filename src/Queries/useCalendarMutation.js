@@ -19,7 +19,7 @@ const deleteDiary = async ({ calendarId, diaryId }) =>
   await axios.post(API.DELETE_DIARY(calendarId, diaryId));
 
 const editCalendarUserInfo = async ({ calendarId, formData }) =>
-  await axios.post(API.EDIT_CALENDAR_USER_INFO(calendarIdz), formData);
+  await axios.post(API.EDIT_CALENDAR_USER_INFO(calendarId), formData);
 
 export default {
   createCalendar,

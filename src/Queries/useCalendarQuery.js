@@ -32,6 +32,7 @@ const useGetCalendarDetail = (calendarId, query) => {
 };
 
 const getCalendarInviteCode = async (calendarId, userId) => {
+  console.log("path :", API.GET_CALENDAR_INVITE_CODE(calendarId, userId));
   const { data } = await axios.get(
     helper.CURRENT_URL() + API.GET_CALENDAR_INVITE_CODE(calendarId, userId)
   );

@@ -1,8 +1,8 @@
-import router from "../../../../../../../libs/server/router";
-import client from "../../../../../../../libs/server/client";
+import router from "../../../../../../../../libs/server/router";
+import client from "../../../../../../../../libs/server/client";
 import API from "@/API";
 
-router.get(API.GET_DIARY(":id", ":diaryId"), async (req, res, next) => {
+router.get(API.GET_DIARY_DETAIL(":id", ":diaryId"), async (req, res, next) => {
   const { id, diaryId } = req?.query;
 
   try {

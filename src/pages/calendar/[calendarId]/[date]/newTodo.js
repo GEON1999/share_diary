@@ -62,11 +62,11 @@ const Title = styled.h1`
 
 const notify = (status) => {
   status === "success"
-    ? toast.success("일기가 저장되었습니다.")
+    ? toast.success("일정이 저장되었습니다.")
     : status === "error"
-    ? toast.error("일기 저장에 실패했습니다.")
+    ? toast.error("일정 저장에 실패했습니다.")
     : status === "loading"
-    ? toast.loading("일기를 저장하는 중입니다.")
+    ? toast.loading("일정을 저장하는 중입니다.")
     : null;
 };
 
@@ -97,7 +97,7 @@ const NewTodo = () => {
   return (
     <>
       <TodoContainer>
-        <Title>새로운 일기</Title>
+        <Title>새로운 일정</Title>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <Input {...register("title")} />
           <Input {...register("content")} />
