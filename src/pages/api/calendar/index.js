@@ -34,11 +34,12 @@ router.get(API.GET_CALENDAR_LIST(), async (req, res, next) => {
 });
 
 router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
-  const user = req.user;
-
   const {
     body: { name },
+    user,
   } = req;
+
+  console.log("user :", user);
 
   try {
     const calendar = await client.calendar.create({
@@ -74,7 +75,8 @@ router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
       data: {
         calendarId: calendar.id,
         userId: user.id,
-        name: user.name,
+        name: user.username,
+        color: "",
       },
     });
 
