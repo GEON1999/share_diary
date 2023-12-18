@@ -38,6 +38,15 @@ router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
     body: { name },
     user,
   } = req;
+  console.log("user :", user);
+
+  const findUser = await client.user.findFirst({
+    where: {
+      id: Number(user.id),
+    },
+  });
+
+  console.log("findUser :", findUser);
 
   try {
     const calendar = await client.calendar.create({
@@ -66,7 +75,7 @@ router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
       data: {
         calendarId: calendar.id,
         userId: user.id,
-        name: user.username,
+        name: findUser?.name ?? "",
         color: "",
       },
     });

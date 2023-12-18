@@ -9,6 +9,12 @@ router.post(API.GET_INVITED_CALENDAR(), async (req, res) => {
     user,
   } = req;
 
+  const findUser = await client.user.findFirst({
+    where: {
+      id: Number(user.id),
+    },
+  });
+
   const inviteCode = await client.inviteCode.findFirst({
     where: {
       code,
@@ -51,7 +57,7 @@ router.post(API.GET_INVITED_CALENDAR(), async (req, res) => {
         data: {
           userId: Number(userId),
           calendarId: Number(inviteCode.calendarId),
-          name: user.username ?? "",
+          name: findUser?.name ?? "",
           color: "",
         },
       });

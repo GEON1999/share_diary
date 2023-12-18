@@ -20,7 +20,6 @@ passport.use(
       passwordField: "password",
     },
     async (username, password, done) => {
-      console.log("username", username);
       const data = await client.user.findFirst({
         where: {
           email: username,
@@ -28,7 +27,6 @@ passport.use(
         },
       });
 
-      console.log("data", data);
       if (data?.email === username) {
         await done(null, {
           id: data.id,

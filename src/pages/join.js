@@ -70,14 +70,6 @@ const Join = () => {
     });
   };
 
-  useEffect(() => {
-    if (data?.data?.isSuccess === true) {
-      router.push("/calendar");
-    }
-  }, [data]);
-
-  console.log("data", data);
-
   /*const handleKaKaoLogin = ()  => {
           config.kakao.Auth.authorize({
               redirectUri: 'http://localhost:3000/kakao',
@@ -98,6 +90,11 @@ const Join = () => {
             {...register("id", { required: true })}
             type="text"
             placeholder="아이디"
+          />
+          <Input
+            {...register("name", { required: true })}
+            type="text"
+            placeholder="이름"
           />
           <Input
             className={"w-80 rounded text-black"}
