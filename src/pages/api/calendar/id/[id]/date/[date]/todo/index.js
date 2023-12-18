@@ -17,7 +17,24 @@ router.get(API.GET_TODO(":id", ":date"), async (req, res, next) => {
       },
     });
 
-    return res.status(200).json({ isSuccess: true, todo, message: "success" });
+    let todoList = [];
+
+    for (const item of todo) {
+      const profile = await client.calendarUserProfile.findFirst({
+        where: {
+          userId: Number(item.user.id),
+          calendarId: Number(id),
+        },
+      });
+      todoList.push({
+        ...item,
+        name: profile?.name,
+      });
+    }
+
+    return res
+      .status(200)
+      .json({ isSuccess: true, todoList, message: "success" });
   } catch (e) {
     console.log("e :", e);
     return res.json({ isSuccess: false, message: e.message });
@@ -56,9 +73,5 @@ router.post(API.POST_TODO(":id", ":date"), async (req, res, next) => {
     res.json({ message: "fail" });
   }
 });
-
-/*router.get(`/api/calendar/:date/todo`, async (req, res, next) => {
-  console.log(req.query, req.body);
-});*/
 
 export default router;

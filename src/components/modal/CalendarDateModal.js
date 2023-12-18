@@ -101,16 +101,19 @@ const CalendarDateModal = ({ onClose }) => {
   const { query } = router;
   const [isPlusToggle, setIsPlusToggle] = useState(false);
   const { calendarId, date } = query;
+  const useAuth = useAuthContext();
 
   // get diary
   const { data: diaryData, isLoading } = useDiaryQuery.useGetDiary(
     calendarId,
+    useAuth.user?.id,
     date
   );
 
   // get todo
   const { data: todoData, isLoading: isTodoLoading } = useTodoQuery.useGetTodo(
     calendarId,
+    useAuth.user?.id,
     date
   );
 
@@ -148,11 +151,11 @@ const CalendarDateModal = ({ onClose }) => {
       <ListContainer>
         <div>
           <Title>기록</Title>
-          {isLoading ? null : <DiaryTable diaryData={diaryData?.diary} />}
+          {isLoading ? null : <DiaryTable diaryData={diaryData} />}
         </div>
         <div>
           <Title>일정</Title>
-          {isTodoLoading ? null : <TodoTable todoData={todoData?.todo} />}
+          {isTodoLoading ? null : <TodoTable todoData={todoData} />}
         </div>
       </ListContainer>
     </DiaryContainer>

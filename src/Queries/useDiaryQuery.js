@@ -5,17 +5,17 @@ import helper from "@/helper";
 import API from "@/API";
 
 // get diary
-const getDiary = async (calendarId, date) => {
+const getDiary = async (calendarId, userId, date) => {
   const { data } = await axios.get(
-    helper.CURRENT_URL() + API.GET_DIARY(calendarId, date)
+    helper.CURRENT_URL() + API.GET_DIARY(calendarId, date, userId)
   );
 
   return data;
 };
 
-const useGetDiary = (calendarId, date) => {
-  return useQuery(["DIARY", calendarId, date], () =>
-    getDiary(calendarId, date)
+const useGetDiary = (calendarId, userId, date) => {
+  return useQuery(["DIARY", calendarId, userId, date], () =>
+    getDiary(calendarId, userId, date)
   );
 };
 

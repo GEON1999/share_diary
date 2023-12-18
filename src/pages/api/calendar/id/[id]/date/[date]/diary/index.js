@@ -5,7 +5,7 @@ import API from "@/API";
 
 router.get(API.GET_DIARY(":id", ":date"), async (req, res, next) => {
   const user = req.user;
-  const { id, date } = req?.query;
+  const { id, date, userId } = req?.query;
 
   try {
     const diary = await client.diary.findMany({
@@ -18,7 +18,26 @@ router.get(API.GET_DIARY(":id", ":date"), async (req, res, next) => {
       },
     });
 
-    return res.status(200).json({ isSuccess: true, diary, message: "success" });
+    let diaryList = [];
+
+    for (const item of diary) {
+      const profile = await client.calendarUserProfile.findFirst({
+        where: {
+          userId: Number(item.user.id),
+          calendarId: Number(id),
+        },
+      });
+      diaryList.push({
+        ...item,
+        name: profile?.name,
+      });
+    }
+
+    return res.status(200).json({
+      isSuccess: true,
+      diaryList,
+      message: "success",
+    });
   } catch (e) {
     console.log("e :", e);
     return res.status(500).json({ isSuccess: false, message: e.message });
@@ -58,9 +77,5 @@ router.post(API.POST_DIARY(":id", ":date"), async (req, res, next) => {
     res.status(500).json({ message: "fail" });
   }
 });
-
-/*router.get(`/api/calendar/:date/diary`, async (req, res, next) => {
-  console.log(req.query, req.body);
-});*/
 
 export default router;

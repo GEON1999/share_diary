@@ -79,13 +79,13 @@ const DiaryTable = ({ diaryData }) => {
 
   return (
     <>
-      {diaryData?.map((data) => {
+      {diaryData?.diaryList?.map((data) => {
         return (
           <Diary key={data.id} className={"text-black"}>
             <Content onClick={() => handleDiaryDetail(data?.id)}>
               <P>제목 : {data?.title}</P>
               <P>내용 : {data?.content}</P>
-              <Writer>작성자 : {data?.user?.name}</Writer>
+              <Writer>작성자 : {data?.name}</Writer>
             </Content>
             <Button onClick={() => handleDelBtn(data?.id)}>삭제</Button>
           </Diary>

@@ -43,8 +43,10 @@ const POST_DIARY = (calendarId, date) =>
   `/api/calendar/id/${calendarId}/date/${date}/diary`;
 
 // 다이어리 정보 가져오기
-const GET_DIARY = (calendarId, date) =>
-  `/api/calendar/id/${calendarId}/date/${date}/diary`;
+const GET_DIARY = (calendarId, date, userId) =>
+  `/api/calendar/id/${calendarId}/date/${date}/diary${
+    userId ? `?userId=${userId}` : ""
+  }`;
 
 // 다이어리 상세 정보 가져오기
 const GET_DIARY_DETAIL = (calendarId, diaryId) =>
@@ -63,8 +65,10 @@ const DELETE_TODO = (calendarId, todoId) =>
   `/api/calendar/id/${calendarId}/todoId/${todoId}/del`;
 
 // 할일 정보 가져오기
-const GET_TODO = (calendarId, date) =>
-  `/api/calendar/id/${calendarId}/date/${date}/todo`;
+const GET_TODO = (calendarId, date, userId) =>
+  `/api/calendar/id/${calendarId}/date/${date}/todo${
+    userId ? `?userId=${userId}` : ""
+  }`;
 
 // 할일 상세 정보 가져오기
 const GET_TODO_DETAIL = (calendarId, todoId) =>

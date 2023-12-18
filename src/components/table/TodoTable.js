@@ -67,7 +67,6 @@ const DiaryTable = ({ todoData }) => {
       { calendarId, todoId },
       {
         onSuccess: (data) => {
-          console.log("data 1:", data);
           if (data?.data?.isSuccess) {
             alert("삭제되었습니다.");
             router.reload();
@@ -81,14 +80,13 @@ const DiaryTable = ({ todoData }) => {
 
   return (
     <>
-      {todoData?.map((data) => {
-        console.log("data :", data);
+      {todoData?.todoList?.map((data) => {
         return (
           <Diary key={data.id} className={"text-black"}>
             <Content onClick={() => handleDiaryDetail(data?.id)}>
               <P>제목 : {data?.title}</P>
               <P>내용 : {data?.content}</P>
-              <Writer>작성자 : {data?.user?.name}</Writer>
+              <Writer>작성자 : {data?.name}</Writer>
             </Content>
             <Button onClick={() => handleDelBtn(data?.id)}>삭제</Button>
           </Diary>
