@@ -1,6 +1,9 @@
 // 킬린더 생성
 const CREATE_CALENDAR = () => "/api/calendar";
 
+const DELETE_CALENDAR = (calendarId, userId) =>
+  `/api/calendar/id/${calendarId}/del${userId ? `?userId=${userId}` : ""}`;
+
 // 메인화면 달력 리스트
 const GET_CALENDAR_LIST = () => "/api/calendar";
 
@@ -76,6 +79,7 @@ const GET_TODO_DETAIL = (calendarId, todoId) =>
 
 export default {
   CREATE_CALENDAR,
+  DELETE_CALENDAR,
   CREATE_CALENDAR_INVITE,
   DELETE_CALENDAR_INVITE,
   GET_INVITED_CALENDAR,

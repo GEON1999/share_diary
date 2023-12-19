@@ -15,7 +15,7 @@ router.get(API.GET_CALENDAR_LIST(), async (req, res, next) => {
         calendar: true,
       },
     });
-    const calendars = await client.calendar.findMany({
+    /*const calendars = await client.calendar.findMany({
       where: {
         calendarPermissions: {
           some: {
@@ -23,11 +23,14 @@ router.get(API.GET_CALENDAR_LIST(), async (req, res, next) => {
           },
         },
       },
-    });
+      include: {
+        calendarPermissions: true,
+      },
+    });*/
 
     return res
       .status(200)
-      .json({ isSuccess: true, calendars, message: "success" });
+      .json({ isSuccess: true, calendars: permission, message: "success" });
   } catch (e) {
     return res.status(500).json({ isSuccess: false, message: e.message });
   }
@@ -38,15 +41,12 @@ router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
     body: { name },
     user,
   } = req;
-  console.log("user :", user);
 
   const findUser = await client.user.findFirst({
     where: {
       id: Number(user.id),
     },
   });
-
-  console.log("findUser :", findUser);
 
   try {
     const calendar = await client.calendar.create({

@@ -5,6 +5,9 @@ import { useState } from "react";
 import AddCalendarModal from "@/components/modal/AddCalendar";
 import CalendarNav from "@/components/common/CalendarNav";
 import LogoutBtn from "@/components/common/LogoutBtn";
+import useCalendarMutation from "@/Queries/useCalendarMutation";
+import { useMutation } from "@tanstack/react-query";
+import { useAuthContext } from "@/Providers/AuthProvider";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -22,7 +25,8 @@ const CalendarWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  flex-direction: row;
+  align-items: center;
+  margin-left: 105px;
 `;
 
 const Calendar = styled.div`
@@ -68,16 +72,44 @@ const BtnWrapper = styled.div`
   display: flex;
 `;
 
+const DeleteBtn = styled.button`
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: #bd3232;
+  margin-left: 5px;
+`;
+
 const Home = () => {
   const router = useRouter();
+  const useAuth = useAuthContext();
   const [addCalendarModal, setAddCalendarModal] = useState(false);
-  const { data, isLoading } = useCalendarQuery.useGetCalendarList();
+  const { data, isLoading, refetch } = useCalendarQuery.useGetCalendarList();
+  const { mutate: deleteCalendar } = useMutation(
+    useCalendarMutation.deleteCalendar
+  );
 
   const handleEnterCalendar = (id) => router.push(`/calendar/${id}`);
 
   const handleCreateCalendar = () => setAddCalendarModal(true);
 
-  console.log("data :", data, isLoading);
+  const handleDeleteCalendar = (calendarId) => {
+    deleteCalendar(
+      { calendarId, userId: useAuth?.user?.id },
+      {
+        onSuccess: (data) => {
+          console.log("delete data :", data);
+          if (data?.data?.isSuccess === true) {
+            alert("달력이 삭제되었습니다.");
+            refetch();
+          } else {
+            alert(data?.data?.message ?? "달력 삭제에 실패하였습니다.");
+          }
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -87,11 +119,20 @@ const Home = () => {
         {!isLoading
           ? data?.calendars?.map((calendar) => {
               return (
-                <div key={calendar.id}>
-                  <Calendar onClick={() => handleEnterCalendar(calendar.id)}>
-                    {calendar.name}
+                <CalendarWrapper key={calendar?.calendar?.id}>
+                  <Calendar
+                    onClick={() => handleEnterCalendar(calendar?.calendar?.id)}
+                  >
+                    {calendar?.calendar?.name}
                   </Calendar>
-                </div>
+                  <DeleteBtn
+                    onClick={() => handleDeleteCalendar(calendar?.calendar?.id)}
+                  >
+                    {calendar?.role === "OWNER"
+                      ? "다이어리 삭제"
+                      : "다이어리 탈퇴"}
+                  </DeleteBtn>
+                </CalendarWrapper>
               );
             })
           : null}
