@@ -34,8 +34,7 @@ const whitelist = ["/api/users/enter", "/login", "/join", "/api/users/join"];
 router.isAuthenticated = (req, res, next) => {
   if (whitelist.includes(req.url)) return next();
   if (!req?.user) {
-    if (req.method === "POST") return res.json({ auth: false });
-    else if (req.method === "GET") return next();
+    return res.json({ auth: false });
   } else {
     next();
   }

@@ -115,7 +115,7 @@ const Home = () => {
     <>
       <LogoutBtn />
       <HomeWrapper>
-        <Title>다이어리 목록</Title>
+        <Title>달력 목록</Title>
         {!isLoading
           ? data?.calendars?.map((calendar) => {
               return (
@@ -128,16 +128,14 @@ const Home = () => {
                   <DeleteBtn
                     onClick={() => handleDeleteCalendar(calendar?.calendar?.id)}
                   >
-                    {calendar?.role === "OWNER"
-                      ? "다이어리 삭제"
-                      : "다이어리 탈퇴"}
+                    {calendar?.role === "OWNER" ? "달력 삭제" : "달력 탈퇴"}
                   </DeleteBtn>
                 </CalendarWrapper>
               );
             })
           : null}
         <BtnWrapper>
-          <Button onClick={handleCreateCalendar}>다이어리 추가</Button>
+          <Button onClick={handleCreateCalendar}>달력 추가</Button>
         </BtnWrapper>
       </HomeWrapper>
       {addCalendarModal ? (

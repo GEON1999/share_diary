@@ -12,6 +12,7 @@ import helper from "@/helper";
 import { useAuthContext } from "@/Providers/AuthProvider";
 import CalendarNav from "@/components/common/CalendarNav";
 import useTodoQuery from "@/Queries/useTodoQuery";
+import { toast, Toaster } from "react-hot-toast";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -36,13 +37,22 @@ const Index = () => {
       helper.queryToString({ userId: useAuth?.user?.id, date: date })
     );
 
+  useEffect(() => {
+    if (calendarData?.isSuccess === false) {
+      alert("캘린더 조회 권한이 없습니다.");
+      router.push("/");
+    }
+  }, [isCalendarLoading]);
+
   //  const { mutate } = useMutation(useCalendarQuery.postCalender);
 
   return (
     <div>
       <CalendarNav />
       <HomeWrapper>
-        <Calendar calendarId={calendarId} calendarData={calendarData} />
+        {!isCalendarLoading && calendarData?.isSuccess === true && (
+          <Calendar calendarData={calendarData} />
+        )}
       </HomeWrapper>
     </div>
   );

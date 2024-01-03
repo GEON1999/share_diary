@@ -17,6 +17,16 @@ router.get(API.GET_CALENDAR_DETAIL(":id"), async (req, res, next) => {
       },
     });
 
+    const calendarPermission = await client.calendarPermission.findFirst({
+      where: {
+        calendarId: Number(id),
+        userId: Number(user.id),
+      },
+    });
+    if (!calendarPermission) {
+      return res.json({ isSuccess: false, message: "권한이 없습니다." });
+    }
+
     return res
       .status(200)
       .json({ isSuccess: true, calendar, message: "success" });
