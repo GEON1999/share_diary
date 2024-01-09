@@ -85,7 +85,7 @@ const DiaryTable = ({ todoData }) => {
           <Diary key={data.id} className={"text-black"}>
             <Content onClick={() => handleDiaryDetail(data?.id)}>
               <P>제목 : {data?.title}</P>
-              <P>내용 : {data?.content}</P>
+              {/* <P>내용 : {data?.content}</P>*/}
               <Writer>작성자 : {data?.name}</Writer>
             </Content>
             <Button onClick={() => handleDelBtn(data?.id)}>삭제</Button>

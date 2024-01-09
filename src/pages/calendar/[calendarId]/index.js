@@ -37,22 +37,13 @@ const Index = () => {
       helper.queryToString({ userId: useAuth?.user?.id, date: date })
     );
 
-  useEffect(() => {
-    if (calendarData?.isSuccess === false) {
-      alert("캘린더 조회 권한이 없습니다.");
-      router.push("/");
-    }
-  }, [isCalendarLoading]);
-
   //  const { mutate } = useMutation(useCalendarQuery.postCalender);
 
   return (
     <div>
       <CalendarNav />
       <HomeWrapper>
-        {!isCalendarLoading && calendarData?.isSuccess === true && (
-          <Calendar calendarData={calendarData} />
-        )}
+        <Calendar calendarData={calendarData} calendarId={calendarId} />
       </HomeWrapper>
     </div>
   );

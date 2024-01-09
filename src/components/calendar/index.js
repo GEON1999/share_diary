@@ -115,6 +115,11 @@ const Calendar = ({ calendarId, calendarData }) => {
     document.title = `Calendar - ${year}-${month + 1}`;
   }, [year, month]);
 
+  if (calendarData?.isSuccess === false) {
+    alert("캘린더 조회 권한이 없습니다.");
+    router.push("/");
+  }
+
   const handleClickDate = (day) => {
     setModal(true);
     const ms = new Date(year, month, day).getTime();
@@ -123,15 +128,13 @@ const Calendar = ({ calendarId, calendarData }) => {
 
   const calendarDateArr = [];
 
-  calendarData?.calendar.diaries?.map((diary) => {
+  calendarData?.calendar?.diaries?.map((diary) => {
     calendarDateArr.push(diary.date);
   });
 
-  calendarData?.calendar.todos?.map((todo) => {
+  calendarData?.calendar?.todos?.map((todo) => {
     calendarDateArr.push(todo.date);
   });
-
-  console.log("calendarDateArr :", calendarDateArr);
 
   const handleCloseModal = () => {
     setModal(false);

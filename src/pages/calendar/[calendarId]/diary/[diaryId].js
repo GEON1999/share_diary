@@ -6,6 +6,13 @@ import { useForm } from "react-hook-form";
 import useCalendarMutation from "@/Queries/useCalendarMutation";
 import { useMutation } from "@tanstack/react-query";
 import useDiaryMutation from "@/Queries/useDiaryMutation";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+import { useEffect, useState } from "react";
+
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
 
 const Container = styled.div`
   position: absolute;
@@ -59,8 +66,32 @@ const Button = styled.button`
   }
 `;
 
+const Label = styled.label`
+  color: #ffffff;
+  font-size: 14px;
+`;
+
+const ImageUploadBtn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0px 20px 0px;
+  & > img {
+    margin-top: -10px;
+    width: 100px;
+    height: 100px;
+  }
+`;
+
+const Texteditor = styled.div`
+  display: block;
+  flex-direction: column;
+  margin-bottom: 20px;
+`;
+
 const DiaryDetail = () => {
   const router = useRouter();
+
   const { calendarId, diaryId } = router.query;
   const {
     data: diaryDetail,
@@ -70,6 +101,11 @@ const DiaryDetail = () => {
     calendarId,
     diaryId,
   });
+  const [text, setText] = useState(diaryDetail?.diary?.constructor ?? "");
+
+  useEffect(() => {
+    !isLoading && setText(diaryDetail?.diary?.content ?? "");
+  }, [isLoading]);
 
   const { mutate: updateDiary } = useMutation(useDiaryMutation.putDiary);
 
@@ -77,8 +113,9 @@ const DiaryDetail = () => {
   console.log("diaryDetail :", diaryDetail, isLoading);
 
   const onSubmit = (data) => {
+    const formData = { ...data, content: text };
     updateDiary(
-      { calendarId, diaryId, data },
+      { calendarId, diaryId, data: formData },
       {
         onSuccess: (data) => {
           if (data?.data?.isSuccess === true) {
@@ -90,6 +127,10 @@ const DiaryDetail = () => {
         },
       }
     );
+  };
+
+  const handleChange = (value) => {
+    setText(value);
   };
 
   return (
@@ -107,11 +148,21 @@ const DiaryDetail = () => {
                 {...register("title")}
                 defaultValue={diaryDetail?.diary?.title}
               />
-              <Input
-                type="text"
-                {...register("content")}
-                defaultValue={diaryDetail?.diary?.content}
-              />
+              <div className="form_box">
+                <ImageUploadBtn className="upload_wrap">
+                  <Label>썸네일 추가</Label>
+                  <img
+                    src="https://dhgilmy0l2xzq.cloudfront.net/ae6a89a2-e974-4c2a-a7b5-1794a3bf3b86-20240109122208.png"
+                    alt="upload"
+                  />
+                </ImageUploadBtn>
+              </div>
+              <Texteditor>
+                <Label>내용</Label>
+                {ReactQuill && (
+                  <ReactQuill value={text} onChange={handleChange} />
+                )}
+              </Texteditor>
               <span>작성자 : {diaryDetail?.diary?.user?.name}</span>
               <Button type={"submit"}>수정</Button>
             </DiaryWrapper>

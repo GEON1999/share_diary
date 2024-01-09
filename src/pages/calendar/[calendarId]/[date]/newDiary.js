@@ -1,11 +1,16 @@
-import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import useDiaryMutation from "@/Queries/useDiaryMutation";
 import styled from "styled-components";
 import { toast, Toaster } from "react-hot-toast";
-import { useEffect } from "react";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
 
 const DiaryContainer = styled.div`
   width: 640px;
@@ -17,7 +22,7 @@ const DiaryContainer = styled.div`
   transform: translateY(-50%) translateX(-50%);
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
-  padding: 130px 0;
+  padding: 70px 0;
 `;
 
 const FormContainer = styled.form`
@@ -25,12 +30,11 @@ const FormContainer = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
 `;
 
 const Input = styled.input`
   width: 400px;
-  height: 50px;
+  height: 40px;
   border-radius: 10px;
   border-bottom: 1px solid #000000;
   outline: none;
@@ -55,9 +59,31 @@ const SubmitBtn = styled.button`
 
 const Title = styled.h1`
   color: #ffffff;
-  font-size: 23px;
+  font-size: 20px;
   margin: 0 auto;
   text-align: center;
+`;
+
+const Label = styled.label`
+  color: #ffffff;
+  font-size: 14px;
+`;
+
+const ImageUploadBtn = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0px 20px 0px;
+  & > img {
+    margin-top: -10px;
+    width: 100px;
+    height: 100px;
+  }
+`;
+
+const Texteditor = styled.div`
+  display: block;
+  flex-direction: column;
 `;
 
 const notify = (status) => {
@@ -72,6 +98,8 @@ const notify = (status) => {
 
 const NewDiary = () => {
   const router = useRouter();
+  const [text, setText] = useState();
+
   const { date, calendarId } = router.query;
   const { register, handleSubmit } = useForm();
 
@@ -82,9 +110,9 @@ const NewDiary = () => {
   } = useMutation(useDiaryMutation.postDiary);
 
   const onSubmit = (data) => {
-    console.log(data);
+    const formData = { ...data, content: text };
     mutate(
-      { data, date: date, calendarId },
+      { data: formData, date: date, calendarId },
       {
         onSuccess: () => {
           notify("success");
@@ -94,14 +122,29 @@ const NewDiary = () => {
     );
   };
 
+  const handleChange = (value) => {
+    setText(value);
+  };
+
   return (
     <>
       <DiaryContainer>
         <Title>새로운 일기</Title>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
-          {" "}
-          <Input {...register("title")} />
-          <Input {...register("content")} />
+          <Input placeholder={"제목"} {...register("title")} />
+          <div className="form_box">
+            <ImageUploadBtn className="upload_wrap">
+              <Label>썸네일 추가</Label>
+              <img
+                src="https://dhgilmy0l2xzq.cloudfront.net/ae6a89a2-e974-4c2a-a7b5-1794a3bf3b86-20240109122208.png"
+                alt="upload"
+              />
+            </ImageUploadBtn>
+          </div>
+          <Texteditor>
+            <Label>내용</Label>
+            {ReactQuill && <ReactQuill value={text} onChange={handleChange} />}
+          </Texteditor>
           <SubmitBtn type={"submit"}>저장</SubmitBtn>
         </FormContainer>
       </DiaryContainer>
