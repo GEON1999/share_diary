@@ -13,6 +13,10 @@ router.post(API.DELETE_CALENDAR(":id"), async (req, res, next) => {
     },
   });
 
+  if (!permission) {
+    return res.json({ isSuccess: false, message: "권한이 없습니다." });
+  }
+
   if (permission.role !== "OWNER") {
     try {
       await client.calendarPermission.delete({

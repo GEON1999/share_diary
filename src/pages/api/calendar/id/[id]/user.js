@@ -5,6 +5,17 @@ import API from "@/API";
 router.get(API.GET_CALENDAR_USER_INFO(":id"), async (req, res) => {
   const { userId, id } = req.query;
 
+  const permission = await client.calendarPermission.findFirst({
+    where: {
+      userId: Number(userId),
+      calendarId: Number(id),
+    },
+  });
+
+  if (!permission) {
+    return res.json({ isSuccess: false, message: "권한이 없습니다." });
+  }
+
   const calendar = await client.calendar.findUnique({
     where: {
       id: Number(id),
@@ -39,6 +50,17 @@ router.post(API.EDIT_CALENDAR_USER_INFO(":id"), async (req, res, next) => {
     query: { id },
     body: { color, name },
   } = req;
+
+  const permission = await client.calendarPermission.findFirst({
+    where: {
+      userId: Number(userId),
+      calendarId: Number(id),
+    },
+  });
+
+  if (!permission) {
+    return res.json({ isSuccess: false, message: "권한이 없습니다." });
+  }
 
   if (!name) {
     return res.json({ isSuccess: false, message: "이름을 입력해주세요." });
