@@ -155,6 +155,8 @@ export async function getServerSideProps(ctx) {
   await router.run(req, res);
   const userId = req?.user?.id ?? null;
 
+  console.log("ssr request key:", process.env.AXIOS_AUTHORIZATION_SECRET);
+
   await queryClient.prefetchQuery(["CALENDAR_LIST", userId], () => {
     return useCalendarQuery.getCalendarList(
       userId,
