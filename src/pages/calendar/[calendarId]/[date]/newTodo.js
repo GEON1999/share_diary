@@ -99,8 +99,8 @@ const NewTodo = () => {
       <TodoContainer>
         <Title>새로운 일정</Title>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>
-          <Input {...register("title")} />
-          <Input {...register("content")} />
+          <Input placeholder={"제목"} {...register("title")} />
+          <Input placeholder={"내용"} {...register("content")} />
           <SubmitBtn type={"submit"}>저장</SubmitBtn>
         </FormContainer>
       </TodoContainer>
