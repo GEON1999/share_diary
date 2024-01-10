@@ -4,16 +4,19 @@ import helper from "@/helper";
 import API from "@/API";
 
 // get calendar list
-const getCalendarList = async () => {
+const getCalendarList = async (userId, ssrRequestKey = null) => {
+  const opt = { headers: { Authorization: ssrRequestKey } };
+  console.log("opt :", opt);
   const { data } = await axios.get(
-    helper.CURRENT_URL() + API.GET_CALENDAR_LIST()
+    helper.CURRENT_URL() + API.GET_CALENDAR_LIST(userId),
+    opt
   );
 
   return data;
 };
 
-const useGetCalendarList = () => {
-  return useQuery(["CALENDAR_LIST"], () => getCalendarList());
+const useGetCalendarList = (userId) => {
+  return useQuery(["CALENDAR_LIST", userId], () => getCalendarList(userId));
 };
 
 // get calendar detail

@@ -6,8 +6,9 @@ import AddCalendarModal from "@/components/modal/AddCalendar";
 import CalendarNav from "@/components/common/CalendarNav";
 import LogoutBtn from "@/components/common/LogoutBtn";
 import useCalendarMutation from "@/Queries/useCalendarMutation";
-import { useMutation } from "@tanstack/react-query";
+import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import { useAuthContext } from "@/Providers/AuthProvider";
+import router from "../../libs/server/router";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -85,7 +86,12 @@ const Home = () => {
   const router = useRouter();
   const useAuth = useAuthContext();
   const [addCalendarModal, setAddCalendarModal] = useState(false);
-  const { data, isLoading, refetch } = useCalendarQuery.useGetCalendarList();
+  const { data, isLoading, refetch } = useCalendarQuery.useGetCalendarList(
+    useAuth?.user?.id ?? null
+  );
+
+  console.log("data :", data, isLoading);
+
   const { mutate: deleteCalendar } = useMutation(
     useCalendarMutation.deleteCalendar
   );
@@ -144,5 +150,24 @@ const Home = () => {
     </>
   );
 };
+
+export async function getServerSideProps(ctx) {
+  const { req, res } = ctx;
+  const queryClient = new QueryClient();
+
+  await router.run(req, res);
+  const userId = req?.user?.id ?? null;
+
+  await queryClient.prefetchQuery(["CALENDAR_LIST", userId], () => {
+    return useCalendarQuery.getCalendarList(
+      userId,
+      process.env.AXIOS_AUTHORIZATION_SECRET
+    );
+  });
+
+  return {
+    props: { dehydratedState: dehydrate(queryClient) },
+  };
+}
 
 export default Home;
