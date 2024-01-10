@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import client from "../../../../libs/server/client";
 import API from "@/API";
 import router from "../../../../libs/server/router";

@@ -3,12 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 
 // 로그인 유저
 const loginUser = async (data) => {
-  console.log("data", data);
   const { data: result } = await axios.post("/api/users/enter", {
     username: data.id,
     password: data.pw,
   });
-  console.log("result", result);
 
   return result;
 };

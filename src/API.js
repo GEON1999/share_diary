@@ -32,7 +32,8 @@ const EDIT_CALENDAR_USER_INFO = (calendarId) =>
   `/api/calendar/id/${calendarId}/user`;
 
 // 캘린더 상세 정보
-const GET_CALENDAR_DETAIL = (calendarId) => `/api/calendar/id/${calendarId}`;
+const GET_CALENDAR_DETAIL = (calendarId, query) =>
+  `/api/calendar/id/${calendarId}${query ? `?${query}` : ""}`;
 
 // 캘린더 초대코드 가져오기
 const GET_CALENDAR_INVITE_CODE = (calendarId, userId) =>

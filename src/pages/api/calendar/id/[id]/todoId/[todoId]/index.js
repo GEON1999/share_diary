@@ -34,8 +34,6 @@ router.post(API.PUT_TODO(":id", ":todoId"), async (req, res) => {
     query: { id, todoId },
   } = req;
 
-  console.log("req.body :", req.body, "req.query :", req.query);
-
   try {
     const todo = await client.todo.update({
       where: {

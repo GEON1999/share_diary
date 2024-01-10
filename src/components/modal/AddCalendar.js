@@ -103,7 +103,6 @@ const AddCalendarModal = ({ onClose }) => {
   const onSubmit = (data) => {
     createCalendar(data.name, {
       onSuccess: (data) => {
-        console.log("calendar post data :", data);
         if (data?.data?.isSuccess === true) {
           alert("달력이 생성되었습니다.");
           router.reload();
@@ -115,12 +114,10 @@ const AddCalendarModal = ({ onClose }) => {
   };
 
   const onInviteSubmit = (data) => {
-    console.log("data :", data);
     getInvtedCalendar(
       { code: data.code, userId: useAuth?.user?.id },
       {
         onSuccess: (data) => {
-          console.log("calendar post data :", data);
           if (data?.data?.isSuccess === true) {
             alert("달력에 참가하였습니다.");
             router.reload();

@@ -76,7 +76,6 @@ const TodoDetail = () => {
   const { mutate: updateTodo } = useMutation(useTodoMutation.putTodo);
 
   const { register, handleSubmit } = useForm();
-  console.log("todoDetail :", todoDetail, isLoading);
 
   const onSubmit = (data) => {
     updateTodo(

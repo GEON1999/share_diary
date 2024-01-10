@@ -90,8 +90,6 @@ const Home = () => {
     useAuth?.user?.id ?? null
   );
 
-  console.log("data :", data, isLoading);
-
   const { mutate: deleteCalendar } = useMutation(
     useCalendarMutation.deleteCalendar
   );
@@ -105,7 +103,6 @@ const Home = () => {
       { calendarId, userId: useAuth?.user?.id },
       {
         onSuccess: (data) => {
-          console.log("delete data :", data);
           if (data?.data?.isSuccess === true) {
             alert("달력이 삭제되었습니다.");
             refetch();

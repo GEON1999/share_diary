@@ -1,3 +1,4 @@
+/*
 import router from "../../../../libs/server/router";
 import passport from "passport";
 import config from "next.config";
@@ -12,3 +13,4 @@ router.get("/api/auth/kakao", async (req, res, next) => {
 });
 
 export default router;
+*/

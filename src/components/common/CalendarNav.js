@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { useAuthContext } from "@/Providers/AuthProvider";
 import LogoutBtn from "@/components/common/LogoutBtn";
 
 const Nav = styled.nav`

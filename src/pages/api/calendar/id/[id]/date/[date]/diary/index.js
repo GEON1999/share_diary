@@ -42,7 +42,6 @@ router.get(
         message: "success",
       });
     } catch (e) {
-      console.log("e :", e);
       return res.status(500).json({ isSuccess: false, message: e.message });
     }
   }

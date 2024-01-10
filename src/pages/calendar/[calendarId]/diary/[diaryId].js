@@ -110,7 +110,6 @@ const DiaryDetail = () => {
   const { mutate: updateDiary } = useMutation(useDiaryMutation.putDiary);
 
   const { register, handleSubmit } = useForm();
-  console.log("diaryDetail :", diaryDetail, isLoading);
 
   const onSubmit = (data) => {
     const formData = { ...data, content: text };

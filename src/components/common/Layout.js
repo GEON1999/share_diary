@@ -5,9 +5,6 @@ import { useAuthContext } from "@/Providers/AuthProvider";
 const Layout = ({ children, layout, activeClass, notAuthPage }) => {
   const router = useRouter();
   const useAuth = useAuthContext();
-  console.log("useAuth", useAuth);
-
-  console.log("notAuthPage", notAuthPage);
 
   if (notAuthPage === true) {
     return <>{children}</>;

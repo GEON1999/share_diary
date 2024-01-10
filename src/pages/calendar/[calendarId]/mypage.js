@@ -162,7 +162,6 @@ const Mypage = () => {
     calendarId,
     userId
   );
-  console.log("userInfo :", userInfo);
 
   const { mutate: createInviteCode } = useMutation(
     useCalendarMutation.createCalendarInvite
@@ -179,7 +178,6 @@ const Mypage = () => {
   const { register, handleSubmit } = useForm();
 
   const handleCreateInviteCode = async () => {
-    console.log("userId :", userId);
     createInviteCode(
       { calendarId, userId },
       {

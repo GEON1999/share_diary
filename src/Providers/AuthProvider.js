@@ -29,8 +29,6 @@ const AuthProvider = ({ children }) => {
       password,
     });
 
-    console.log("data :", data);
-
     if (data.success) {
       setUser({ ...data.user });
       setLoading(false);
@@ -53,9 +51,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      console.log("getUser :");
       const { data: userData } = await axios.get("/api/users/me");
-      console.log("userData :", userData);
       if (userData?.success) {
         setUser({ ...userData.user });
       }

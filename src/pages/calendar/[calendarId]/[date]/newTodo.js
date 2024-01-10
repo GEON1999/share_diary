@@ -82,7 +82,6 @@ const NewTodo = () => {
   } = useMutation(useTodoMutation.postTodo);
 
   const onSubmit = (data) => {
-    console.log(data);
     mutate(
       { data, date: date, calendarId },
       {

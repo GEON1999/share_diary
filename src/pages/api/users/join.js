@@ -4,8 +4,6 @@ import client from "../../../../libs/server/client";
 router.post("/api/users/join", async (req, res, next) => {
   const { id, pw, name } = req?.body;
 
-  console.log("req.body :", req.body);
-
   const user = await client.user.findFirst({
     where: {
       email: id,

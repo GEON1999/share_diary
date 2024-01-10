@@ -81,7 +81,6 @@ const Login = () => {
     isSuccess,
   } = useMutation(useUserQuery.loginUser);
 
-  console.log("postData", postData);
   /*useEffect(() => {
     postData?.message === "success"
       ? router.push("/calendar")
