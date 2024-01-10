@@ -6,7 +6,6 @@ import API from "@/API";
 // get calendar list
 const getCalendarList = async (userId, ssrRequestKey = null) => {
   const opt = { headers: { Authorization: ssrRequestKey } };
-  console.log("opt :", opt);
   const { data } = await axios.get(
     helper.CURRENT_URL() + API.GET_CALENDAR_LIST(userId),
     opt
@@ -20,22 +19,24 @@ const useGetCalendarList = (userId) => {
 };
 
 // get calendar detail
-const getCalendarDetail = async (calendarId, query) => {
+const getCalendarDetail = async (calendarId, query, ssrRequestKey = null) => {
+  const opt = { headers: { Authorization: ssrRequestKey } };
   const { data } = await axios.get(
-    helper.CURRENT_URL() + API.GET_CALENDAR_DETAIL(calendarId, query)
+    helper.CURRENT_URL() + API.GET_CALENDAR_DETAIL(calendarId, query),
+    opt
   );
 
   return data;
 };
 
 const useGetCalendarDetail = (calendarId, query) => {
-  return useQuery(["CALENDAR_DETAIL", query], () =>
-    getCalendarDetail(calendarId, query)
+  console.log("calendarId :", calendarId, query);
+  return useQuery(["CALENDAR_DETAIL", calendarId ?? null, query], () =>
+    getCalendarDetail(calendarId ?? null, query)
   );
 };
 
 const getCalendarInviteCode = async (calendarId, userId) => {
-  console.log("path :", API.GET_CALENDAR_INVITE_CODE(calendarId, userId));
   const { data } = await axios.get(
     helper.CURRENT_URL() + API.GET_CALENDAR_INVITE_CODE(calendarId, userId)
   );

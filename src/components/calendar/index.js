@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import DiaryTable from "@/components/table/DiaryTable";
-import TodoTable from "@/components/table/TodoTable";
 import CalendarDateModal from "@/components/modal/CalendarDateModal";
+import helper from "@/helper";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
+import { useAuthContext } from "@/Providers/AuthProvider";
 
 const CalendarContainer = styled.div`
   display: flex;
@@ -104,6 +105,8 @@ const Calendar = ({ calendarId, calendarData }) => {
   const [modal, setModal] = useState(false);
   const router = useRouter();
   const date = router.query.date;
+
+  // date
   const clickedDate = date ? new Date(parseInt(date)) : null;
   const clickedDay = clickedDate ? clickedDate.getDate() : null;
   const today = new Date();

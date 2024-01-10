@@ -6,7 +6,6 @@ router.get(
   API.GET_CALENDAR_DETAIL(":id"),
   router.isAuthenticated,
   async (req, res, next) => {
-    const user = req.user;
     const { id, userId, date } = req?.query;
 
     try {
@@ -23,7 +22,7 @@ router.get(
       const calendarPermission = await client.calendarPermission.findFirst({
         where: {
           calendarId: Number(id),
-          userId: Number(user.id),
+          userId: Number(userId),
         },
       });
       if (!calendarPermission) {

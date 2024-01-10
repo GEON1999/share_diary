@@ -1,18 +1,12 @@
-import { useEffect, useLayoutEffect, useState } from "react";
-import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useRouter } from "next/router";
-import TodoTable from "@/components/table/TodoTable";
-import styled, { keyframes } from "styled-components";
-import DiaryTable from "@/components/table/DiaryTable";
-import useDiaryQuery from "@/Queries/useDiaryQuery";
+import styled from "styled-components";
 import Calendar from "@/components/calendar";
+import CalendarNav from "@/components/common/CalendarNav";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import router from "../../../../libs/server/router";
 import helper from "@/helper";
+import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useAuthContext } from "@/Providers/AuthProvider";
-import CalendarNav from "@/components/common/CalendarNav";
-import useTodoQuery from "@/Queries/useTodoQuery";
-import { toast, Toaster } from "react-hot-toast";
 
 const HomeWrapper = styled.div`
   width: 100%;
@@ -28,14 +22,16 @@ const HomeWrapper = styled.div`
 const Index = () => {
   const router = useRouter();
   const { query } = router;
-  const useAuth = useAuthContext();
   const { calendarId, date } = query;
 
+  const useAuth = useAuthContext();
   const { data: calendarData, isLoading: isCalendarLoading } =
     useCalendarQuery.useGetCalendarDetail(
       calendarId ?? null,
       helper.queryToString({ userId: useAuth?.user?.id, date: date })
     );
+
+  console.log("calendarData :", calendarData, isCalendarLoading);
 
   //  const { mutate } = useMutation(useCalendarQuery.postCalender);
 
@@ -43,7 +39,7 @@ const Index = () => {
     <div>
       <CalendarNav />
       <HomeWrapper>
-        <Calendar calendarData={calendarData} calendarId={calendarId} />
+        <Calendar calendarId={calendarId} calendarData={calendarData} />
       </HomeWrapper>
     </div>
   );
@@ -51,34 +47,27 @@ const Index = () => {
 
 export const getServerSideProps = async (ctx) => {
   const { req, res, query } = ctx;
+  const queryClient = new QueryClient();
 
   await router.run(req, res);
   const userId = req.user?.id ?? null;
   const { date, calendarId } = query;
-  console.log("userId :", userId);
-  const queryClient = new QueryClient();
 
-  const calendarQuery = helper.queryToString({ userId: userId, date: date });
+  const calendarQuery = helper.queryToString({ userId, date });
 
   await queryClient.prefetchQuery(
     ["CALENDAR_DETAIL", calendarId ?? null, calendarQuery],
     () => {
       return useCalendarQuery.getCalendarDetail(
         calendarId ?? null,
-        calendarQuery
+        calendarQuery,
+        process.env.AXIOS_AUTHORIZATION_SECRET
       );
     }
   );
 
-  const calendarData = queryClient.getQueryData([
-    "CALENDAR_DETAIL",
-    calendarId,
-  ]);
-
   return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
+    props: { dehydratedState: dehydrate(queryClient) },
   };
 };
 
