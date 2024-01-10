@@ -120,10 +120,12 @@ const Login = () => {
           <Input
             inputColor="red"
             type={"text"}
+            placeholder={"아이디"}
             {...register("username", { required: true })}
           />
           <Input
             type={"password"}
+            placeholder={"비밀번호"}
             {...register("password", { required: true })}
           />
           <LoginBtn type={"submit"}>로그인</LoginBtn>
