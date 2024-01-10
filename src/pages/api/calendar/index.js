@@ -1,40 +1,32 @@
-import router from "../../../../libs/server/router";
 import { PrismaClient } from "@prisma/client";
 import client from "../../../../libs/server/client";
 import API from "@/API";
+import router from "../../../../libs/server/router";
 
-router.get(API.GET_CALENDAR_LIST(), async (req, res, next) => {
-  const user = req.user;
+router.get(
+  API.GET_CALENDAR_LIST(),
+  router.isAuthenticated,
+  async (req, res, next) => {
+    const { userId } = req.query;
 
-  try {
-    const permission = await client.calendarPermission.findMany({
-      where: {
-        userId: Number(user.id),
-      },
-      include: {
-        calendar: true,
-      },
-    });
-    /*const calendars = await client.calendar.findMany({
-      where: {
-        calendarPermissions: {
-          some: {
-            userId: Number(user.id),
-          },
+    try {
+      const permission = await client.calendarPermission.findMany({
+        where: {
+          userId: Number(userId),
         },
-      },
-      include: {
-        calendarPermissions: true,
-      },
-    });*/
+        include: {
+          calendar: true,
+        },
+      });
 
-    return res
-      .status(200)
-      .json({ isSuccess: true, calendars: permission, message: "success" });
-  } catch (e) {
-    return res.status(500).json({ isSuccess: false, message: e.message });
+      return res
+        .status(200)
+        .json({ isSuccess: true, calendars: permission, message: "success" });
+    } catch (e) {
+      return res.status(500).json({ isSuccess: false, message: e.message });
+    }
   }
-});
+);
 
 router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
   const {

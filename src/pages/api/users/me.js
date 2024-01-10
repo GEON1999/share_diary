@@ -1,6 +1,6 @@
 import router from "../../../../libs/server/router";
 
-router.get("/api/users/me", async (req, res) => {
+router.get("/api/users/me", router.isAuthenticated, async (req, res) => {
   const user = req?.user;
 
   if (user) {
