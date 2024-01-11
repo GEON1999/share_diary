@@ -160,7 +160,8 @@ export async function getServerSideProps(ctx) {
   await queryClient.prefetchQuery(["CALENDAR_LIST", userId], () => {
     return useCalendarQuery.getCalendarList(
       userId,
-      process.env.AXIOS_AUTHORIZATION_SECRET
+      "serverside_token_test"
+      /*process.env.AXIOS_AUTHORIZATION_SECRET*/
     );
   });
 
