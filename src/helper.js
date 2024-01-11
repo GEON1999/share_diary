@@ -3,8 +3,7 @@ const CURRENT_URL = () => {
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
       : "";
-  origin = origin === "" ? "http://localhost:3000" : "";
-
+  origin = origin === "" ? process.env.CURRENT_URL : "";
   return origin;
 };
 
