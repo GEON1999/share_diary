@@ -6,7 +6,7 @@ router.get(
   API.GET_CALENDAR_DETAIL(":id"),
   router.isAuthenticated,
   async (req, res, next) => {
-    const { id, userId, date } = req?.query;
+    const { id, userId } = req?.query;
 
     try {
       const calendar = await client.calendar.findFirst({

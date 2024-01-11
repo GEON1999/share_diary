@@ -28,7 +28,7 @@ const Index = () => {
   const { data: calendarData, isLoading: isCalendarLoading } =
     useCalendarQuery.useGetCalendarDetail(
       calendarId ?? null,
-      helper.queryToString({ userId: useAuth?.user?.id, date: date })
+      helper.queryToString({ userId: useAuth?.user?.id })
     );
 
   console.log("calendarData :", calendarData, isCalendarLoading);
@@ -53,7 +53,7 @@ export const getServerSideProps = async (ctx) => {
   const userId = req.user?.id ?? null;
   const { date, calendarId } = query;
 
-  const calendarQuery = helper.queryToString({ userId, date });
+  const calendarQuery = helper.queryToString({ userId });
 
   await queryClient.prefetchQuery(
     ["CALENDAR_DETAIL", calendarId ?? null, calendarQuery],

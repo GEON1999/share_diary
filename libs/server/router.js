@@ -32,8 +32,8 @@ const whitelist = ["/api/users/enter", "/login", "/join", "/api/users/join"];
 
 router.isAuthenticated = (req, res, next) => {
   if (whitelist.includes(req?.url)) return next();
-  const auth = req?.headers?.authorization;
-  console.log("router auth : ", auth);
+  const auth = req?.headers?.x_authorization;
+  console.log("router auth : ", req?.headers?.x_authorization);
   if (
     req?.isAuthenticated() ||
     auth === process.env.AXIOS_AUTHORIZATION_SECRET
