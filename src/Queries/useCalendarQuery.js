@@ -5,6 +5,7 @@ import API from "@/API";
 
 // get calendar list
 const getCalendarList = async (userId, ssrRequestKey = "test") => {
+  console.log("ssrRequestKey :", ssrRequestKey);
   const opt = { headers: { Auth: ssrRequestKey } };
   const { data } = await axios.get(
     helper.CURRENT_URL() + API.GET_CALENDAR_LIST(userId),

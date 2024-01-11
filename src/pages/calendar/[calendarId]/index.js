@@ -55,13 +55,16 @@ export const getServerSideProps = async (ctx) => {
 
   const calendarQuery = helper.queryToString({ userId });
 
+  console.log("queryClient :", queryClient);
+
   await queryClient.prefetchQuery(
     ["CALENDAR_DETAIL", calendarId ?? null, calendarQuery],
     () => {
       return useCalendarQuery.getCalendarDetail(
         calendarId ?? null,
         calendarQuery,
-        process.env.AXIOS_AUTHORIZATION_SECRET
+        "serverside_token_test"
+        /* process.env.AXIOS_AUTHORIZATION_SECRET*/
       );
     }
   );
