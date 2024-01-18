@@ -96,6 +96,28 @@ const ExitBtn = styled.img`
   cursor: pointer;
 `;
 
+const rotation = keyframes`
+    from{
+        transform: rotate(0deg);
+    }
+
+    to{
+        transform: rotate(360deg);
+    }
+
+`;
+
+const Loading = styled.div`
+  height: 30px;
+  width: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  border-top: none;
+  border-right: none;
+  margin: 16px auto;
+  animation: ${rotation} 3s linear infinite;
+`;
+
 const CalendarDateModal = ({ onClose }) => {
   const router = useRouter();
   const { query } = router;
@@ -104,11 +126,11 @@ const CalendarDateModal = ({ onClose }) => {
   const useAuth = useAuthContext();
 
   // get diary
-  const { data: diaryData, isLoading } = useDiaryQuery.useGetDiary(
-    calendarId,
-    useAuth.user?.id,
-    date
-  );
+  const {
+    data: diaryData,
+    isLoading,
+    isFetched,
+  } = useDiaryQuery.useGetDiary(calendarId, useAuth.user?.id, date);
 
   // get todo
   const { data: todoData, isLoading: isTodoLoading } = useTodoQuery.useGetTodo(
@@ -151,11 +173,11 @@ const CalendarDateModal = ({ onClose }) => {
       <ListContainer>
         <div>
           <Title>기록</Title>
-          {isLoading ? null : <DiaryTable diaryData={diaryData} />}
+          {isFetched ? <DiaryTable diaryData={diaryData} /> : <Loading />}
         </div>
         <div>
           <Title>일정</Title>
-          {isTodoLoading ? null : <TodoTable todoData={todoData} />}
+          {isFetched ? <TodoTable todoData={todoData} /> : <Loading />}
         </div>
       </ListContainer>
     </DiaryContainer>
