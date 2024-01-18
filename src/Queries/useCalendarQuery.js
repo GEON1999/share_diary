@@ -4,10 +4,9 @@ import helper from "@/helper";
 import API from "@/API";
 
 // get calendar list
-const getCalendarList = async (userId, ssrRequestKey = "test") => {
-  console.log("ssrRequestKey :", ssrRequestKey);
-  console.log("url :", helper.CURRENT_URL() + API.GET_CALENDAR_LIST(userId));
+const getCalendarList = async (userId, ssrRequestKey = null) => {
   const opt = { headers: { Auth: ssrRequestKey } };
+  console.log("url:", helper.CURRENT_URL() + API.GET_CALENDAR_LIST(userId));
   const { data } = await axios.get(
     helper.CURRENT_URL() + API.GET_CALENDAR_LIST(userId),
     opt
@@ -21,7 +20,7 @@ const useGetCalendarList = (userId) => {
 };
 
 // get calendar detail
-const getCalendarDetail = async (calendarId, query, ssrRequestKey = "test") => {
+const getCalendarDetail = async (calendarId, query, ssrRequestKey = null) => {
   const opt = { headers: { Auth: ssrRequestKey } };
   const { data } = await axios.get(
     helper.CURRENT_URL() + API.GET_CALENDAR_DETAIL(calendarId, query),

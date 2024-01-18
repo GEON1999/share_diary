@@ -3,7 +3,7 @@ const CURRENT_URL = () => {
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
       : "";
-  origin = origin === "" ? process.env.CURRENT_URL : "";
+  origin = origin === "" ? process.env.CURRENT_URL : window.location.origin;
   return origin;
 };
 
