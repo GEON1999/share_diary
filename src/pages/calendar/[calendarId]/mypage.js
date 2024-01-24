@@ -3,9 +3,11 @@ import { useAuthContext } from "@/Providers/AuthProvider";
 import useCalendarQuery from "@/Queries/useCalendarQuery";
 import { useRouter } from "next/router";
 import useCalendarMutation from "@/Queries/useCalendarMutation";
-import { useMutation } from "@tanstack/react-query";
+import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import CalendarNav from "@/components/common/CalendarNav";
 import { useForm } from "react-hook-form";
+import router from "../../../../libs/server/router";
+import helper from "@/helper";
 
 const MypageContainer = styled.div`
   display: flex;
@@ -292,6 +294,43 @@ const Mypage = () => {
       </MypageContainer>
     </>
   );
+};
+
+export const getServerSideProps = async (ctx) => {
+  const { req, res, query } = ctx;
+  const queryClient = new QueryClient();
+
+  await router.run(req, res);
+  const userId = req.user?.id ?? null;
+  const { calendarId } = query;
+
+  await queryClient.prefetchQuery();
+
+  await queryClient.prefetchQuery(
+    ["CALENDAR_INVITE_CODE", calendarId ?? null, userId],
+    () => {
+      return useCalendarQuery.getCalendarInviteCode(
+        calendarId ?? null,
+        userId,
+        process.env.AXIOS_AUTHORIZATION_SECRET
+      );
+    }
+  );
+
+  await queryClient.prefetchQuery(
+    ["CALENDAR_USER_INFO", calendarId ?? null, userId],
+    () => {
+      return useCalendarQuery.getCalendarUserInfo(
+        calendarId ?? null,
+        userId,
+        process.env.AXIOS_AUTHORIZATION_SECRET
+      );
+    }
+  );
+
+  return {
+    props: { dehydratedState: dehydrate(queryClient) },
+  };
 };
 
 export default Mypage;

@@ -37,9 +37,11 @@ const useGetCalendarDetail = (calendarId, query) => {
   );
 };
 
-const getCalendarInviteCode = async (calendarId, userId) => {
+const getCalendarInviteCode = async (calendarId, userId, ssrRequestKey) => {
+  const opt = { headers: { Auth: ssrRequestKey } };
   const { data } = await axios.get(
-    helper.CURRENT_URL() + API.GET_CALENDAR_INVITE_CODE(calendarId, userId)
+    helper.CURRENT_URL() + API.GET_CALENDAR_INVITE_CODE(calendarId, userId),
+    opt
   );
 
   return data;
@@ -51,9 +53,11 @@ const useGetCalendarInviteCode = (calendarId, userId) => {
   );
 };
 
-const getCalendarUserInfo = async (calendarId, userId) => {
+const getCalendarUserInfo = async (calendarId, userId, ssrRequestKey) => {
+  const opt = { headers: { Auth: ssrRequestKey } };
   const { data } = await axios.get(
-    helper.CURRENT_URL() + API.GET_CALENDAR_USER_INFO(calendarId, userId)
+    helper.CURRENT_URL() + API.GET_CALENDAR_USER_INFO(calendarId, userId),
+    opt
   );
 
   return data;
