@@ -3,6 +3,7 @@ import client from "./client";
 const passport = require("passport");
 import axios from "axios";
 import LocalStrategy from "passport-local";
+import bcrypt from "bcrypt";
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -23,11 +24,11 @@ passport.use(
       const data = await client.user.findFirst({
         where: {
           email: username,
-          password: password,
         },
       });
+      const result = await bcrypt.compare(password, data?.password);
 
-      if (data?.email === username) {
+      if (result === true && data?.email === username) {
         await done(null, {
           id: data.id,
           username,

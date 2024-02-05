@@ -81,7 +81,7 @@ const Nav = styled.nav`
 const NavItem = styled.div`
   margin: 0 10px;
   cursor: pointer;
-  border-bottom: 2px solid rgba(68, 68, 105, 0.5);
+  //border-bottom: 3px solid rgba(68, 68, 105, 0.5);
 `;
 
 const AddCalendarModal = ({ onClose }) => {
@@ -138,8 +138,16 @@ const AddCalendarModal = ({ onClose }) => {
       <CreateContainer>
         <Header>
           <Nav>
-            <NavItem onClick={() => formChancher("create")}>달력 생성</NavItem>
-            <NavItem onClick={() => formChancher("invite")}>
+            <NavItem
+              active-create={formSelect === "create" ? true : false}
+              onClick={() => formChancher("create")}
+            >
+              달력 생성
+            </NavItem>
+            <NavItem
+              active-invite={formSelect === "invite" ? true : false}
+              onClick={() => formChancher("invite")}
+            >
               달력 참가하기
             </NavItem>
           </Nav>
