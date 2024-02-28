@@ -17,6 +17,11 @@ const DiaryContainer = styled.div`
   position: relative;
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
+  @media (max-width: 600px) {
+    height: 470px;
+    width: 340px;
+    margin-right: 0px;
+  }
 `;
 
 const PluseBtn = styled.button`
@@ -38,6 +43,11 @@ const PluseBtn = styled.button`
       transform: rotate(0deg); /* hover 해제 시 초기 각도로 돌아가도록 설정 */
     }
   }
+
+  @media (max-width: 600px) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const BtnContainer = styled.div`
@@ -58,12 +68,18 @@ const fadeInAnimation = keyframes`
 
 const DiaryBtn = styled.button`
   ${fadeInAnimation} 0.5s ease;
-  width: 101px;
+  width: 100px;
   height: 50px;
   border-radius: 10px;
   color: #ffff;
   margin-top: 20px;
   background-color: #045cb6;
+
+  @media (max-width: 600px) {
+    width: 110px;
+    height: 45px;
+    font-size: 13px;
+  }
 `;
 
 const TodoBtn = styled.button`
@@ -74,6 +90,12 @@ const TodoBtn = styled.button`
   color: #ffff;
   margin-top: 20px;
   background-color: #205b08;
+
+  @media (max-width: 600px) {
+    width: 110px;
+    height: 45px;
+    font-size: 13px;
+  }
 `;
 
 const ListContainer = styled.div`
@@ -87,6 +109,9 @@ const Title = styled.h1`
   font-size: 18px;
   margin: 0 auto;
   text-align: center;
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const ExitBtn = styled.img`
@@ -94,6 +119,10 @@ const ExitBtn = styled.img`
   left: 290px;
   top: 10px;
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    left: 145px;
+  }
 `;
 
 const rotation = keyframes`
