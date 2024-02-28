@@ -24,8 +24,8 @@ const MypageContainer = styled.div`
   border-radius: 30px;
 
   @media (max-width: 600px) {
-    margin-top: 50px;
-    height: 810px;
+    margin-top: 10px;
+    height: 600px;
     width: 340px;
   }
 `;
