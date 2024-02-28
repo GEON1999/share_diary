@@ -11,18 +11,27 @@ const CalendarContainer = styled.div`
   flex-direction: column;
   width: 640px;
   height: 620px;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   position: relative;
   z-index: 100;
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
   margin-right: 100px;
+  @media (max-width: 600px) {
+    display: ${({ isModal }) => (isModal === true ? "none" : "flex")};
+    height: 470px;
+    width: 340px;
+    margin-right: 0px;
+  }
 `;
 
 const SelectContainer = styled.div`
   display: flex;
-  margin: 20px 0px 20px 0px;
+  margin: 10px 0px 10px 0px;
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const Day = styled.td`
@@ -43,6 +52,10 @@ const Day = styled.td`
     background-color: #ffffff;
     color: #000000;
   }
+  @media (max-width: 600px) {
+    padding: 14px;
+    font-size: 13px;
+  }
 `;
 
 const YearInput = styled.input`
@@ -54,6 +67,9 @@ const YearInput = styled.input`
   padding-left: 10px;
   color: #ffffff;
   margin: 10px 10px 10px 0px;
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const MonthSelect = styled.select`
@@ -69,6 +85,10 @@ const MonthSelect = styled.select`
 
 const WeekTr = styled.tr`
   color: #5e5452;
+
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const generateCalendar = (year, month) => {
@@ -145,7 +165,7 @@ const Calendar = ({ calendarId, calendarData }) => {
 
   return (
     <>
-      <CalendarContainer>
+      <CalendarContainer isModal={modal}>
         <SelectContainer>
           <YearInput
             type="number"
