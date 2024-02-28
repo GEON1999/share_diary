@@ -10,6 +10,10 @@ const Btn = styled.button`
   position: absolute;
   right: 20px;
   top: 30px;
+  @media (max-width: 600px) {
+    font-size: 13px;
+    right: 5px;
+  }
 `;
 
 const LogoutBtn = () => {

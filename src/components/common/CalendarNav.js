@@ -24,6 +24,11 @@ const Ul = styled.ul`
   border-radius: 15px;
   margin-top: 40px;
   margin-right: 20px;
+
+  @media (max-width: 600px) {
+    font-size: 13px;
+    width: 100%;
+  }
 `;
 
 const CalendarNav = () => {
