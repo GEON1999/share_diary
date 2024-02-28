@@ -21,8 +21,13 @@ const MypageContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
-
   border-radius: 30px;
+
+  @media (max-width: 600px) {
+    margin-top: 50px;
+    height: 810px;
+    width: 340px;
+  }
 `;
 
 const EditWrapper = styled.div`
@@ -35,6 +40,12 @@ const EditWrapper = styled.div`
   background-color: rgba(59, 59, 59, 0.3);
   border-radius: 30px;
   margin-bottom: 10px;
+
+  @media (max-width: 600px) {
+    padding: 20px 0;
+    height: 510px;
+    width: 340px;
+  }
 `;
 
 const Form = styled.form`
@@ -66,6 +77,12 @@ const Input = styled.input`
   padding-left: 10px;
   color: #000000;
   margin: 10px 5px;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const InviteInput = styled.input`
@@ -79,6 +96,12 @@ const InviteInput = styled.input`
   margin: 10px 5px;
   background-color: rgba(238, 238, 241, 0.93);
   cursor: pointer;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 100px;
+    font-size: 13px;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -93,6 +116,11 @@ const ImageInput = styled.div`
   height: 150px;
   border-radius: 50%;
   margin: 10px;
+
+  @media (max-width: 600px) {
+    width: 130px;
+    height: 130px;
+  }
 `;
 
 const ImageEditBtn = styled.button`
@@ -103,6 +131,12 @@ const ImageEditBtn = styled.button`
   border-radius: 10px;
   margin: 10px;
   align-content: flex-start;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 190px;
+    font-size: 13px;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -113,6 +147,12 @@ const SubmitBtn = styled.button`
   border-radius: 10px;
   margin: 10px;
   align-content: flex-start;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 190px;
+    font-size: 13px;
+  }
 `;
 
 const InviteBtn = styled.button`
@@ -123,6 +163,12 @@ const InviteBtn = styled.button`
   border-radius: 10px;
   margin: 10px;
   align-content: flex-start;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 90px;
+    font-size: 13px;
+  }
 `;
 
 const InputLabel = styled.label`
@@ -130,6 +176,10 @@ const InputLabel = styled.label`
   font-weight: bold;
   margin: 10px;
   color: #ffffff;
+
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const EtcWrapper = styled.div`
@@ -141,6 +191,12 @@ const EtcWrapper = styled.div`
   align-items: center;
   background-color: rgba(59, 59, 59, 0.3);
   border-radius: 30px;
+
+  @media (max-width: 600px) {
+    padding: 20px 0;
+    height: 150px;
+    width: 340px;
+  }
 `;
 
 const Title = styled.h1`
@@ -148,6 +204,15 @@ const Title = styled.h1`
   font-size: 23px;
   margin: 0 auto;
   text-align: center;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    background: rgba(201, 190, 190, 0.9);
+    padding: 2px 4px 2px 4px;
+    border-radius: 5px;
+  }
 `;
 
 const Mypage = () => {
