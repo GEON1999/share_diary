@@ -42,8 +42,8 @@ const EditWrapper = styled.div`
   margin-bottom: 10px;
 
   @media (max-width: 600px) {
-    padding: 20px 0;
-    height: 510px;
+    padding: 5px 0;
+    height: 370px;
     width: 340px;
   }
 `;
@@ -193,8 +193,8 @@ const EtcWrapper = styled.div`
   border-radius: 30px;
 
   @media (max-width: 600px) {
-    padding: 20px 0;
-    height: 150px;
+    padding: 10px 0;
+    height: 130px;
     width: 340px;
   }
 `;
@@ -208,7 +208,8 @@ const Title = styled.h1`
   @media (max-width: 600px) {
     font-size: 18px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    margin-bottom: 3px;
     background: rgba(201, 190, 190, 0.9);
     padding: 2px 4px 2px 4px;
     border-radius: 5px;
