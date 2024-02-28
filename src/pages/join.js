@@ -11,6 +11,8 @@ const JoinContainer = styled.div`
   flex-direction: column;
   width: 640px;
   height: 620px;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
   position: absolute;
   top: 50%;
@@ -18,7 +20,12 @@ const JoinContainer = styled.div`
   transform: translateY(-50%) translateX(-50%);
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
-  padding: 130px 0;
+
+  @media (max-width: 600px) {
+    padding: 80px 0;
+    height: 510px;
+    width: 340px;
+  }
 `;
 
 const FormContainer = styled.div`
@@ -26,7 +33,7 @@ const FormContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 0px;
 `;
 
 const Input = styled.input`
@@ -37,7 +44,11 @@ const Input = styled.input`
   outline: none;
   padding-left: 10px;
   color: #000000;
-  margin: 10px 0px;
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -47,6 +58,11 @@ const SubmitBtn = styled.button`
   height: 50px;
   border-radius: 10px;
   margin-top: 40px;
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const Join = () => {
