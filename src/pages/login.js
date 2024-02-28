@@ -31,6 +31,11 @@ const LoginContainer = styled.div`
   transform: translateY(-50%) translateX(-50%);
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
+
+  @media (max-width: 600px) {
+    height: 470px;
+    width: 340px;
+  }
 `;
 
 const Input = styled.input`
@@ -42,6 +47,12 @@ const Input = styled.input`
   padding-left: 10px;
   color: #000000;
   margin: 10px 0px;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const LoginBtn = styled.button`
@@ -56,6 +67,13 @@ const LoginBtn = styled.button`
     background-color: rgb(25, 25, 112);
     transition: 0.5s;
   }
+
+  @media (max-width: 600px) {
+    margin-top: 40px;
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const JoinBtn = styled.button`
@@ -68,6 +86,12 @@ const JoinBtn = styled.button`
   &:hover {
     background-color: rgb(93, 111, 176);
     transition: 0.5s;
+  }
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
   }
 `;
 
