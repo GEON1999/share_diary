@@ -23,6 +23,12 @@ const DiaryContainer = styled.div`
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
   padding: 70px 0;
+
+  @media (max-width: 600px) {
+    padding: 25px 0;
+    height: 510px;
+    width: 340px;
+  }
 `;
 
 const FormContainer = styled.form`
@@ -41,6 +47,12 @@ const Input = styled.input`
   padding-left: 10px;
   color: #000000;
   margin: 10px 0px;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -55,6 +67,12 @@ const SubmitBtn = styled.button`
     background-color: rgb(25, 25, 112);
     transition: 0.5s;
   }
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const Title = styled.h1`
@@ -62,11 +80,19 @@ const Title = styled.h1`
   font-size: 20px;
   margin: 0 auto;
   text-align: center;
+
+  @media (max-width: 600px) {
+    font-size: 15px;
+  }
 `;
 
 const Label = styled.label`
   color: #ffffff;
   font-size: 14px;
+  @media (max-width: 600px) {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+  }
 `;
 
 const ImageUploadBtn = styled.div`
@@ -79,11 +105,20 @@ const ImageUploadBtn = styled.div`
     width: 100px;
     height: 100px;
   }
+
+  @media (max-width: 600px) {
+    margin: 10px 0px 10px 0px;
+  }
 `;
 
 const Texteditor = styled.div`
   display: block;
   flex-direction: column;
+
+  @media (max-width: 600px) {
+    height: 160px;
+    width: 290px;
+  }
 `;
 
 const notify = (status) => {

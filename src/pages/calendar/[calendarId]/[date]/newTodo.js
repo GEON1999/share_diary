@@ -18,6 +18,12 @@ const TodoContainer = styled.div`
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
   padding: 130px 0;
+
+  @media (max-width: 600px) {
+    padding: 80px 0;
+    height: 510px;
+    width: 340px;
+  }
 `;
 
 const FormContainer = styled.form`
@@ -37,6 +43,12 @@ const Input = styled.input`
   padding-left: 10px;
   color: #000000;
   margin: 10px 0px;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -51,6 +63,12 @@ const SubmitBtn = styled.button`
     background-color: rgb(25, 25, 112);
     transition: 0.5s;
   }
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const Title = styled.h1`
@@ -58,6 +76,10 @@ const Title = styled.h1`
   font-size: 23px;
   margin: 0 auto;
   text-align: center;
+
+  @media (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const notify = (status) => {
