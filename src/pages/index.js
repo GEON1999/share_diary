@@ -27,7 +27,6 @@ const CalendarWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 105px;
 `;
 
 const Calendar = styled.div`
@@ -46,6 +45,14 @@ const Calendar = styled.div`
     background-color: #5d6fb0;
     color: #fff;
   }
+  @media (max-width: 600px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 250px;
+    font-size: 15px;
+  }
 `;
 
 const Title = styled.h1`
@@ -53,6 +60,11 @@ const Title = styled.h1`
   font-weight: 400;
   margin-bottom: 20px;
   text-align: center;
+  @media (max-width: 600px) {
+    font-size: 23px;
+    font-weight: 600;
+    border-bottom: 1px solid black;
+  }
 `;
 
 const Button = styled.button`
@@ -67,6 +79,11 @@ const Button = styled.button`
   align-items: center;
   font-size: 20px;
   margin: 5px;
+  @media (max-width: 600px) {
+    width: 150px;
+    height: 50px;
+    font-size: 15px;
+  }
 `;
 
 const BtnWrapper = styled.div`
@@ -75,11 +92,17 @@ const BtnWrapper = styled.div`
 
 const DeleteBtn = styled.button`
   width: 100px;
-  height: 50px;
+  height: 70px;
   border-radius: 10px;
   color: #ffffff;
   background-color: #bd3232;
   margin-left: 5px;
+
+  @media (max-width: 600px) {
+    width: 80px;
+    height: 50px;
+    font-size: 15px;
+  }
 `;
 
 const Home = () => {
@@ -137,7 +160,7 @@ const Home = () => {
                   <DeleteBtn
                     onClick={() => handleDeleteCalendar(calendar?.calendar?.id)}
                   >
-                    {calendar?.role === "OWNER" ? "달력 삭제" : "달력 탈퇴"}
+                    {calendar?.role === "OWNER" ? "삭제" : "탈퇴"}
                   </DeleteBtn>
                 </CalendarWrapper>
               );
