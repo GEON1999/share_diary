@@ -90,11 +90,17 @@ const Home = () => {
     useAuth?.user?.id ?? null
   );
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const date = today.getTime();
+
   const { mutate: deleteCalendar } = useMutation(
     useCalendarMutation.deleteCalendar
   );
 
-  const handleEnterCalendar = (id) => router.push(`/calendar/${id}`);
+  const handleEnterCalendar = (id) =>
+    router.push(`/calendar/${id}?date=${date}`);
 
   const handleCreateCalendar = () => setAddCalendarModal(true);
 

@@ -28,7 +28,6 @@ router.post("/api/users/join", async (req, res, next) => {
             email: id,
             password: hash,
             name: name,
-            salt: salt,
           },
         });
         return res
