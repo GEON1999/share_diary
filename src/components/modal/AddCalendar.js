@@ -37,6 +37,12 @@ const CreateContainer = styled.div`
   background-color: #ffffff;
   border-radius: 30px;
   padding: 30px 0;
+
+  @media (max-width: 600px) {
+    height: 470px;
+    width: 340px;
+    margin-right: 0px;
+  }
 `;
 
 const FormContainer = styled.div`
@@ -56,6 +62,12 @@ const Input = styled.input`
   padding-left: 10px;
   color: #000000;
   margin: 10px 0px;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -65,6 +77,12 @@ const SubmitBtn = styled.button`
   height: 50px;
   border-radius: 10px;
   margin-top: 20px;
+
+  @media (max-width: 600px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const Header = styled.div`
@@ -72,6 +90,10 @@ const Header = styled.div`
   justify-content: space-between;
   padding: 0px 20px;
   align-items: center;
+
+  @media (max-width: 600px) {
+    font-size: 13px;
+  }
 `;
 
 const Nav = styled.nav`
