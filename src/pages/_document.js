@@ -46,6 +46,14 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          />
+          <meta property="og:description" content="소중한 기록을 함께" />
+          <meta property="author" content="박건" />
+          <meta property="og:title" content="공유 일기" />
+          <meta property="og:image" content="/favicon5.png" />
           {/* Add your favicon link here */}
           <link rel="shortcut icon" href="/favicon5.png" type="image/x-icon" />
           {/* Other head elements */}
