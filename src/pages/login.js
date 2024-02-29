@@ -43,10 +43,10 @@ const Title = styled.h1`
   font-weight: 400;
   margin-bottom: 40px;
   text-align: center;
+  color: rgba(0, 0, 0, 0.6);
   @media (max-width: 600px) {
     font-size: 20px;
     font-weight: 600;
-    border-bottom: 1px solid black;
   }
 `;
 
