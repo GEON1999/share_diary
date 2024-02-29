@@ -12,12 +12,13 @@ router.post("/api/users/enter", async (req, res, next) => {
     req.login(user, function (err) {
       if (err) {
         return next("err", err);
+      } else {
+        return res.json({
+          success: true,
+          msg: "로그인에 성공 했습니다",
+          user: { email: user?.username, id: user?.id },
+        });
       }
-      return res.json({
-        success: true,
-        msg: "로그인에 성공 했습니다",
-        user: { email: user?.username, id: user?.id },
-      });
     });
   })(req, res, next);
 });

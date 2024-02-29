@@ -35,8 +35,9 @@ router.post("/api/users/join", async (req, res, next) => {
           .json({ isSuccess: true, message: "created", newUser });
       });
     });
+  } else {
+    return res.status(500).json({ isSuccess: false, message: "fail" });
   }
-  return res.status(500).json({ isSuccess: false, message: "fail" });
 });
 
 export default router;
