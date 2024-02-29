@@ -103,6 +103,21 @@ const Nav = styled.nav`
 const NavItem = styled.div`
   margin: 0 10px;
   cursor: pointer;
+  padding: 4px 8px 4px 8px;
+  border-radius: 6px;
+  display: flex;
+
+  &:hover {
+    background-color: rgba(213, 212, 212, 0.9);
+    transition: 0.5s;
+  }
+
+  &.active {
+    background-color: rgba(164, 164, 190, 0.9);
+    color: white;
+    transition: 0.5s;
+  }
+
   //border-bottom: 3px solid rgba(68, 68, 105, 0.5);
 `;
 
@@ -161,13 +176,13 @@ const AddCalendarModal = ({ onClose }) => {
         <Header>
           <Nav>
             <NavItem
-              active-create={formSelect === "create" ? true : false}
+              className={formSelect === "create" ? "active" : null}
               onClick={() => formChancher("create")}
             >
               달력 생성
             </NavItem>
             <NavItem
-              active-invite={formSelect === "invite" ? true : false}
+              className={formSelect === "invite" ? "active" : null}
               onClick={() => formChancher("invite")}
             >
               달력 참가하기
