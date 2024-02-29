@@ -38,6 +38,18 @@ const LoginContainer = styled.div`
   }
 `;
 
+const Title = styled.h1`
+  font-size: 30px;
+  font-weight: 400;
+  margin-bottom: 40px;
+  text-align: center;
+  @media (max-width: 600px) {
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 1px solid black;
+  }
+`;
+
 const Input = styled.input`
   width: 400px;
   height: 50px;
@@ -139,7 +151,7 @@ const Login = () => {
     <Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         <LoginContainer>
-          {" "}
+          <Title>로그인</Title>{" "}
           <Input
             inputColor="red"
             type={"text"}

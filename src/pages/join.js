@@ -65,6 +65,18 @@ const SubmitBtn = styled.button`
   }
 `;
 
+const Title = styled.h1`
+  font-size: 30px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  text-align: center;
+  @media (max-width: 600px) {
+    font-size: 20px;
+    font-weight: 600;
+    border-bottom: 1px solid black;
+  }
+`;
+
 const Join = () => {
   const router = useRouter();
   const { mutate, data } = useMutation(useUserQuery.joinUser);
@@ -100,7 +112,7 @@ const Join = () => {
             'flex flex-col space-y-5 "w-full" justify-center content-center items-center mt-40'
           }
         >
-          {" "}
+          <Title>회원가입</Title>{" "}
           <Input
             className={"w-80 rounded text-black"}
             {...register("id", { required: true })}
