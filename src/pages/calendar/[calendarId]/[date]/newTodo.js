@@ -19,7 +19,7 @@ const TodoContainer = styled.div`
   border-radius: 30px;
   padding: 130px 0;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding: 80px 0;
     height: 510px;
     width: 340px;
@@ -44,7 +44,7 @@ const Input = styled.input`
   color: #000000;
   margin: 10px 0px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -64,7 +64,7 @@ const SubmitBtn = styled.button`
     transition: 0.5s;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -77,7 +77,7 @@ const Title = styled.h1`
   margin: 0 auto;
   text-align: center;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 18px;
   }
 `;

@@ -24,7 +24,7 @@ const DiaryContainer = styled.div`
   border-radius: 30px;
   padding: 70px 0;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding: 25px 0;
     height: 510px;
     width: 340px;
@@ -48,7 +48,7 @@ const Input = styled.input`
   color: #000000;
   margin: 10px 0px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -68,7 +68,7 @@ const SubmitBtn = styled.button`
     transition: 0.5s;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -81,7 +81,7 @@ const Title = styled.h1`
   margin: 0 auto;
   text-align: center;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 15px;
   }
 `;
@@ -89,7 +89,7 @@ const Title = styled.h1`
 const Label = styled.label`
   color: #ffffff;
   font-size: 14px;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.7);
   }
@@ -106,7 +106,7 @@ const ImageUploadBtn = styled.div`
     height: 100px;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     margin: 10px 0px 10px 0px;
   }
 `;
@@ -115,7 +115,7 @@ const Texteditor = styled.div`
   display: block;
   flex-direction: column;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 160px;
     width: 290px;
   }

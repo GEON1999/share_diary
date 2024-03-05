@@ -23,7 +23,7 @@ const MypageContainer = styled.div`
   transform: translateY(-50%) translateX(-50%);
   border-radius: 30px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     margin-top: 10px;
     height: 600px;
     width: 340px;
@@ -41,7 +41,7 @@ const EditWrapper = styled.div`
   border-radius: 30px;
   margin-bottom: 10px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding: 5px 0;
     height: 370px;
     width: 340px;
@@ -78,7 +78,7 @@ const Input = styled.input`
   color: #000000;
   margin: 10px 5px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -97,7 +97,7 @@ const InviteInput = styled.input`
   background-color: rgba(238, 238, 241, 0.93);
   cursor: pointer;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 100px;
     font-size: 13px;
@@ -117,7 +117,7 @@ const ImageInput = styled.div`
   border-radius: 50%;
   margin: 10px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     width: 130px;
     height: 130px;
   }
@@ -132,7 +132,7 @@ const ImageEditBtn = styled.button`
   margin: 10px;
   align-content: flex-start;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 190px;
     font-size: 13px;
@@ -148,7 +148,7 @@ const SubmitBtn = styled.button`
   margin: 10px;
   align-content: flex-start;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 190px;
     font-size: 13px;
@@ -164,7 +164,7 @@ const InviteBtn = styled.button`
   margin: 10px;
   align-content: flex-start;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 90px;
     font-size: 13px;
@@ -177,7 +177,7 @@ const InputLabel = styled.label`
   margin: 10px;
   color: #ffffff;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 13px;
   }
 `;
@@ -192,7 +192,7 @@ const EtcWrapper = styled.div`
   background-color: rgba(59, 59, 59, 0.3);
   border-radius: 30px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding: 10px 0;
     height: 130px;
     width: 340px;
@@ -205,7 +205,7 @@ const Title = styled.h1`
   margin: 0 auto;
   text-align: center;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 18px;
     font-weight: 700;
     margin-top: 5px;

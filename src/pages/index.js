@@ -45,7 +45,7 @@ const Calendar = styled.div`
     background-color: #5d6fb0;
     color: #fff;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,7 +60,7 @@ const Title = styled.h1`
   font-weight: 400;
   margin-bottom: 20px;
   text-align: center;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 23px;
     font-weight: 600;
     border-bottom: 1px solid black;
@@ -79,7 +79,7 @@ const Button = styled.button`
   align-items: center;
   font-size: 20px;
   margin: 5px;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     width: 150px;
     height: 50px;
     font-size: 15px;
@@ -98,7 +98,7 @@ const DeleteBtn = styled.button`
   background-color: #bd3232;
   margin-left: 5px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     width: 80px;
     height: 50px;
     font-size: 15px;

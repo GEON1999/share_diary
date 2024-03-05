@@ -35,7 +35,7 @@ const Ul = styled.ul`
   margin-top: 40px;
   margin-right: 20px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 13px;
     width: 100%;
   }

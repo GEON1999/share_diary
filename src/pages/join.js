@@ -21,7 +21,7 @@ const JoinContainer = styled.div`
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding: 80px 0;
     height: 510px;
     width: 340px;
@@ -44,7 +44,7 @@ const Input = styled.input`
   outline: none;
   padding-left: 10px;
   color: #000000;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -58,7 +58,7 @@ const SubmitBtn = styled.button`
   height: 50px;
   border-radius: 10px;
   margin-top: 40px;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -71,7 +71,7 @@ const Title = styled.h1`
   margin-bottom: 30px;
   text-align: center;
   color: rgba(0, 0, 0, 0.6);
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 20px;
     font-weight: 600;
   }

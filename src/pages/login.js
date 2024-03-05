@@ -32,7 +32,7 @@ const LoginContainer = styled.div`
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 470px;
     width: 340px;
   }
@@ -44,7 +44,7 @@ const Title = styled.h1`
   margin-bottom: 40px;
   text-align: center;
   color: rgba(0, 0, 0, 0.6);
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 20px;
     font-weight: 600;
   }
@@ -60,7 +60,7 @@ const Input = styled.input`
   color: #000000;
   margin: 10px 0px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -80,7 +80,7 @@ const LoginBtn = styled.button`
     transition: 0.5s;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     margin-top: 40px;
     height: 40px;
     width: 290px;
@@ -100,7 +100,7 @@ const JoinBtn = styled.button`
     transition: 0.5s;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;

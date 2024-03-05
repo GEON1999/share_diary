@@ -38,7 +38,7 @@ const CreateContainer = styled.div`
   border-radius: 30px;
   padding: 30px 0;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 470px;
     width: 340px;
     margin-right: 0px;
@@ -63,7 +63,7 @@ const Input = styled.input`
   color: #000000;
   margin: 10px 0px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -78,7 +78,7 @@ const SubmitBtn = styled.button`
   border-radius: 10px;
   margin-top: 20px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 40px;
     width: 290px;
     font-size: 13px;
@@ -91,7 +91,7 @@ const Header = styled.div`
   padding: 0px 20px;
   align-items: center;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 13px;
   }
 `;
