@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import LogoutBtn from "@/components/common/LogoutBtn";
+import { useEffect, useState } from "react";
 
 const Nav = styled.nav`
   display: flex;
@@ -12,7 +13,16 @@ const Nav = styled.nav`
   border-radius: 15px;
   position: absolute;
   padding: 0px 30px;
+
   top: 0;
+`;
+
+const A = styled.a`
+  padding: 4px 8px 4px 8px;
+  border-radius: 5px;
+  &.active {
+    background: white;
+  }
 `;
 
 const Ul = styled.ul`
@@ -33,6 +43,10 @@ const Ul = styled.ul`
 
 const CalendarNav = () => {
   const router = useRouter();
+  const pathName = router?.pathname.split("/");
+  const lastPath = pathName[pathName.length - 1];
+  console.log("lastPath :", lastPath);
+
   const calendarId = router.query.calendarId;
 
   return (
@@ -44,10 +58,16 @@ const CalendarNav = () => {
         {calendarId && (
           <>
             <li>
-              <Link href={`/calendar/${calendarId}`}>Calendar</Link>
+              <Link href={`/calendar/${calendarId}`}>
+                <A className={lastPath === "[calendarId]" ? "active" : ""}>
+                  Calendar
+                </A>
+              </Link>
             </li>
             <li>
-              <Link href={`/calendar/${calendarId}/mypage`}>Edit</Link>
+              <Link href={`/calendar/${calendarId}/mypage`}>
+                <A className={lastPath === "mypage" ? "active" : ""}>Edit</A>
+              </Link>
             </li>
           </>
         )}
