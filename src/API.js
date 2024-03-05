@@ -43,6 +43,12 @@ const GET_CALENDAR_INVITE_CODE = (calendarId, userId) =>
 const GET_CALENDAR_USER_INFO = (calendarId, userId) =>
   `/api/calendar/id/${calendarId}/user${userId ? `?userId=${userId}` : ""}`;
 
+// 캘린더 유저 권한 조회
+const GET_CALENDAR_PERMISSION = (calendarId, userId) =>
+  `/api/calendar/id/${calendarId}/permission${
+    userId ? `?userId=${userId}` : ""
+  }`;
+
 // 다이어리 작성
 const POST_DIARY = (calendarId, date) =>
   `/api/calendar/id/${calendarId}/date/${date}/diary`;
@@ -100,4 +106,5 @@ export default {
   DELETE_TODO,
   GET_TODO,
   GET_TODO_DETAIL,
+  GET_CALENDAR_PERMISSION,
 };

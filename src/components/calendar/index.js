@@ -87,7 +87,7 @@ const MonthSelect = styled.select`
 `;
 
 const WeekTr = styled.tr`
-  color: #5e5452;
+  color: #2a2a2a;
 
   @media (max-width: 800px) {
     font-size: 13px;

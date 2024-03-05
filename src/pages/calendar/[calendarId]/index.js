@@ -31,13 +31,16 @@ const Index = () => {
       helper.queryToString({ userId: useAuth?.user?.id })
     );
 
-  console.log("calendarData :", calendarData, isCalendarLoading);
+  const { data: calendarUser, isLoading } =
+    useCalendarQuery.useGetCalendarPermission(calendarId, useAuth?.user?.id);
+
+  const userRole = calendarUser?.permission?.role;
 
   //  const { mutate } = useMutation(useCalendarQuery.postCalender);
 
   return (
     <div>
-      <CalendarNav />
+      <CalendarNav userRole={userRole} />
       <HomeWrapper>
         <Calendar calendarId={calendarId} calendarData={calendarData} />
       </HomeWrapper>
@@ -61,6 +64,17 @@ export const getServerSideProps = async (ctx) => {
       return useCalendarQuery.getCalendarDetail(
         calendarId ?? null,
         calendarQuery,
+        process.env.AXIOS_AUTHORIZATION_SECRET
+      );
+    }
+  );
+
+  await queryClient.prefetchQuery(
+    ["GET_CALENDAR_PERMISSION", calendarId, userId],
+    () => {
+      return useCalendarQuery.getCalendarPermission(
+        calendarId,
+        userId,
         process.env.AXIOS_AUTHORIZATION_SECRET
       );
     }

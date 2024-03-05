@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import LogoutBtn from "@/components/common/LogoutBtn";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "@/Providers/AuthProvider";
 
 const Nav = styled.nav`
   display: flex;
@@ -41,11 +42,11 @@ const Ul = styled.ul`
   }
 `;
 
-const CalendarNav = () => {
+const CalendarNav = ({ userRole }) => {
   const router = useRouter();
+  const useAuth = useAuthContext();
   const pathName = router?.pathname.split("/");
   const lastPath = pathName[pathName.length - 1];
-  console.log("lastPath :", lastPath);
 
   const calendarId = router.query.calendarId;
 
@@ -69,6 +70,15 @@ const CalendarNav = () => {
                 <A className={lastPath === "mypage" ? "active" : ""}>Edit</A>
               </Link>
             </li>
+            {userRole === "OWNER" && (
+              <li>
+                <Link href={`/calendar/${calendarId}/manage`}>
+                  <A className={lastPath === "manage" ? "active" : ""}>
+                    Manage
+                  </A>
+                </Link>
+              </li>
+            )}
           </>
         )}
         <li>

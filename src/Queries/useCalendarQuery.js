@@ -31,7 +31,6 @@ const getCalendarDetail = async (calendarId, query, ssrRequestKey = null) => {
 };
 
 const useGetCalendarDetail = (calendarId, query) => {
-  console.log("calendarId :", calendarId, query);
   return useQuery(["CALENDAR_DETAIL", calendarId ?? null, query], () =>
     getCalendarDetail(calendarId ?? null, query)
   );
@@ -69,6 +68,22 @@ const useGetCalendarUserInfo = (calendarId, userId) => {
   );
 };
 
+const getCalendarPermission = async (calendarId, userId, ssrRequestKey) => {
+  const opt = { headers: { Auth: ssrRequestKey } };
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + API.GET_CALENDAR_PERMISSION(calendarId, userId),
+    opt
+  );
+
+  return data;
+};
+
+const useGetCalendarPermission = (calendarId, userId) => {
+  return useQuery(["GET_CALENDAR_PERMISSION", calendarId, userId], () =>
+    getCalendarPermission(calendarId, userId)
+  );
+};
+
 export default {
   getCalendarList,
   useGetCalendarList,
@@ -78,4 +93,6 @@ export default {
   useGetCalendarInviteCode,
   getCalendarUserInfo,
   useGetCalendarUserInfo,
+  getCalendarPermission,
+  useGetCalendarPermission,
 };

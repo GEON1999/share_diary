@@ -231,6 +231,13 @@ const Mypage = () => {
     userId
   );
 
+  const { data: calendarUser } = useCalendarQuery.useGetCalendarPermission(
+    calendarId,
+    useAuth?.user?.id
+  );
+
+  const userRole = calendarUser?.permission?.role;
+
   const { mutate: createInviteCode } = useMutation(
     useCalendarMutation.createCalendarInvite
   );
@@ -318,7 +325,7 @@ const Mypage = () => {
 
   return (
     <>
-      <CalendarNav />
+      <CalendarNav userRole={userRole} />
       <MypageContainer>
         <EditWrapper>
           <Title>`{userInfo?.calendar?.name ?? ""}` 달력 프로필</Title>
@@ -388,6 +395,17 @@ export const getServerSideProps = async (ctx) => {
     () => {
       return useCalendarQuery.getCalendarUserInfo(
         calendarId ?? null,
+        userId,
+        process.env.AXIOS_AUTHORIZATION_SECRET
+      );
+    }
+  );
+
+  await queryClient.prefetchQuery(
+    ["GET_CALENDAR_PERMISSION", calendarId, userId],
+    () => {
+      return useCalendarQuery.getCalendarPermission(
+        calendarId,
         userId,
         process.env.AXIOS_AUTHORIZATION_SECRET
       );
