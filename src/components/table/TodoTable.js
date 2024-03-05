@@ -18,6 +18,12 @@ const Diary = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 800px) {
+    width: 300px;
+    height: 50px;
+    margin: 5px 0px;
+  }
 `;
 
 const Content = styled.div`
@@ -43,6 +49,11 @@ const Button = styled.button`
   margin-top: 20px;
   background-color: #bd3232;
   margin-left: 5px;
+
+  @media (max-width: 800px) {
+    height: 40px;
+    margin: 5px 0px;
+  }
 `;
 
 const Writer = styled.p`

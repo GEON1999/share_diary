@@ -18,7 +18,10 @@ const CalendarContainer = styled.div`
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
   margin-right: 100px;
-  @media (max-width: 600px) {
+  @media (max-width: 1400px) {
+    display: ${({ isModal }) => (isModal === true ? "none" : "flex")};
+  }
+  @media (max-width: 800px) {
     display: ${({ isModal }) => (isModal === true ? "none" : "flex")};
     height: 470px;
     width: 340px;
@@ -29,7 +32,7 @@ const CalendarContainer = styled.div`
 const SelectContainer = styled.div`
   display: flex;
   margin: 10px 0px 10px 0px;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 13px;
   }
 `;
@@ -52,7 +55,7 @@ const Day = styled.td`
     background-color: #ffffff;
     color: #000000;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     padding: 14px;
     font-size: 13px;
   }
@@ -67,7 +70,7 @@ const YearInput = styled.input`
   padding-left: 10px;
   color: #ffffff;
   margin: 10px 10px 10px 0px;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 13px;
   }
 `;
@@ -86,7 +89,7 @@ const MonthSelect = styled.select`
 const WeekTr = styled.tr`
   color: #5e5452;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 13px;
   }
 `;

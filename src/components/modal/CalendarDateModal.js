@@ -17,7 +17,7 @@ const DiaryContainer = styled.div`
   position: relative;
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 470px;
     width: 340px;
     margin-right: 0px;
@@ -44,7 +44,7 @@ const PluseBtn = styled.button`
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     width: 40px;
     height: 40px;
   }
@@ -75,7 +75,7 @@ const DiaryBtn = styled.button`
   margin-top: 20px;
   background-color: #045cb6;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     width: 110px;
     height: 45px;
     font-size: 13px;
@@ -91,7 +91,7 @@ const TodoBtn = styled.button`
   margin-top: 20px;
   background-color: #205b08;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     width: 110px;
     height: 45px;
     font-size: 13px;
@@ -102,6 +102,10 @@ const ListContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-around;
+
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
 `;
 
 const Title = styled.h1`
@@ -109,18 +113,22 @@ const Title = styled.h1`
   font-size: 18px;
   margin: 0 auto;
   text-align: center;
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     font-size: 13px;
   }
 `;
 
+const ExitBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 10px 0px 0;
+`;
+
 const ExitBtn = styled.img`
-  position: relative;
-  left: 290px;
-  top: 10px;
   cursor: pointer;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     left: 145px;
   }
 `;
@@ -178,12 +186,14 @@ const CalendarDateModal = ({ onClose }) => {
   };
   return (
     <DiaryContainer>
-      <ExitBtn
-        src={"/exit.png"}
-        width={25}
-        height={25}
-        onClick={onClose}
-      ></ExitBtn>
+      <ExitBox>
+        <ExitBtn
+          src={"/exit.png"}
+          width={25}
+          height={25}
+          onClick={onClose}
+        ></ExitBtn>
+      </ExitBox>
       <PluseBtn onClick={() => togglePuls()}>
         <img
           src={
