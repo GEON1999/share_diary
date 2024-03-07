@@ -85,6 +85,9 @@ const GET_TODO = (calendarId, date, userId) =>
 const GET_TODO_DETAIL = (calendarId, todoId) =>
   `/api/calendar/id/${calendarId}/todoId/${todoId}`;
 
+// 이미지 업로드
+const POST_IMAGE = () => "/api/imageUpload";
+
 export default {
   CREATE_CALENDAR,
   DELETE_CALENDAR,
@@ -107,4 +110,5 @@ export default {
   GET_TODO,
   GET_TODO_DETAIL,
   GET_CALENDAR_PERMISSION,
+  POST_IMAGE,
 };
