@@ -8,6 +8,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import useCalendarMutation from "@/Queries/useCalendarMutation";
+import CalendarNav from "@/components/common/CalendarNav";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
   ssr: false,
@@ -184,6 +185,7 @@ const NewDiary = () => {
 
   return (
     <>
+      <CalendarNav />
       <DiaryContainer>
         <Title>새로운 일기</Title>
         <FormContainer onSubmit={handleSubmit(onSubmit)}>

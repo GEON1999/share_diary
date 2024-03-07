@@ -4,7 +4,7 @@ import styled from "styled-components";
 import CalendarNav from "@/components/common/CalendarNav";
 import { useForm } from "react-hook-form";
 import useCalendarMutation from "@/Queries/useCalendarMutation";
-import { useMutation } from "@tanstack/react-query";
+import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import useDiaryMutation from "@/Queries/useDiaryMutation";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
@@ -32,54 +32,84 @@ const DiaryWrapper = styled.div`
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
   padding-bottom: 50px;
+
+  @media (max-width: 800px) {
+    padding-bottom: 10px;
+    height: 510px;
+    width: 340px;
+  }
 `;
 
 const Input = styled.input`
-  width: 300px;
-  height: 50px;
+  width: 400px;
+  height: 40px;
   border-radius: 10px;
   border-bottom: 1px solid #000000;
   outline: none;
   padding-left: 10px;
   color: #000000;
   margin: 10px 0px;
+
+  @media (max-width: 800px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
+  }
 `;
 
 const Title = styled.h1`
   color: #ffffff;
   font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 20px;
+  margin: 0 auto;
   text-align: center;
+
+  @media (max-width: 800px) {
+    font-size: 15px;
+  }
 `;
 
 const Button = styled.button`
   background-color: rgba(25, 25, 112, 0.5);
   color: #ffffff;
-  width: 100px;
+  width: 400px;
   height: 50px;
   border-radius: 10px;
-  margin-top: 20px;
-  transition: 0.3s;
+  margin-top: 50px;
+
   &:hover {
-    background-color: rgba(25, 25, 112, 0.8);
+    background-color: rgb(25, 25, 112);
+    transition: 0.5s;
+  }
+
+  @media (max-width: 800px) {
+    height: 40px;
+    width: 290px;
+    font-size: 13px;
   }
 `;
 
 const Label = styled.label`
   color: #ffffff;
   font-size: 14px;
+  margin-bottom: ${({ isImage }) => (isImage ? "0px" : "-10px")};
+  @media (max-width: 800px) {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+  }
 `;
 
 const ImageUploadBtn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 0px 20px 0px;
+  margin: 10px 0px;
   & > img {
-    margin-top: -10px;
     width: 100px;
     height: 100px;
+  }
+
+  @media (max-width: 800px) {
+    margin: 10px 0px 10px 0px;
   }
 `;
 
@@ -87,7 +117,17 @@ const Texteditor = styled.div`
   display: block;
   flex-direction: column;
   margin-bottom: 20px;
+
+  @media (max-width: 800px) {
+    height: 160px;
+    width: 290px;
+    margin-top: -15px;
+  }
 `;
+
+/*const Span = styled.span`
+  color: #ffffff;
+`;*/
 
 const DiaryDetail = () => {
   const router = useRouter();
@@ -102,6 +142,7 @@ const DiaryDetail = () => {
     diaryId,
   });
   const [text, setText] = useState(diaryDetail?.diary?.constructor ?? "");
+  const [image, setImage] = useState(diaryDetail?.diary?.img ?? "");
 
   useEffect(() => {
     !isLoading && setText(diaryDetail?.diary?.content ?? "");
@@ -109,10 +150,14 @@ const DiaryDetail = () => {
 
   const { mutate: updateDiary } = useMutation(useDiaryMutation.putDiary);
 
+  const { mutate: uploadImage } = useMutation(
+    useCalendarMutation.useUploadImage
+  );
+
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    const formData = { ...data, content: text };
+    const formData = { ...data, content: text, img: image };
     updateDiary(
       { calendarId, diaryId, data: formData },
       {
@@ -126,6 +171,18 @@ const DiaryDetail = () => {
         },
       }
     );
+  };
+
+  const handleImage = async (e) => {
+    await uploadImage(e.target.files[0], {
+      onSuccess: async (data) => {
+        setImage(data.url);
+      },
+    });
+  };
+
+  const handleImageBtn = () => {
+    document.getElementById("img_upload").click();
   };
 
   const handleChange = (value) => {
@@ -149,9 +206,23 @@ const DiaryDetail = () => {
               />
               <div className="form_box">
                 <ImageUploadBtn className="upload_wrap">
-                  <Label>썸네일 추가</Label>
+                  <input
+                    id="img_upload"
+                    className="hidden"
+                    onInput={handleImage}
+                    accept=".jpg, .png, .bmp, .gif, .svg, .webp"
+                    {...register("inquire_image")}
+                    type="file"
+                  />
+                  <Label isImage={image ? true : false}>썸네일 추가</Label>
                   <img
-                    src="https://dhgilmy0l2xzq.cloudfront.net/ae6a89a2-e974-4c2a-a7b5-1794a3bf3b86-20240109122208.png"
+                    className={`cursor-pointer`}
+                    onClick={handleImageBtn}
+                    src={
+                      image
+                        ? image
+                        : "https://dhgilmy0l2xzq.cloudfront.net/ae6a89a2-e974-4c2a-a7b5-1794a3bf3b86-20240109122208.png"
+                    }
                     alt="upload"
                   />
                 </ImageUploadBtn>
@@ -159,10 +230,14 @@ const DiaryDetail = () => {
               <Texteditor>
                 <Label>내용</Label>
                 {ReactQuill && (
-                  <ReactQuill value={text} onChange={handleChange} />
+                  <ReactQuill
+                    style={{ height: "130px" }}
+                    value={text}
+                    onChange={handleChange}
+                  />
                 )}
               </Texteditor>
-              <span>작성자 : {diaryDetail?.diary?.user?.name}</span>
+              {/*<Span>작성자 : {diaryDetail?.diary?.user?.name}</Span>*/}
               <Button type={"submit"}>수정</Button>
             </DiaryWrapper>
           </form>
@@ -170,6 +245,25 @@ const DiaryDetail = () => {
       </Container>
     </>
   );
+};
+
+export const getServerSideProps = async (ctx) => {
+  const { req, res, query } = ctx;
+  const queryClient = new QueryClient();
+
+  const { calendarId, diaryId } = query;
+
+  await queryClient.prefetchQuery(["DIARY_DETAIL", calendarId, diaryId], () => {
+    return useDiaryQuery.getDiaryDetail(
+      calendarId,
+      diaryId,
+      process.env.AXIOS_AUTHORIZATION_SECRET
+    );
+  });
+
+  return {
+    props: { dehydratedState: dehydrate(queryClient) },
+  };
 };
 
 export default DiaryDetail;

@@ -20,9 +20,11 @@ const useGetDiary = (calendarId, userId, date) => {
 };
 
 // get diary detail
-const getDiaryDetail = async ({ calendarId, diaryId }) => {
+const getDiaryDetail = async (calendarId, diaryId, ssrRequestKey = null) => {
+  const opt = { headers: { Auth: ssrRequestKey } };
   const { data } = await axios.get(
-    helper.CURRENT_URL() + API.GET_DIARY_DETAIL(calendarId, diaryId)
+    helper.CURRENT_URL() + API.GET_DIARY_DETAIL(calendarId, diaryId),
+    opt
   );
 
   return data;
@@ -30,7 +32,7 @@ const getDiaryDetail = async ({ calendarId, diaryId }) => {
 
 const useGetDiaryDetail = ({ calendarId, diaryId }) => {
   return useQuery(["DIARY_DETAIL", calendarId, diaryId], () =>
-    getDiaryDetail({ calendarId, diaryId })
+    getDiaryDetail(calendarId, diaryId)
   );
 };
 

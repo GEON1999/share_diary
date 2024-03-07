@@ -33,7 +33,7 @@ router.post(
   router.isAuthenticated,
   async (req, res) => {
     const {
-      body: { title, content },
+      body: { title, content, img },
       query: { id, diaryId },
     } = req;
 
@@ -45,6 +45,7 @@ router.post(
         data: {
           title,
           content,
+          img,
         },
       });
 
