@@ -7,7 +7,7 @@ import useCalendarMutation from "@/Queries/useCalendarMutation";
 
 const Diary = styled.div`
   width: 300px;
-  height: 100px;
+  height: 150px;
   text-align: left;
   outline: none;
   padding-left: 10px;
@@ -25,6 +25,16 @@ const Diary = styled.div`
   }
 `;
 
+const ContentWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  align-items: center;
+`;
+
 const Content = styled.div`
   width: 80%;
   height: 100%;
@@ -32,8 +42,25 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+
+  @media (max-width: 800px) {
+    width: 100%;
+  }
+`;
+
+const ImgBox = styled.div`
+  width: 150px;
+  margin-right: 2px;
+  img {
+    max-height: 140px;
+  }
+
+  @media (max-width: 800px) {
+    width: 100px;
+    img {
+      max-height: 40px;
+    }
+  }
 `;
 
 const P = styled.p`
@@ -92,12 +119,17 @@ const DiaryTable = ({ diaryData }) => {
       {diaryData?.diaryList?.map((data) => {
         return (
           <Diary key={data.id} className={"text-black"}>
-            <Content onClick={() => handleDiaryDetail(data?.id)}>
-              <P>제목 : {data?.title}</P>
-              {/* <P>내용 : {data?.content}</P>*/}
-              <Writer>작성자 : {data?.name}</Writer>
-            </Content>
-            <Button onClick={() => handleDelBtn(data?.id)}>삭제</Button>
+            <ContentWrapper onClick={() => handleDiaryDetail(data?.id)}>
+              <ImgBox>
+                <img src={data?.img ?? "/favicon5.png"} />
+              </ImgBox>
+              <Content>
+                <P>제목 : {data?.title}</P>
+                {/* <P>내용 : {data?.content}</P>*/}
+                <Writer>작성자 : {data?.name}</Writer>
+              </Content>
+            </ContentWrapper>
+            {/* <Button onClick={() => handleDelBtn(data?.id)}>삭제</Button>*/}
           </Diary>
         );
       })}

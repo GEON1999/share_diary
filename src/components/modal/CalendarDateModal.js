@@ -17,6 +17,9 @@ const DiaryContainer = styled.div`
   position: relative;
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
+  overflow: auto;
+  scrollbar-width: none;
+
   @media (max-width: 800px) {
     height: 470px;
     width: 340px;
@@ -66,6 +69,10 @@ const fadeInAnimation = keyframes`
   }
 `;
 
+const ContentContainer = styled.div`
+  width: 300px;
+`;
+
 const DiaryBtn = styled.button`
   ${fadeInAnimation} 0.5s ease;
   width: 100px;
@@ -104,6 +111,8 @@ const ListContainer = styled.div`
   justify-content: space-around;
 
   @media (max-width: 800px) {
+    align-items: center;
+
     flex-direction: column;
   }
 `;
@@ -210,14 +219,14 @@ const CalendarDateModal = ({ onClose }) => {
         ) : null}
       </BtnContainer>
       <ListContainer>
-        <div>
+        <ContentContainer>
           <Title>기록</Title>
           {isFetched ? <DiaryTable diaryData={diaryData} /> : <Loading />}
-        </div>
-        <div>
+        </ContentContainer>
+        <ContentContainer>
           <Title>일정</Title>
           {isFetched ? <TodoTable todoData={todoData} /> : <Loading />}
-        </div>
+        </ContentContainer>
       </ListContainer>
     </DiaryContainer>
   );
