@@ -7,9 +7,11 @@ import { toast, Toaster } from "react-hot-toast";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
+import useCalendarMutation from "@/Queries/useCalendarMutation";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
   ssr: false,
+  loading: () => <p>Loading ...</p>,
 });
 
 const DiaryContainer = styled.div`
@@ -22,7 +24,7 @@ const DiaryContainer = styled.div`
   transform: translateY(-50%) translateX(-50%);
   background-color: rgba(59, 59, 59, 0.5);
   border-radius: 30px;
-  padding: 70px 0;
+  padding: 40px 0;
 
   @media (max-width: 800px) {
     padding: 25px 0;
@@ -89,6 +91,7 @@ const Title = styled.h1`
 const Label = styled.label`
   color: #ffffff;
   font-size: 14px;
+  margin-bottom: ${({ isImage }) => (isImage ? "0px" : "-10px")};
   @media (max-width: 800px) {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.7);
@@ -99,9 +102,8 @@ const ImageUploadBtn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 0px 20px 0px;
+  margin: 10px 0px;
   & > img {
-    margin-top: -10px;
     width: 100px;
     height: 100px;
   }
@@ -114,10 +116,12 @@ const ImageUploadBtn = styled.div`
 const Texteditor = styled.div`
   display: block;
   flex-direction: column;
+  margin-bottom: 60px;
 
   @media (max-width: 800px) {
     height: 160px;
     width: 290px;
+    margin-top: -30px;
   }
 `;
 
@@ -134,6 +138,7 @@ const notify = (status) => {
 const NewDiary = () => {
   const router = useRouter();
   const [text, setText] = useState();
+  const [image, setImage] = useState();
 
   const { date, calendarId } = router.query;
   const { register, handleSubmit } = useForm();
@@ -144,8 +149,12 @@ const NewDiary = () => {
     data: postData,
   } = useMutation(useDiaryMutation.postDiary);
 
+  const { mutate: uploadImage } = useMutation(
+    useCalendarMutation.useUploadImage
+  );
+
   const onSubmit = (data) => {
-    const formData = { ...data, content: text };
+    const formData = { ...data, content: text, img: image };
     mutate(
       { data: formData, date: date, calendarId },
       {
@@ -155,6 +164,18 @@ const NewDiary = () => {
         },
       }
     );
+  };
+
+  const handleImage = async (e) => {
+    await uploadImage(e.target.files[0], {
+      onSuccess: async (data) => {
+        setImage(data.url);
+      },
+    });
+  };
+
+  const handleImageBtn = () => {
+    document.getElementById("img_upload").click();
   };
 
   const handleChange = (value) => {
@@ -169,16 +190,36 @@ const NewDiary = () => {
           <Input placeholder={"제목"} {...register("title")} />
           <div className="form_box">
             <ImageUploadBtn className="upload_wrap">
-              <Label>썸네일 추가</Label>
+              <input
+                id="img_upload"
+                className="hidden"
+                onInput={handleImage}
+                accept=".jpg, .png, .bmp, .gif, .svg, .webp"
+                {...register("inquire_image")}
+                type="file"
+              />
+              <Label isImage={image ? true : false}>썸네일 추가</Label>
               <img
-                src="https://dhgilmy0l2xzq.cloudfront.net/ae6a89a2-e974-4c2a-a7b5-1794a3bf3b86-20240109122208.png"
+                className={`cursor-pointer`}
+                onClick={handleImageBtn}
+                src={
+                  image
+                    ? image
+                    : "https://dhgilmy0l2xzq.cloudfront.net/ae6a89a2-e974-4c2a-a7b5-1794a3bf3b86-20240109122208.png"
+                }
                 alt="upload"
               />
             </ImageUploadBtn>
           </div>
           <Texteditor>
             <Label>내용</Label>
-            {ReactQuill && <ReactQuill value={text} onChange={handleChange} />}
+            {ReactQuill && (
+              <ReactQuill
+                style={{ height: "130px" }}
+                value={text}
+                onChange={handleChange}
+              />
+            )}
           </Texteditor>
           <SubmitBtn type={"submit"}>저장</SubmitBtn>
         </FormContainer>

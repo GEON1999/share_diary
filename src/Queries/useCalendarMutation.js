@@ -1,5 +1,6 @@
 import axios from "axios";
 import API from "@/API";
+import helper from "@/helper";
 
 const createCalendar = async (name) =>
   await axios.post(API.CREATE_CALENDAR(), { name });
@@ -24,6 +25,18 @@ const editCalendarUserInfo = async ({ calendarId, formData }) =>
 const deleteCalendar = async ({ calendarId, userId }) =>
   await axios.post(API.DELETE_CALENDAR(calendarId, userId));
 
+// 이미지 업로드
+const useUploadImage = async (file) => {
+  const formData = new FormData();
+  await formData.append("file", file);
+  const { data } = await axios.post(
+    helper.CURRENT_URL() + API.POST_IMAGE(),
+    formData,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  );
+  return data;
+};
+
 export default {
   createCalendar,
   createCalendarInvite,
@@ -32,4 +45,5 @@ export default {
   deleteDiary,
   editCalendarUserInfo,
   deleteCalendar,
+  useUploadImage,
 };

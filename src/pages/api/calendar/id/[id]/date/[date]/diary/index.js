@@ -54,7 +54,7 @@ router.post(
     const user = req.user;
 
     const {
-      body: { title, content },
+      body: { title, content, img },
       query: { date, id },
     } = req;
 
@@ -75,6 +75,7 @@ router.post(
           content,
           date,
           title,
+          img,
         },
       });
       res.status(200).json({ diary, message: "success" });
