@@ -8,6 +8,7 @@ import CalendarNav from "@/components/common/CalendarNav";
 import { useForm } from "react-hook-form";
 import router from "../../../../libs/server/router";
 import helper from "@/helper";
+import { useState } from "react";
 
 const MypageContainer = styled.div`
   display: flex;
@@ -110,12 +111,13 @@ const ImageContainer = styled.div`
   align-items: center;
 `;
 
-const ImageInput = styled.div`
+const ImageInput = styled.img`
   background-color: rgba(192, 194, 213, 0.93);
   width: 150px;
   height: 150px;
   border-radius: 50%;
   margin: 10px;
+  cursor: pointer;
 
   @media (max-width: 800px) {
     width: 130px;
@@ -236,6 +238,10 @@ const Mypage = () => {
     useAuth?.user?.id
   );
 
+  console.log("userInfo :", userInfo);
+
+  const [image, setImage] = useState(userInfo?.userProfile?.img ?? "");
+
   const userRole = calendarUser?.permission?.role;
 
   const { mutate: createInviteCode } = useMutation(
@@ -248,6 +254,10 @@ const Mypage = () => {
 
   const { mutate: editUserInfo } = useMutation(
     useCalendarMutation.editCalendarUserInfo
+  );
+
+  const { mutate: uploadImage } = useMutation(
+    useCalendarMutation.useUploadImage
   );
 
   const { register, handleSubmit } = useForm();
@@ -303,7 +313,9 @@ const Mypage = () => {
     alert("초대코드가 복사되었습니다.");
   };
 
-  const editUserProfile = (formData) => {
+  const editUserProfile = (form) => {
+    const formData = { ...form, img: image };
+    console.log("formData :", formData);
     if (!formData.name) {
       alert("이름을 입력해주세요.");
       return;
@@ -323,6 +335,18 @@ const Mypage = () => {
     );
   };
 
+  const handleImage = async (e) => {
+    await uploadImage(e.target.files[0], {
+      onSuccess: async (data) => {
+        setImage(data.url);
+      },
+    });
+  };
+
+  const handleImageBtn = () => {
+    document.getElementById("img_upload").click();
+  };
+
   return (
     <>
       <CalendarNav userRole={userRole} />
@@ -331,8 +355,15 @@ const Mypage = () => {
           <Title>`{userInfo?.calendar?.name ?? ""}` 달력 프로필</Title>
           <Form onSubmit={handleSubmit(editUserProfile)}>
             <ImageContainer>
-              <ImageInput />
-              <ImageEditBtn type="button">사진 수정</ImageEditBtn>
+              <input
+                id="img_upload"
+                className="hidden"
+                onInput={handleImage}
+                accept=".jpg, .png, .bmp, .gif, .svg, .webp"
+                {...register("inquire_image")}
+                type="file"
+              />
+              <ImageInput src={image ? image : ""} onClick={handleImageBtn} />
             </ImageContainer>
             <ItemContainer>
               <Input

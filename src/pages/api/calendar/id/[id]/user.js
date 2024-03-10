@@ -58,7 +58,7 @@ router.post(
     const {
       user: { id: userId },
       query: { id },
-      body: { color, name },
+      body: { color, name, img },
     } = req;
 
     const permission = await client.calendarPermission.findFirst({
@@ -90,6 +90,7 @@ router.post(
         },
         data: {
           name: String(name),
+          img: img ? img : userProfile.img ?? "",
         },
       });
 
