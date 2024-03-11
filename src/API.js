@@ -88,6 +88,10 @@ const GET_TODO_DETAIL = (calendarId, todoId) =>
 // 이미지 업로드
 const POST_IMAGE = () => "/api/imageUpload";
 
+// 캘린더 유저 리스트 가져오기
+const GET_CALENDAR_PERMISSION_LIST = (calendarId) =>
+  `/api/calendar/id/${calendarId}/permissions`;
+
 export default {
   CREATE_CALENDAR,
   DELETE_CALENDAR,
@@ -111,4 +115,5 @@ export default {
   GET_TODO_DETAIL,
   GET_CALENDAR_PERMISSION,
   POST_IMAGE,
+  GET_CALENDAR_PERMISSION_LIST,
 };
