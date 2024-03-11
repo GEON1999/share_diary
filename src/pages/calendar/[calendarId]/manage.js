@@ -298,10 +298,6 @@ const Manage = () => {
 
   const userRole = calendarRole?.permission?.role;
 
-  if (userRole !== "OWNER") {
-    return null;
-  }
-
   const { mutate: editCalendar } = useMutation(
     useCalendarMutation.editCalendarDetail
   );
@@ -342,6 +338,10 @@ const Manage = () => {
   const handleImageBtn = () => {
     document.getElementById("img_upload").click();
   };
+
+  if (userRole !== "OWNER") {
+    return null;
+  }
 
   return (
     <>
