@@ -39,4 +39,33 @@ router.get(
   }
 );
 
+router.post(
+  API.EDIT_CALENDAR_DETAIL(":id"),
+  router.isAuthenticated,
+  async (req, res, next) => {
+    const {
+      body: { name, img },
+      query: { id },
+    } = req;
+
+    console.log("body :", req.body, "hi");
+
+    try {
+      const calendar = await client.calendar.update({
+        where: {
+          id: Number(id),
+        },
+        data: {
+          name,
+          img,
+        },
+      });
+
+      return res.status(200).json({ isSuccess: true, calendar });
+    } catch (e) {
+      return res.json({ isSuccess: false, message: e.message });
+    }
+  }
+);
+
 export default router;

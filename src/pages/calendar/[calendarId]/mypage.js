@@ -360,7 +360,6 @@ const Mypage = () => {
                 className="hidden"
                 onInput={handleImage}
                 accept=".jpg, .png, .bmp, .gif, .svg, .webp"
-                {...register("inquire_image")}
                 type="file"
               />
               <ImageInput src={image ? image : ""} onClick={handleImageBtn} />

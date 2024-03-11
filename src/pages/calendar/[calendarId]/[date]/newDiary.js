@@ -197,7 +197,6 @@ const NewDiary = () => {
                 className="hidden"
                 onInput={handleImage}
                 accept=".jpg, .png, .bmp, .gif, .svg, .webp"
-                {...register("inquire_image")}
                 type="file"
               />
               <Label isImage={image ? true : false}>썸네일 추가</Label>
