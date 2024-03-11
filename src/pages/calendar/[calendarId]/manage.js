@@ -2,11 +2,13 @@ import { useRouter } from "next/router";
 import { useAuthContext } from "@/Providers/AuthProvider";
 import useCalendarQuery from "@/Queries/useCalendarQuery";
 import helper from "@/helper";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { dehydrate, QueryClient, useMutation } from "@tanstack/react-query";
 import router from "../../../../libs/server/router";
 import styled from "styled-components";
 import CalendarNav from "@/components/common/CalendarNav";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import useCalendarMutation from "@/Queries/useCalendarMutation";
 
 const MypageContainer = styled.div`
   display: flex;
@@ -109,12 +111,13 @@ const ImageContainer = styled.div`
   align-items: center;
 `;
 
-const ImageInput = styled.div`
+const ImageInput = styled.img`
   background-color: rgba(192, 194, 213, 0.93);
   width: 150px;
   height: 150px;
   border-radius: 50%;
   margin: 10px;
+  cursor: pointer;
 
   @media (max-width: 800px) {
     width: 130px;
@@ -282,35 +285,88 @@ const Manage = () => {
   const { data: calendarUser, isLoading } =
     useCalendarQuery.useGetCalendarPermissionList(calendarId);
 
-  console.log("calendarUser", calendarUser, isLoading);
+  console.log(
+    "calendarData :",
+    calendarData,
+    calendarRole,
+    calendarUser,
+    isCalendarLoading,
+    isLoading
+  );
+
+  const [image, setImage] = useState(calendarData?.calendar?.img ?? "");
 
   const userRole = calendarRole?.permission?.role;
-
-  console.log("calendarData", calendarData);
-
-  const { register, handleSubmit } = useForm();
 
   if (userRole !== "OWNER") {
     return null;
   }
+
+  const { mutate: editCalendar } = useMutation(
+    useCalendarMutation.editCalendarDetail
+  );
+
+  const { mutate: uploadImage } = useMutation(
+    useCalendarMutation.useUploadImage
+  );
+
+  const { register, handleSubmit } = useForm();
+
+  const editCalendarProfile = (data) => {
+    const formData = { ...data, img: image };
+    console.log("formData :", formData);
+
+    editCalendar(
+      { calendarId, formData },
+      {
+        onSuccess: (data) => {
+          if (data?.data?.isSuccess === true) {
+            alert("달력 정보가 수정되었습니다.");
+            router.reload();
+          } else {
+            alert("달력 정보 수정에 실패했습니다.");
+          }
+        },
+      }
+    );
+  };
+
+  const handleImage = async (e) => {
+    await uploadImage(e.target.files[0], {
+      onSuccess: async (data) => {
+        setImage(data.url);
+      },
+    });
+  };
+
+  const handleImageBtn = () => {
+    document.getElementById("img_upload").click();
+  };
 
   return (
     <>
       <CalendarNav userRole={userRole} />
       <MypageContainer>
         <EditWrapper>
-          {/* <Title>`{userInfo?.calendar?.name ?? ""}` 달력 프로필</Title>*/}
-          <Form>
+          <Title>달력 프로필</Title>
+          <Form onSubmit={handleSubmit(editCalendarProfile)}>
             <ImageContainer>
-              <ImageInput />
-              <ImageEditBtn type="button">사진 수정</ImageEditBtn>
+              <input
+                id="img_upload"
+                className="hidden"
+                onInput={handleImage}
+                accept=".jpg, .png, .bmp, .gif, .svg, .webp"
+                type="file"
+              />
+              <ImageInput src={image ? image : ""} onClick={handleImageBtn} />
             </ImageContainer>
             <ItemContainer>
               <Input
                 defaultValue={calendarData?.calendar?.name ?? ""}
+                {...register("name")}
                 placeholder="이름"
               />
-              <SubmitBtn type="submit">달력 이름 수정</SubmitBtn>
+              <SubmitBtn type="submit">달력 정보 수정</SubmitBtn>
             </ItemContainer>
           </Form>
         </EditWrapper>

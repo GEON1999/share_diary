@@ -37,6 +37,10 @@ const useUploadImage = async (file) => {
   return data;
 };
 
+// 캘린더 디테일 수정
+const editCalendarDetail = async ({ calendarId, formData }) =>
+  await axios.post(API.EDIT_CALENDAR_DETAIL(calendarId), formData);
+
 export default {
   createCalendar,
   createCalendarInvite,
@@ -46,4 +50,5 @@ export default {
   editCalendarUserInfo,
   deleteCalendar,
   useUploadImage,
+  editCalendarDetail,
 };

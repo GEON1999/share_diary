@@ -92,6 +92,9 @@ const POST_IMAGE = () => "/api/imageUpload";
 const GET_CALENDAR_PERMISSION_LIST = (calendarId) =>
   `/api/calendar/id/${calendarId}/permissions`;
 
+// 캘린더 디테일 수정
+const EDIT_CALENDAR_DETAIL = (calendarId) => `/api/calendar/id/${calendarId}`;
+
 export default {
   CREATE_CALENDAR,
   DELETE_CALENDAR,
@@ -116,4 +119,5 @@ export default {
   GET_CALENDAR_PERMISSION,
   POST_IMAGE,
   GET_CALENDAR_PERMISSION_LIST,
+  EDIT_CALENDAR_DETAIL,
 };
