@@ -95,6 +95,12 @@ const GET_CALENDAR_PERMISSION_LIST = (calendarId) =>
 // 캘린더 디테일 수정
 const EDIT_CALENDAR_DETAIL = (calendarId) => `/api/calendar/id/${calendarId}`;
 
+// 유저 정보 조회
+const GET_USER = (userId) => `/api/user/${userId}`;
+
+// 유저 정보 수정
+const EDIT_USER = (userId) => `/api/user/${userId}`;
+
 export default {
   CREATE_CALENDAR,
   DELETE_CALENDAR,
@@ -120,4 +126,6 @@ export default {
   POST_IMAGE,
   GET_CALENDAR_PERMISSION_LIST,
   EDIT_CALENDAR_DETAIL,
+  GET_USER,
+  EDIT_USER,
 };

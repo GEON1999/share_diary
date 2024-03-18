@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import helper from "@/helper";
+import API from "@/API";
 
 // 로그인 유저
 const loginUser = async (data) => {
@@ -17,14 +19,23 @@ const joinUser = async (data) => {
 };
 
 // 유저 정보 조회
-const getUser = async (username) => await axios.get(`/api/users/${username}`);
+const getUser = async (id, ssrRequestKey) => {
+  const opt = { headers: { Auth: ssrRequestKey } };
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + API.GET_USER(id),
+    opt
+  );
 
-const useGetUser = (username) => {
-  return useQuery(["USER", username], () => getUser(username));
+  return data;
+};
+
+const useGetUser = (id) => {
+  return useQuery(["USER", id], () => getUser(id));
 };
 
 export default {
   loginUser,
+  getUser,
   useGetUser,
   joinUser,
 };
