@@ -4,7 +4,7 @@ import helper from "@/helper";
 import bcrypt from "bcrypt";
 
 router.post("/api/users/join", async (req, res, next) => {
-  const { id, pw, name } = req?.body;
+  const { id, pw, name, img } = req?.body;
 
   const user = await client.user.findFirst({
     where: {
@@ -28,6 +28,7 @@ router.post("/api/users/join", async (req, res, next) => {
             email: id,
             password: hash,
             name: name,
+            img: img,
           },
         });
         return res
