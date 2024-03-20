@@ -36,7 +36,7 @@ router.get(
                   },
                 },
                 orderBy: {
-                  date: "desc", // 'createdAt'을 기준으로 내림차순 정렬
+                  date: "asc", // 'createdAt'을 기준으로 내림차순 정렬
                 },
               },
               /*  diaries: {

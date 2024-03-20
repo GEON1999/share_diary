@@ -33,9 +33,14 @@ const useGetUser = (id) => {
   return useQuery(["USER", id], () => getUser(id));
 };
 
+// 우자 정보 수정
+const editUser = async ({ userId, formData }) =>
+  await axios.post(API.EDIT_USER(userId), formData);
+
 export default {
   loginUser,
   getUser,
   useGetUser,
   joinUser,
+  editUser,
 };

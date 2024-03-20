@@ -14,6 +14,7 @@ const Nav = styled.nav`
   border-radius: 15px;
   position: absolute;
   padding: 0px 30px;
+  z-index: 100;
 
   top: 0;
 `;
@@ -67,7 +68,7 @@ const CalendarNav = ({ userRole }) => {
             </li>
             <li>
               <Link href={`/calendar/${calendarId}/mypage`}>
-                <A className={lastPath === "mypage" ? "active" : ""}>Edit</A>
+                <A className={lastPath === "mypage" ? "active" : ""}>Mypage</A>
               </Link>
             </li>
             {userRole === "OWNER" && (

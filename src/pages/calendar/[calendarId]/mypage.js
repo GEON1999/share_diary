@@ -112,7 +112,21 @@ const ImageContainer = styled.div`
 `;
 
 const ImageInput = styled.img`
-  background-color: rgba(192, 194, 213, 0.93);
+  background-color: #fff;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 10px;
+  cursor: pointer;
+
+  @media (max-width: 800px) {
+    width: 130px;
+    height: 130px;
+  }
+`;
+
+const Svg = styled.div`
+  background-color: #fff;
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -362,7 +376,20 @@ const Mypage = () => {
                 accept=".jpg, .png, .bmp, .gif, .svg, .webp"
                 type="file"
               />
-              <ImageInput src={image ? image : ""} onClick={handleImageBtn} />
+              {image ? (
+                <ImageInput src={image} onClick={handleImageBtn} />
+              ) : (
+                <Svg onClick={handleImageBtn}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="svg-icon"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                  >
+                    <path d="M512 597.994667q108.010667 0 225.002667 46.997333t116.992 123.008l0 85.994667-684.010667 0 0-85.994667q0-76.010667 116.992-123.008t225.002667-46.997333zM512 512q-69.994667 0-120-50.005333t-50.005333-120 50.005333-121.002667 120-51.008 120 51.008 50.005333 121.002667-50.005333 120-120 50.005333z" />
+                  </svg>
+                </Svg>
+              )}
             </ImageContainer>
             <ItemContainer>
               <Input

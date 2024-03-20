@@ -37,7 +37,7 @@ router.post(
     console.log("body :", req.body, "hi");
 
     try {
-      const calendar = await client.calendar.update({
+      const user = await client.user.update({
         where: {
           id: Number(id),
         },
@@ -47,7 +47,7 @@ router.post(
         },
       });
 
-      return res.status(200).json({ isSuccess: true, calendar });
+      return res.status(200).json({ isSuccess: true, user });
     } catch (e) {
       return res.json({ isSuccess: false, message: e.message });
     }

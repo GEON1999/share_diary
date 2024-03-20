@@ -69,6 +69,19 @@ const UserProfile = styled.div`
   }
 `;
 
+const ImageInput = styled.img`
+  background-color: #fff;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  @media (max-width: 800px) {
+    width: 150px;
+    height: 150px;
+  }
+`;
+
 const CalendarWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -153,6 +166,15 @@ const CalendarSelect = styled.select`
   }
 `;
 
+const TodoWrapper = styled.div`
+  height: 350px;
+  overflow-y: scroll;
+  //스크롤바 숨기기
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 const Todos = styled.div`
   display: flex;
   font-size: 20px;
@@ -160,6 +182,7 @@ const Todos = styled.div`
   justify-content: center;
   align-items: center;
   width: 500px;
+
   @media (max-width: 800px) {
     font-size: 15px;
   }
@@ -288,7 +311,7 @@ const Home = () => {
           <UserProfile>
             {" "}
             {userData?.user?.img ? (
-              <img src={userData?.user?.img} alt="user" />
+              <ImageInput src={userData?.user?.img} alt="user" />
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -322,20 +345,22 @@ const Home = () => {
               );
             })}
           </CalendarSelect>
-          {selectedCalendarTodos?.length <= 0 ? (
-            <Todos>일주일간 일정이 없습니다.</Todos>
-          ) : (
-            selectedCalendarTodos?.map((todo) => {
-              const date = helper.formatDateToMMDD(parseInt(todo.date));
+          <TodoWrapper>
+            {selectedCalendarTodos?.length <= 0 ? (
+              <Todos>일주일간 일정이 없습니다.</Todos>
+            ) : (
+              selectedCalendarTodos?.map((todo) => {
+                const date = helper.formatDateToMMDD(parseInt(todo.date));
 
-              return (
-                <Todos className="space-x-3" key={todo?.id}>
-                  <Todo>{todo?.title}</Todo>
-                  <CalDate className="text-right">{date}</CalDate>
-                </Todos>
-              );
-            })
-          )}
+                return (
+                  <Todos className="space-x-3" key={todo?.id}>
+                    <Todo>{todo?.title}</Todo>
+                    <CalDate className="text-right">{date}</CalDate>
+                  </Todos>
+                );
+              })
+            )}
+          </TodoWrapper>
         </UserProfileWrapper>
       </RootContainer>
 
