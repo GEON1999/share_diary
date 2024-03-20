@@ -8,13 +8,48 @@ router.get(
   async (req, res, next) => {
     const { userId } = req.query;
 
+    // 오늘의 날짜를 구하고, 시간, 분, 초를 0으로 설정하여 오늘 자정의 시간을 생성
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    // 오늘부터 7일 후의 날짜를 계산
+    const sevenDaysFromToday = new Date(
+      todayStart.getTime() + 7 * 24 * 60 * 60 * 1000
+    );
+
+    // 밀리초 단위의 타임스탬프로 변환
+    const todayStartTimestamp = todayStart.getTime().toString();
+    const sevenDaysFromTodayTimestamp = sevenDaysFromToday.getTime().toString();
     try {
       const permission = await client.calendarPermission.findMany({
         where: {
           userId: Number(userId),
         },
         include: {
-          calendar: true,
+          calendar: {
+            include: {
+              todos: {
+                where: {
+                  date: {
+                    gte: todayStartTimestamp,
+                    lte: sevenDaysFromTodayTimestamp,
+                  },
+                },
+                orderBy: {
+                  date: "desc", // 'createdAt'을 기준으로 내림차순 정렬
+                },
+              },
+              /*  diaries: {
+              take: 5, // 최대 5개의 다이어리만 가져옵니다.
+              where: {
+                date: {
+                  gte: todayStartTimestamp,
+                  lte: sevenDaysFromTodayTimestamp,
+                },
+              },
+            },*/
+            },
+          },
         },
       });
 

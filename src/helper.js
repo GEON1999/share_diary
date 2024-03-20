@@ -18,7 +18,17 @@ const queryToString = (query) => {
     .join("&");
 };
 
+function formatDateToMMDD(timestamp) {
+  const date = new Date(timestamp);
+  const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더합니다.
+  const day = date.getDate();
+  return `${month.toString().padStart(2, "0")}.${day
+    .toString()
+    .padStart(2, "0")}`;
+}
+
 export default {
   CURRENT_URL,
   queryToString,
+  formatDateToMMDD,
 };

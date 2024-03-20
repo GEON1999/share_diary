@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import Layout from "@/components/common/Layout";
 import { AuthProvider } from "@/Providers/AuthProvider";
+import styled from "styled-components";
 
 export default function App({ Component, pageProps }) {
   const queryClient = new QueryClient();

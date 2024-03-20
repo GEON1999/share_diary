@@ -10,6 +10,7 @@ const Btn = styled.button`
   position: absolute;
   right: 20px;
   top: 30px;
+  z-index: 100;
   @media (max-width: 800px) {
     font-size: 13px;
     right: 5px;
