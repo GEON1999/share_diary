@@ -50,7 +50,7 @@ const FormContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 150px;
+  margin-top: 80px;
 `;
 
 const Input = styled.input`
@@ -121,15 +121,56 @@ const NavItem = styled.div`
   //border-bottom: 3px solid rgba(68, 68, 105, 0.5);
 `;
 
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ImageInput = styled.img`
+  background-color: #fff;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #5d6fb0;
+    color: #fff;
+  }
+  @media (max-width: 800px) {
+    width: 130px;
+    height: 130px;
+  }
+`;
+
+const Svg = styled.div`
+  background-color: #fff;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 10px;
+  cursor: pointer;
+
+  @media (max-width: 800px) {
+    width: 130px;
+    height: 130px;
+  }
+`;
+
 const AddCalendarModal = ({ onClose }) => {
   const router = useRouter();
   const [formSelect, setFormSelect] = useState("create");
+  const [image, setImage] = useState(null);
   const useAuth = useAuthContext();
   const { mutate: createCalendar } = useMutation(
     useCalendarMutation.createCalendar
   );
   const { mutate: getInvtedCalendar } = useMutation(
     useCalendarMutation.getInvtedCalendar
+  );
+  const { mutate: uploadImage } = useMutation(
+    useCalendarMutation.useUploadImage
   );
 
   const { register, handleSubmit } = useForm();
@@ -138,7 +179,8 @@ const AddCalendarModal = ({ onClose }) => {
     useForm();
 
   const onSubmit = (data) => {
-    createCalendar(data.name, {
+    const formData = { ...data, img: image };
+    createCalendar(formData, {
       onSuccess: (data) => {
         if (data?.data?.isSuccess === true) {
           alert("달력이 생성되었습니다.");
@@ -168,6 +210,18 @@ const AddCalendarModal = ({ onClose }) => {
 
   const formChancher = (form) => {
     setFormSelect(form);
+  };
+
+  const handleImage = async (e) => {
+    await uploadImage(e.target.files[0], {
+      onSuccess: async (data) => {
+        setImage(data.url);
+      },
+    });
+  };
+
+  const handleImageBtn = () => {
+    document.getElementById("img_upload").click();
   };
 
   return (
@@ -219,6 +273,22 @@ const AddCalendarModal = ({ onClose }) => {
               }
             >
               {" "}
+              <ImageContainer>
+                <input
+                  id="img_upload"
+                  className="hidden"
+                  onInput={handleImage}
+                  accept=".jpg, .png, .bmp, .gif, .svg, .webp"
+                  type="file"
+                />
+                <ImageInput
+                  src={image ? image : "/favicon5.png"}
+                  onClick={handleImageBtn}
+                />
+              </ImageContainer>
+              <label className={"relative bottom-4"} htmlFor="img_upload">
+                달력 이미지
+              </label>
               <Input
                 className={"w-80 rounded text-black"}
                 {...register("name", { required: true })}

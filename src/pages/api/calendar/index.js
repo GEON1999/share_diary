@@ -64,7 +64,7 @@ router.get(
 
 router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
   const {
-    body: { name },
+    body: { name, img },
     user,
   } = req;
 
@@ -78,6 +78,7 @@ router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
     const calendar = await client.calendar.create({
       data: {
         name,
+        img,
       },
     });
 
@@ -97,12 +98,19 @@ router.post(API.CREATE_CALENDAR(), async (req, res, next) => {
       return res.json({ message: "캘린더 권한을 생성하지 못했습니다." });
     }
 
+    const userProfile = await client.user.findFirst({
+      where: {
+        id: Number(user.id),
+      },
+    });
+
     const calendarUserProfile = await client.calendarUserProfile.create({
       data: {
         calendarId: calendar.id,
         userId: user.id,
         name: findUser?.name ?? "",
         color: "",
+        img: userProfile.img,
       },
     });
 

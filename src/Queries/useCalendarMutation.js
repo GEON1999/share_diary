@@ -2,8 +2,8 @@ import axios from "axios";
 import API from "@/API";
 import helper from "@/helper";
 
-const createCalendar = async (name) =>
-  await axios.post(API.CREATE_CALENDAR(), { name });
+const createCalendar = async (data) =>
+  await axios.post(API.CREATE_CALENDAR(), data);
 
 const createCalendarInvite = async ({ calendarId, userId }) =>
   await axios.post(API.CREATE_CALENDAR_INVITE(calendarId), { userId: userId });
