@@ -5,8 +5,11 @@ const DELETE_CALENDAR = (calendarId, userId) =>
   `/api/calendar/id/${calendarId}/del${userId ? `?userId=${userId}` : ""}`;
 
 // 메인화면 달력 리스트
-const GET_CALENDAR_LIST = (userId) =>
-  `/api/calendar${userId ? `?userId=${userId}` : ""}`;
+const GET_CALENDAR_LIST = (query) => `/api/calendar${query ? `?${query}` : ""}`;
+
+// 캘린더 셀렉트 리스트
+const GET_CALENDAR_SELECT_LIST = (userId) =>
+  `/api/calendars${userId ? `?userId=${userId}` : ""}`;
 
 // 캘린더 초대코드 생성
 const CREATE_CALENDAR_INVITE = (calendarId) =>
@@ -111,6 +114,7 @@ export default {
   DELETE_DIARY,
   EDIT_CALENDAR_USER_INFO,
   GET_CALENDAR_LIST,
+  GET_CALENDAR_SELECT_LIST,
   GET_CALENDAR_DETAIL,
   GET_CALENDAR_INVITE_CODE,
   GET_CALENDAR_USER_INFO,

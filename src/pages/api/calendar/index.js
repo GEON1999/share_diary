@@ -6,7 +6,12 @@ router.get(
   API.GET_CALENDAR_LIST(),
   router.isAuthenticated,
   async (req, res, next) => {
-    const { userId } = req.query;
+    const { userId, page } = req.query;
+
+    const currentPage = Number(page) || 1;
+    const itemsPerPage = 5;
+
+    const skip = (currentPage - 1) * itemsPerPage;
 
     // 오늘의 날짜를 구하고, 시간, 분, 초를 0으로 설정하여 오늘 자정의 시간을 생성
     const todayStart = new Date();
@@ -17,7 +22,6 @@ router.get(
       todayStart.getTime() + 7 * 24 * 60 * 60 * 1000
     );
 
-    // 밀리초 단위의 타임스탬프로 변환
     const todayStartTimestamp = todayStart.getTime().toString();
     const sevenDaysFromTodayTimestamp = sevenDaysFromToday.getTime().toString();
     try {
@@ -25,6 +29,8 @@ router.get(
         where: {
           userId: Number(userId),
         },
+        take: itemsPerPage, // 한 페이지에 표시할 항목 수
+        skip: skip, // 건너뛸 항목의 수
         include: {
           calendar: {
             include: {
@@ -36,26 +42,33 @@ router.get(
                   },
                 },
                 orderBy: {
-                  date: "asc", // 'createdAt'을 기준으로 내림차순 정렬
+                  date: "asc",
                 },
               },
-              /*  diaries: {
-              take: 5, // 최대 5개의 다이어리만 가져옵니다.
-              where: {
-                date: {
-                  gte: todayStartTimestamp,
-                  lte: sevenDaysFromTodayTimestamp,
-                },
-              },
-            },*/
             },
           },
         },
       });
 
+      const totalPermissions = await client.calendarPermission.count({
+        where: {
+          userId: Number(userId),
+          calendar: {},
+        },
+      });
+
+      const maxpage = Math.ceil(totalPermissions / itemsPerPage);
+
+      console.log("maxpage: ", maxpage);
+
       return res
         .status(200)
-        .json({ isSuccess: true, calendars: permission, message: "success" });
+        .json({
+          isSuccess: true,
+          calendars: permission,
+          message: "success",
+          maxpage,
+        });
     } catch (e) {
       return res.status(500).json({ isSuccess: false, message: e.message });
     }

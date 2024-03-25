@@ -26,6 +26,7 @@ const HomeWrapper = styled.div`
   width: 1100px;
   height: 80%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: rgba(245, 245, 245, 0.84);
@@ -37,6 +38,7 @@ const HomeGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr); /* 높이를 2개의 동일한 행으로 고정 */
   gap: 80px;
+  margin-bottom: 20px;
 `;
 
 const UserProfileWrapper = styled.div`
@@ -217,13 +219,23 @@ const Home = () => {
   const router = useRouter();
   const useAuth = useAuthContext();
   const [addCalendarModal, setAddCalendarModal] = useState(false);
+  const [page, setPage] = useState(router?.query?.page ?? 1);
+  const query = helper.queryToString({
+    ...router.query,
+    userId: useAuth?.user?.id,
+  });
+
   const { data, isLoading, refetch } = useCalendarQuery.useGetCalendarList(
-    useAuth?.user?.id ?? null
+    query ?? null
   );
   const { data: userData, isLoading: userLoading } = useUserQuery.useGetUser(
     useAuth?.user?.id ?? null
   );
-  console.log("userData :", userData, data);
+  const { data: calendarSelect } = useCalendarQuery.useGetCalendarSelectList(
+    useAuth?.user?.id ?? null
+  );
+  console.log("calendarSelect :", calendarSelect);
+  console.log("data :", data);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -233,7 +245,7 @@ const Home = () => {
   const { register, handleSubmit, watch } = useForm();
 
   const selectedId = watch("calendar"); // react-hook-form의 watch 함수로 현재 선택된 값을 가져옵니다.
-  const selectedCalendar = data?.calendars?.find(
+  const selectedCalendar = calendarSelect?.calendars?.find(
     (calendar) => calendar.calendar.id === parseInt(selectedId)
   );
   const selectedCalendarTodos = selectedCalendar?.calendar?.todos;
@@ -266,6 +278,18 @@ const Home = () => {
     );
   };
 
+  const handlePage = (direction) => {
+    if (direction === "next") {
+      if (page >= data?.maxpage) return;
+      setPage(page + 1);
+      router.push(`/?page=${page + 1}`);
+    } else {
+      if (page <= 1) return;
+      setPage(page - 1);
+      router.push(`/?page=${page - 1}`);
+    }
+  };
+
   return (
     <>
       <LogoutBtn />
@@ -296,6 +320,16 @@ const Home = () => {
                 })
               : null}
           </HomeGrid>
+          <div className="flex space-x-3 mt-5 text-2xl">
+            <div onClick={() => handlePage("prev")} className="cursor-pointer">
+              {" "}
+              &#60;
+            </div>
+            <div>{page}</div>
+            <div onClick={() => handlePage("next")} className="cursor-pointer">
+              &#62;
+            </div>
+          </div>
         </HomeWrapper>
         <UserProfileWrapper>
           <SettingBtn onClick={handleMypage}>
@@ -333,7 +367,7 @@ const Home = () => {
             <option value="0" disabled>
               달력을 골라주세요
             </option>
-            {data?.calendars?.map((calendar) => {
+            {calendarSelect?.calendars?.map((calendar) => {
               return (
                 <option
                   onClick={() => console.log(calendar?.calendar?.todos)}
@@ -347,7 +381,7 @@ const Home = () => {
           </CalendarSelect>
           <TodoWrapper>
             {selectedCalendarTodos?.length <= 0 ? (
-              <Todos>일주일간 일정이 없습니다.</Todos>
+              <Todos>일정이 없습니다.</Todos>
             ) : (
               selectedCalendarTodos?.map((todo) => {
                 const date = helper.formatDateToMMDD(parseInt(todo.date));
@@ -372,11 +406,18 @@ const Home = () => {
 };
 
 export async function getServerSideProps(ctx) {
-  const { req, res } = ctx;
+  const { req, res, query } = ctx;
   const queryClient = new QueryClient();
 
   await router.run(req, res);
   const userId = req?.user?.id ?? null;
+
+  const calendarQuery = helper.queryToString({
+    ...query,
+    userId,
+  });
+
+  console.log("calendarQuery :", calendarQuery);
 
   await Promise.all([
     await queryClient.prefetchQuery(["USER", userId], () => {
@@ -385,9 +426,15 @@ export async function getServerSideProps(ctx) {
         process.env.AXIOS_AUTHORIZATION_SECRET
       );
     }),
-    await queryClient.prefetchQuery(["CALENDAR_LIST", userId], () => {
+    await queryClient.prefetchQuery(["CALENDAR_LIST", calendarQuery], () => {
       return useCalendarQuery.getCalendarList(
-        userId,
+        calendarQuery,
+        process.env.AXIOS_AUTHORIZATION_SECRET
+      );
+    }),
+    await queryClient.prefetchQuery(["CALENDAR_SELECT_LIST", userId], () => {
+      return useCalendarQuery.getCalendarSelectList(
+        userId ?? null,
         process.env.AXIOS_AUTHORIZATION_SECRET
       );
     }),

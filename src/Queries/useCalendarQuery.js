@@ -4,19 +4,36 @@ import helper from "@/helper";
 import API from "@/API";
 
 // get calendar list
-const getCalendarList = async (userId, ssrRequestKey = null) => {
+const getCalendarList = async (query, ssrRequestKey = null) => {
   const opt = { headers: { Auth: ssrRequestKey } };
-  console.log("url:", helper.CURRENT_URL() + API.GET_CALENDAR_LIST(userId));
+  console.log("url:", helper.CURRENT_URL() + API.GET_CALENDAR_LIST(query));
   const { data } = await axios.get(
-    helper.CURRENT_URL() + API.GET_CALENDAR_LIST(userId),
+    helper.CURRENT_URL() + API.GET_CALENDAR_LIST(query),
     opt
   );
 
   return data;
 };
 
-const useGetCalendarList = (userId) => {
-  return useQuery(["CALENDAR_LIST", userId], () => getCalendarList(userId));
+const useGetCalendarList = (query) => {
+  return useQuery(["CALENDAR_LIST", query], () => getCalendarList(query));
+};
+
+// get calendar select list
+const getCalendarSelectList = async (userId, ssrRequestKey = null) => {
+  const opt = { headers: { Auth: ssrRequestKey } };
+  const { data } = await axios.get(
+    helper.CURRENT_URL() + API.GET_CALENDAR_SELECT_LIST(userId),
+    opt
+  );
+
+  return data;
+};
+
+const useGetCalendarSelectList = (userId) => {
+  return useQuery(["CALENDAR_SELECT_LIST", userId], () =>
+    getCalendarSelectList(userId)
+  );
 };
 
 // get calendar detail
@@ -113,4 +130,6 @@ export default {
   useGetCalendarPermission,
   getCalendarPermissionList,
   useGetCalendarPermissionList,
+  getCalendarSelectList,
+  useGetCalendarSelectList,
 };
