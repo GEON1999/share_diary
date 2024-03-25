@@ -104,6 +104,10 @@ const GET_USER = (userId) => `/api/user/${userId}`;
 // 유저 정보 수정
 const EDIT_USER = (userId) => `/api/user/${userId}`;
 
+// 유저 강퇴
+const DEL_USER = (calendarId, userId) =>
+  `/api/calendar/id/${calendarId}/del/${userId}`;
+
 export default {
   CREATE_CALENDAR,
   DELETE_CALENDAR,
@@ -132,4 +136,5 @@ export default {
   EDIT_CALENDAR_DETAIL,
   GET_USER,
   EDIT_USER,
+  DEL_USER,
 };

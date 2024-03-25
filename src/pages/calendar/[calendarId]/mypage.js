@@ -36,7 +36,6 @@ const EditWrapper = styled.div`
   flex-direction: column;
   width: 800px;
   height: 550px;
-  justify-content: center;
   align-items: center;
   background-color: rgba(59, 59, 59, 0.3);
   border-radius: 30px;
@@ -218,17 +217,25 @@ const EtcWrapper = styled.div`
 const Title = styled.h1`
   color: #ffffff;
   font-size: 23px;
-  margin: 0 auto;
+  margin: 60px 0px 80px 0px;
   text-align: center;
+  span {
+    font-weight: 700;
+    font-size: 24px;
+  }
 
   @media (max-width: 800px) {
     font-size: 18px;
     font-weight: 700;
-    margin-top: 5px;
+    margin-top: 25px;
     margin-bottom: 3px;
     background: rgba(201, 190, 190, 0.9);
     padding: 2px 4px 2px 4px;
     border-radius: 5px;
+    span {
+      font-weight: 700;
+      font-size: 19px;
+    }
   }
 `;
 
@@ -366,7 +373,9 @@ const Mypage = () => {
       <CalendarNav userRole={userRole} />
       <MypageContainer>
         <EditWrapper>
-          <Title>`{userInfo?.calendar?.name ?? ""}` 달력 프로필</Title>
+          <Title>
+            <span>{userInfo?.calendar?.name ?? ""}</span> 사용자 프로필
+          </Title>
           <Form onSubmit={handleSubmit(editUserProfile)}>
             <ImageContainer>
               <input

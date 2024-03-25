@@ -306,6 +306,8 @@ const Manage = () => {
     useCalendarMutation.useUploadImage
   );
 
+  const { mutate: delUser } = useMutation(useCalendarMutation.delUser);
+
   const { register, handleSubmit } = useForm();
 
   const editCalendarProfile = (data) => {
@@ -343,6 +345,27 @@ const Manage = () => {
     return null;
   }
 
+  const handleDelUser = (userId) => {
+    console.log("userId :", userId, useAuth?.user?.id);
+    if (userId == useAuth?.user?.id) {
+      alert("본인은 삭제할 수 없습니다.");
+      return;
+    }
+    delUser(
+      { calendarId, userId },
+      {
+        onSuccess: (data) => {
+          if (data?.data?.isSuccess === true) {
+            alert("유저가 삭제되었습니다.");
+            router.reload();
+          } else {
+            alert("유저 삭제에 실패했습니다.");
+          }
+        },
+      }
+    );
+  };
+
   return (
     <>
       <CalendarNav userRole={userRole} />
@@ -374,11 +397,13 @@ const Manage = () => {
           <Title>유저 리스트</Title>
           {calendarUser?.permissions?.map((user) => {
             return (
-              <UserWrapper key={user?.id}>
+              <UserWrapper key={user?.user?.id}>
                 <User>
                   {user?.user?.name} / {user?.role}
                 </User>
-                <DeleteBtn>삭제</DeleteBtn>
+                <DeleteBtn onClick={() => handleDelUser(user?.user?.id)}>
+                  삭제
+                </DeleteBtn>
               </UserWrapper>
             );
           })}

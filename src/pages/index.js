@@ -161,6 +161,7 @@ const CalendarSelect = styled.select`
   height: 50px;
   border-radius: 10px;
   margin-bottom: 20px;
+  padding-left: 10px;
   @media (max-width: 800px) {
     width: 150px;
     height: 30px;
@@ -363,6 +364,7 @@ const Home = () => {
               console.log(e);
             }}
             {...register("calendar")}
+            defaultValue={"0"}
           >
             <option value="0" disabled>
               달력을 골라주세요

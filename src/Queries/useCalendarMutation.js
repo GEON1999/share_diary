@@ -41,6 +41,11 @@ const useUploadImage = async (file) => {
 const editCalendarDetail = async ({ calendarId, formData }) =>
   await axios.post(API.EDIT_CALENDAR_DETAIL(calendarId), formData);
 
+// 유저 강퇴 기능 추가
+
+const delUser = async ({ calendarId, userId }) =>
+  await axios.post(API.DEL_USER(calendarId, userId));
+
 export default {
   createCalendar,
   createCalendarInvite,
@@ -51,4 +56,5 @@ export default {
   deleteCalendar,
   useUploadImage,
   editCalendarDetail,
+  delUser,
 };

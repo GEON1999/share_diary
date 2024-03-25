@@ -1,6 +1,6 @@
-import router from "../../../../../../libs/server/router";
+import router from "../../../../../../../libs/server/router";
 import API from "@/API";
-import client from "../../../../../../libs/server/client";
+import client from "../../../../../../../libs/server/client";
 
 router.post(
   API.DELETE_CALENDAR(":id"),
