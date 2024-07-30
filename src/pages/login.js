@@ -1,129 +1,26 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import useUserQuery from "@/Queries/useUserQuery";
 import { useRouter } from "next/router";
-import styled from "styled-components";
 import { useAuthContext } from "@/Providers/AuthProvider";
-
-/*<input
-  className={"w-80 rounded text-black"}
-  {...register("id", { required: true })}
-  type="text"
-  placeholder="아이디"
-/>;*/
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-`;
-
-const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 640px;
-  height: 620px;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  background-color: rgba(59, 59, 59, 0.5);
-  border-radius: 30px;
-
-  @media (max-width: 800px) {
-    height: 470px;
-    width: 340px;
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 30px;
-  font-weight: 400;
-  margin-bottom: 40px;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.6);
-  @media (max-width: 800px) {
-    font-size: 20px;
-    font-weight: 600;
-  }
-`;
-
-const Input = styled.input`
-  width: 400px;
-  height: 50px;
-  border-radius: 10px;
-  border-bottom: 1px solid #000000;
-  outline: none;
-  padding-left: 10px;
-  color: #000000;
-  margin: 10px 0px;
-
-  @media (max-width: 800px) {
-    height: 40px;
-    width: 290px;
-    font-size: 13px;
-  }
-`;
-
-const LoginBtn = styled.button`
-  background-color: rgba(25, 25, 112, 0.5);
-  color: #ffffff;
-  width: 400px;
-  height: 50px;
-  border-radius: 10px;
-  margin-top: 20px;
-
-  &:hover {
-    background-color: rgb(25, 25, 112);
-    transition: 0.5s;
-  }
-
-  @media (max-width: 800px) {
-    margin-top: 40px;
-    height: 40px;
-    width: 290px;
-    font-size: 13px;
-  }
-`;
-
-const JoinBtn = styled.button`
-  background-color: rgba(93, 111, 176, 0.5);
-  color: #ffffff;
-  width: 400px;
-  height: 50px;
-  border-radius: 10px;
-  margin: 10px;
-  &:hover {
-    background-color: rgb(93, 111, 176);
-    transition: 0.5s;
-  }
-
-  @media (max-width: 800px) {
-    height: 40px;
-    width: 290px;
-    font-size: 13px;
-  }
-`;
+import {
+  Wrapper,
+  Title,
+  Input,
+  FormContainer,
+  MidnightBlueBtn_l,
+  SlateBlue_l,
+} from "@/styles/GlobalStyles";
 
 const Login = () => {
   const router = useRouter();
   const useAuth = useAuthContext();
-  const { data, error, isLoading } = useUserQuery.useGetUser("test");
   const {
     mutate,
     data: postData,
     isSuccess,
   } = useMutation(useUserQuery.loginUser);
 
-  /*useEffect(() => {
-    postData?.message === "success"
-      ? router.push("/calendar")
-      : postData?.data?.message === "fail"
-      ? alert("로그인 실패")
-      : null;
-  }, [postData]);*/
   const { handleSubmit, register, errors } = useForm();
 
   const onSubmit = async (data) => {
@@ -150,7 +47,7 @@ const Login = () => {
   return (
     <Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <LoginContainer>
+        <FormContainer>
           <Title>로그인</Title>{" "}
           <Input
             inputColor="red"
@@ -163,11 +60,11 @@ const Login = () => {
             placeholder={"비밀번호"}
             {...register("password", { required: true })}
           />
-          <LoginBtn type={"submit"}>로그인</LoginBtn>
-          <JoinBtn type={"button"} onClick={handleJoin}>
+          <MidnightBlueBtn_l type={"submit"}>로그인</MidnightBlueBtn_l>
+          <SlateBlue_l type={"button"} onClick={handleJoin}>
             회원가입
-          </JoinBtn>
-        </LoginContainer>
+          </SlateBlue_l>
+        </FormContainer>
       </form>
     </Wrapper>
   );

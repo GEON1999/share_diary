@@ -1,114 +1,18 @@
 import useUserQuery from "@/Queries/useUserQuery";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
-import Login from "@/pages/login";
 import useCalendarMutation from "@/Queries/useCalendarMutation";
-
-const JoinContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 640px;
-  height: 700px;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  background-color: rgba(59, 59, 59, 0.5);
-  border-radius: 30px;
-
-  @media (max-width: 800px) {
-    padding: 80px 0;
-    height: 510px;
-    width: 340px;
-  }
-`;
-
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0px;
-`;
-
-const Input = styled.input`
-  width: 300px;
-  height: 50px;
-  border-radius: 10px;
-  border-bottom: 1px solid #000000;
-  outline: none;
-  padding-left: 10px;
-  color: #000000;
-  @media (max-width: 800px) {
-    height: 40px;
-    width: 290px;
-    font-size: 13px;
-  }
-`;
-
-const SubmitBtn = styled.button`
-  background-color: rgba(25, 25, 112, 0.5);
-  color: #ffffff;
-  width: 100px;
-  height: 50px;
-  border-radius: 10px;
-  margin-top: 40px;
-  @media (max-width: 800px) {
-    height: 40px;
-    width: 290px;
-    font-size: 13px;
-  }
-`;
-
-const UserProfile = styled.div`
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  margin-top: 130px;
-  margin-bottom: 20px;
-  color: rgba(0, 0, 0, 0.8);
-  background-color: #fff;
-
-  @media (max-width: 800px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    width: 100px;
-    font-size: 15px;
-  }
-`;
-
-const ImageInput = styled.img`
-  background-color: #fff;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  cursor: pointer;
-
-  @media (max-width: 800px) {
-    width: 100px;
-    height: 100px;
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 30px;
-  font-weight: 400;
-  margin-bottom: 30px;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.6);
-  @media (max-width: 800px) {
-    font-size: 20px;
-    font-weight: 600;
-  }
-`;
+import {
+  FormContainer,
+  MidnightBlueBtn_s,
+  Input,
+  Title,
+  FormWrapper,
+  UserProfile,
+  ProfileInput,
+} from "@/styles/GlobalStyles";
 
 const Join = () => {
   const router = useRouter();
@@ -156,9 +60,9 @@ const Join = () => {
       }*/
 
   return (
-    <JoinContainer>
+    <FormContainer>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormContainer
+        <FormWrapper
           className={
             'flex flex-col space-y-5 "w-full" justify-center content-center items-center mt-40'
           }
@@ -171,9 +75,9 @@ const Join = () => {
             type="file"
           />{" "}
           <Title>회원가입</Title>{" "}
-          <UserProfile>
+          <UserProfile size={"m"}>
             {image ? (
-              <ImageInput onClick={handleImageBtn} src={image} alt="user" />
+              <ProfileInput onClick={handleImageBtn} src={image} alt="user" />
             ) : (
               <svg
                 onClick={handleImageBtn}
@@ -209,10 +113,10 @@ const Join = () => {
             type="password"
             placeholder="비밀번호 재확인"
           />
-          <SubmitBtn type="submit">join</SubmitBtn>
-        </FormContainer>
+          <MidnightBlueBtn_s type="submit">가입하기</MidnightBlueBtn_s>
+        </FormWrapper>
       </form>
-    </JoinContainer>
+    </FormContainer>
   );
 };
 
