@@ -30,7 +30,7 @@ export const FormContainer = styled.div`
   border-radius: 30px;
 
   @media (max-width: 800px) {
-    height: 470px;
+    height: 500px;
     width: 340px;
   }
 `;
@@ -82,8 +82,8 @@ export const UserProfile = styled.div`
 
 export const ProfileInput = styled.img`
   background-color: #fff;
-  width: 200px;
-  height: 200px;
+  width: ${(props) => (props.size === "l" ? "300px" : "200")};
+  height: ${(props) => (props.size === "l" ? "300px" : "200")};
   border-radius: 50%;
   cursor: pointer;
 
@@ -111,34 +111,14 @@ export const Input = styled.input`
 `;
 
 // btn
-export const MidnightBlueBtn_l = styled.button`
+export const MidnightBlueBtn = styled.button`
   background-color: rgba(25, 25, 112, 0.5);
   color: #ffffff;
-  width: 400px;
+  width: ${(props) =>
+    props.size === "s" ? "100px" : props.size === "l" && "400px"};
   height: 50px;
   border-radius: 10px;
   margin-top: 20px;
-
-  &:hover {
-    background-color: rgb(25, 25, 112);
-    transition: 0.5s;
-  }
-
-  @media (max-width: 800px) {
-    margin-top: 40px;
-    height: 40px;
-    width: 290px;
-    font-size: 13px;
-  }
-`;
-
-export const MidnightBlueBtn_s = styled.button`
-  background-color: rgba(25, 25, 112, 0.5);
-  color: #ffffff;
-  width: 100px;
-  height: 50px;
-  border-radius: 10px;
-  margin-top: 40px;
   @media (max-width: 800px) {
     height: 40px;
     width: 290px;
@@ -146,10 +126,11 @@ export const MidnightBlueBtn_s = styled.button`
   }
 `;
 
-export const SlateBlue_l = styled.button`
+export const SlateBlue = styled.button`
   background-color: rgba(93, 111, 176, 0.5);
   color: #ffffff;
-  width: 400px;
+  width: ${(props) =>
+    props.size === "s" ? "100px" : props.size === "l" && "400px"};
   height: 50px;
   border-radius: 10px;
   margin: 10px;

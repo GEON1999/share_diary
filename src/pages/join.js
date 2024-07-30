@@ -6,12 +6,12 @@ import { useRouter } from "next/router";
 import useCalendarMutation from "@/Queries/useCalendarMutation";
 import {
   FormContainer,
-  MidnightBlueBtn_s,
   Input,
   Title,
   FormWrapper,
   UserProfile,
   ProfileInput,
+  MidnightBlueBtn,
 } from "@/styles/GlobalStyles";
 
 const Join = () => {
@@ -113,7 +113,9 @@ const Join = () => {
             type="password"
             placeholder="비밀번호 재확인"
           />
-          <MidnightBlueBtn_s type="submit">가입하기</MidnightBlueBtn_s>
+          <MidnightBlueBtn size={"s"} type="submit">
+            가입하기
+          </MidnightBlueBtn>
         </FormWrapper>
       </form>
     </FormContainer>

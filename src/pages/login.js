@@ -8,8 +8,8 @@ import {
   Title,
   Input,
   FormContainer,
-  MidnightBlueBtn_l,
-  SlateBlue_l,
+  MidnightBlueBtn,
+  SlateBlue,
 } from "@/styles/GlobalStyles";
 
 const Login = () => {
@@ -60,10 +60,12 @@ const Login = () => {
             placeholder={"비밀번호"}
             {...register("password", { required: true })}
           />
-          <MidnightBlueBtn_l type={"submit"}>로그인</MidnightBlueBtn_l>
-          <SlateBlue_l type={"button"} onClick={handleJoin}>
+          <MidnightBlueBtn size={"l"} type={"submit"}>
+            로그인
+          </MidnightBlueBtn>
+          <SlateBlue size={"l"} type={"button"} onClick={handleJoin}>
             회원가입
-          </SlateBlue_l>
+          </SlateBlue>
         </FormContainer>
       </form>
     </Wrapper>

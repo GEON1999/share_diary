@@ -11,7 +11,12 @@ import router from "../../libs/server/router";
 import useUserQuery from "@/Queries/useUserQuery";
 import { useForm } from "react-hook-form";
 import helper from "@/helper";
-import { RootContainer, UserProfile } from "@/styles/GlobalStyles";
+import {
+  ProfileInput,
+  RootContainer,
+  Title,
+  UserProfile,
+} from "@/styles/GlobalStyles";
 
 const MainContainer = styled.div`
   width: 1100px;
@@ -41,19 +46,6 @@ const UserProfileWrapper = styled.div`
   align-items: center;
   background-color: rgba(245, 245, 245, 0.84);
   border-radius: 15px;
-`;
-
-const ImageInput = styled.img`
-  background-color: #fff;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  cursor: pointer;
-
-  @media (max-width: 800px) {
-    width: 150px;
-    height: 150px;
-  }
 `;
 
 const CalendarWrapper = styled.div`
@@ -113,18 +105,6 @@ const Calendar = styled.img`
     height: 150px;
     width: 150px;
     font-size: 15px;
-  }
-`;
-
-const Name = styled.h1`
-  font-size: 30px;
-  font-weight: 400;
-  margin-bottom: 20px;
-  text-align: center;
-  @media (max-width: 800px) {
-    font-size: 23px;
-    font-weight: 600;
-    border-bottom: 1px solid black;
   }
 `;
 
@@ -318,7 +298,7 @@ const Home = () => {
           <UserProfile size={"l"}>
             {" "}
             {userData?.user?.img ? (
-              <ImageInput src={userData?.user?.img} alt="user" />
+              <ProfileInput size={"l"} src={userData?.user?.img} alt="user" />
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -330,7 +310,7 @@ const Home = () => {
               </svg>
             )}
           </UserProfile>
-          <Name>{userData?.user?.name}</Name>
+          <Title>{userData?.user?.name}</Title>
           <CalendarSelect
             onChange={(e) => {
               console.log(e);
