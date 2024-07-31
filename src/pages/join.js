@@ -1,16 +1,16 @@
-import useUserQuery from "@/Query/useUserQuery";
+import useUserQuery from "@/Queries/useUserQuery";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import Login from "@/pages/login";
 
 const JoinContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 640px;
   height: 620px;
-
   margin: 0 auto;
   position: absolute;
   top: 50%;
@@ -46,7 +46,7 @@ const SubmitBtn = styled.button`
   width: 100px;
   height: 50px;
   border-radius: 10px;
-  margin-top: 20px;
+  margin-top: 40px;
 `;
 
 const Join = () => {
@@ -59,16 +59,16 @@ const Join = () => {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    mutate(data);
+    mutate(data, {
+      onSuccess: (data) => {
+        if (data?.data?.isSuccess === true) {
+          router.push("/login");
+        } else {
+          alert("회원가입에 실패하였습니다.");
+        }
+      },
+    });
   };
-
-  useEffect(() => {
-    if (data?.data?.isSuccess === true) {
-      router.push("/calendar");
-    }
-  }, [data]);
-
-  console.log("data", data);
 
   /*const handleKaKaoLogin = ()  => {
           config.kakao.Auth.authorize({
@@ -92,6 +92,11 @@ const Join = () => {
             placeholder="아이디"
           />
           <Input
+            {...register("name", { required: true })}
+            type="text"
+            placeholder="이름"
+          />
+          <Input
             className={"w-80 rounded text-black"}
             {...register("pw", { required: true })}
             type="password"
@@ -103,13 +108,13 @@ const Join = () => {
             type="password"
             placeholder="비밀번호 재확인"
           />
-          <SubmitBtn className={"bg-blue-50 px-3 py-1 rounded-2xl text-black"}>
-            join
-          </SubmitBtn>
+          <SubmitBtn type="submit">join</SubmitBtn>
         </FormContainer>
       </form>
     </JoinContainer>
   );
 };
+
+Join.notAuthPage = true;
 
 export default Join;

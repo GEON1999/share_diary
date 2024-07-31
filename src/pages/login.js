@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import useUserQuery from "@/Query/useUserQuery";
+import useUserQuery from "@/Queries/useUserQuery";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { useAuthContext } from "@/Providers/AuthProvider";
 
 /*<input
   className={"w-80 rounded text-black"}
@@ -11,6 +12,10 @@ import styled from "styled-components";
   type="text"
   placeholder="아이디"
 />;*/
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 const LoginContainer = styled.div`
   display: flex;
@@ -60,7 +65,6 @@ const JoinBtn = styled.button`
   height: 50px;
   border-radius: 10px;
   margin: 10px;
-
   &:hover {
     background-color: rgb(93, 111, 176);
     transition: 0.5s;
@@ -69,24 +73,35 @@ const JoinBtn = styled.button`
 
 const Login = () => {
   const router = useRouter();
+  const useAuth = useAuthContext();
   const { data, error, isLoading } = useUserQuery.useGetUser("test");
   const {
     mutate,
     data: postData,
     isSuccess,
   } = useMutation(useUserQuery.loginUser);
+
   console.log("postData", postData);
-  useEffect(() => {
+  /*useEffect(() => {
     postData?.message === "success"
       ? router.push("/calendar")
       : postData?.data?.message === "fail"
       ? alert("로그인 실패")
       : null;
-  }, [postData]);
+  }, [postData]);*/
   const { handleSubmit, register, errors } = useForm();
 
   const onSubmit = async (data) => {
-    mutate(data);
+    if (data.name === "" || data.password === "") {
+      alert("아이디와 비밀번호를 입력해주세요.");
+      return;
+    }
+    await useAuth.login(data.username, data.password);
+    /*if (resultData.success) {
+      router.push("/");
+    } else {
+      alert(resultData?.msg);
+    }*/
   };
 
   /*const handleKaKaoLogin = ()  => {
@@ -98,22 +113,32 @@ const Login = () => {
   const handleJoin = () => router.push("/join");
 
   return (
-    <div className={"w-full p-20"}>
+    <Wrapper>
       <form onSubmit={handleSubmit(onSubmit)}>
         <LoginContainer>
           {" "}
           <Input
             inputColor="red"
             type={"text"}
-            {...register("id", { required: true })}
+            placeholder={"아이디"}
+            {...register("username", { required: true })}
           />
-          <Input type={"password"} {...register("pw", { required: true })} />
+          <Input
+            type={"password"}
+            placeholder={"비밀번호"}
+            {...register("password", { required: true })}
+          />
           <LoginBtn type={"submit"}>로그인</LoginBtn>
-          <JoinBtn onClick={handleJoin}>회원가입</JoinBtn>
+          <JoinBtn type={"button"} onClick={handleJoin}>
+            회원가입
+          </JoinBtn>
         </LoginContainer>
       </form>
-    </div>
+    </Wrapper>
   );
 };
+
+Login.layout = "login";
+Login.notAuthPage = true;
 
 export default Login;

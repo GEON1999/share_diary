@@ -2,35 +2,32 @@ import router from "../../../../libs/server/router";
 import client from "../../../../libs/server/client";
 
 router.post("/api/users/join", async (req, res, next) => {
-  const { id, pw } = req?.body;
-  console.log("joinId:", id, "pw:", pw);
+  const { id, pw, name } = req?.body;
+
+  console.log("req.body :", req.body);
 
   const user = await client.user.findFirst({
     where: {
       email: id,
     },
   });
-  console.log("isUser?");
 
   if (user) {
-    console.log("user:", user);
     return res
       .status(200)
-      .json({ isSuccess: true, message: "already have an account", user });
+      .json({ isSuccess: true, message: "중복된 아이디 입니다", user });
   } else if (!user) {
-    console.log("hi");
     const newUser = await client.user.create({
       data: {
         email: id,
         password: pw,
+        name: name,
       },
     });
-    console.log("newUser:", newUser);
     return res
       .status(200)
       .json({ isSuccess: true, message: "created", newUser });
   }
-  console.log("failed");
   return res.status(500).json({ isSuccess: false, message: "fail" });
 });
 
