@@ -14,12 +14,23 @@ import helper from "@/helper";
 import { ProfileInput, Title, UserProfile } from "@/styles/GlobalStyles";
 
 const RootContainer = styled.div`
+  max-width: 1000px;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (max-width: 800px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 `;
 
 const MainContainer = styled.div`
@@ -32,6 +43,16 @@ const MainContainer = styled.div`
   background-color: rgba(245, 245, 245, 0.84);
   border-radius: 15px;
   margin-right: 20px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (max-width: 800px) {
+    overflow: auto;
+    margin-right: 0px;
+    min-height: 500px;
+    width: 340px;
+    margin-bottom: 20px;
+  }
 `;
 
 const HomeGrid = styled.div`
@@ -40,6 +61,9 @@ const HomeGrid = styled.div`
   grid-template-rows: repeat(2, 1fr); /* 높이를 2개의 동일한 행으로 고정 */
   gap: 40px;
   margin-bottom: 20px;
+  @media (max-width: 800px) {
+    gap: 20px;
+  }
 `;
 
 const UserProfileWrapper = styled.div`
@@ -51,6 +75,13 @@ const UserProfileWrapper = styled.div`
   align-items: center;
   background-color: rgba(245, 245, 245, 0.84);
   border-radius: 15px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (max-width: 800px) {
+    overflow: auto;
+    min-height: 500px;
+  }
 `;
 
 const CalendarWrapper = styled.div`
@@ -71,8 +102,8 @@ const AddBtn = styled.button`
   border-radius: 50%;
   margin-top: 10px;
   @media (max-width: 800px) {
-    width: 150px;
-    height: 150px;
+    width: 80px;
+    height: 80px;
     font-size: 15px;
     background-size: 50% 2px, 2px 50%; /*thickness = 2px, length = 50% (25px)*/
   }
@@ -107,10 +138,26 @@ const Calendar = styled.img`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 150px;
-    width: 150px;
+    height: 80px;
+    width: 80px;
     font-size: 15px;
   }
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.56);
+  @media (max-width: 800px) {
+    font-size: 15px;
+  }
+`;
+
+const Page = styled.div`
+  margin: 0px 10px;
 `;
 
 const CalendarSelect = styled.select`
@@ -255,7 +302,6 @@ const Home = () => {
     <>
       <LogoutBtn />
       <RootContainer>
-        {" "}
         <MainContainer>
           <HomeGrid>
             <AddBtn onClick={handleCreateCalendar} />
@@ -281,16 +327,16 @@ const Home = () => {
                 })
               : null}
           </HomeGrid>
-          <div className="flex space-x-3 mt-5 text-2xl">
+          <Pagination>
             <div onClick={() => handlePage("prev")} className="cursor-pointer">
               {" "}
               &#60;
             </div>
-            <div>{page}</div>
+            <Page>{page}</Page>
             <div onClick={() => handlePage("next")} className="cursor-pointer">
               &#62;
             </div>
-          </div>
+          </Pagination>
         </MainContainer>
         <UserProfileWrapper>
           <SettingBtn onClick={handleMypage}>
