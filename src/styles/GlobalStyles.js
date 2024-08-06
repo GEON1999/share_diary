@@ -5,15 +5,6 @@ export const Wrapper = styled.div`
   height: 100%;
 `;
 
-export const RootContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: absolute;
-`;
-
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,7 +53,7 @@ export const UserProfile = styled.div`
   height: ${(props) =>
     props.size === "m" ? "200px" : props.size === "l" && "300px"};
   border-radius: 50%;
-  margin-top: 130px;
+  margin-top: ${(props) => props.mt ?? "130px"};
   margin-bottom: ${(props) =>
     props.size === "m" ? "20px" : props.size === "l" && "50px"};
   color: rgba(0, 0, 0, 0.8);
