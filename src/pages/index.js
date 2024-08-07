@@ -14,7 +14,6 @@ import helper from "@/helper";
 import { ProfileInput, Title, UserProfile } from "@/styles/GlobalStyles";
 
 const RootContainer = styled.div`
-  max-width: 1000px;
   width: 100%;
   height: 100%;
   display: flex;
